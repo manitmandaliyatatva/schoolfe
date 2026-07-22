@@ -1,0 +1,17 @@
+<div class="common-checkbox">
+  @if (config().label) {
+  <label class="form-field-label" [ngClass]="{ 'has-error': isError }">{{ config().label }}{{ isRequired ? ' *' : '' }}</label>
+  }
+
+  <div class="checkbox-group" [id]="inputId()" 
+    [ngClass]="isVerticalOrientation ? 'vertical' : 'horizontal'"
+    [class.has-error]="isError">
+    @for (option of config().options; track option.value) {
+    <mat-checkbox [checked]="isChecked(option.value)" [disabled]="isDisabled(option.value)"
+      [class]="getCheckboxClass(option)" (change)="onCheckboxChange($event, option)">
+      {{ option.text }}
+    </mat-checkbox>
+    }
+  </div>
+  <common-error [config]="errorConfig()"></common-error>
+</div>

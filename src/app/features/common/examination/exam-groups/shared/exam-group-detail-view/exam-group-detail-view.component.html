@@ -1,0 +1,95 @@
+<div class="view-detail-container" *ngIf="examGroup()">
+  <!-- Hero Header Section -->
+  <div class="exam-detail-hero">
+    <div class="hero-icon-wrapper">
+      <mat-icon>layers</mat-icon>
+    </div>
+    <div class="hero-content">
+      <span class="hero-subtitle">{{ examGroup()?.examTypeName }}</span>
+      <h3 class="hero-title">{{ examGroup()?.examGroupName }}</h3>
+    </div>
+  </div>
+
+  <!-- Main Details Grid -->
+  <div class="exam-detail-grid">
+    <!-- Academic Details Card -->
+    <div class="detail-card academic-card">
+      <div class="card-header">
+        <mat-icon class="header-icon">school</mat-icon>
+        <h4>Academic Scope</h4>
+      </div>
+      <div class="card-body">
+        <div class="detail-item">
+          <span class="item-label">{{SYSTEM_CONST.LABELS.COMMON.CLASSROOM}}</span>
+          <span class="item-value">{{ examGroup()?.className }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="item-label">Exam Type</span>
+          <span class="item-value">{{ examGroup()?.examTypeName }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timing & Schedule Card -->
+    <div class="detail-card schedule-card">
+      <div class="card-header">
+        <mat-icon class="header-icon">calendar_today</mat-icon>
+        <h4>Group Schedule</h4>
+      </div>
+      <div class="card-body">
+        <div class="detail-item">
+          <span class="item-label">{{SYSTEM_CONST.LABELS.COMMON.START_DATE}}</span>
+          <span class="item-value">{{ examGroup()?.examGroupStartDate | date: CommonDateFormat.DMMMYYYY_WithComma }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="item-label">{{SYSTEM_CONST.LABELS.COMMON.END_DATE}}</span>
+          <span class="item-value">{{ examGroup()?.examGroupEndDate | date: CommonDateFormat.DMMMYYYY_WithComma }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subject Exams Grid Table Card -->
+    <div class="detail-card full-width">
+      <div class="card-header">
+        <mat-icon class="header-icon">menu_book</mat-icon>
+        <h4>Scheduled Subject Exams</h4>
+      </div>
+      <div class="subject-table-wrapper mt-2">
+        <table class="subject-grid-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Exam Date</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th class="text-end">Max Marks</th>
+              <th class="text-end">Passing Marks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let exam of blendedExams()" [ngClass]="{ 'holiday-row': exam.isHoliday }">
+              <td class="font-semibold">
+                <div class="subject-cell" style="display: flex; align-items: center; gap: 8px;">
+                  <mat-icon *ngIf="exam.isHoliday" class="holiday-icon">auto_stories</mat-icon>
+                  <span>{{ exam.subjectName || 'N/A' }}</span>
+                </div>
+              </td>
+              <td>{{ exam.examDate | date: CommonDateFormat.DMMMYYYY_WithComma }}</td>
+              <td>{{ exam.isHoliday ? EXAM_CONST.FULL_DAY : formatTime(exam.startTime) }}</td>
+              <td>{{ exam.isHoliday ? '-' : formatTime(exam.endTime) }}</td>
+              <td class="text-end font-semibold">{{ exam.isHoliday ? '-' : exam.maxMarks }}</td>
+              <td class="text-end font-semibold text-muted">{{ exam.isHoliday ? '-' : exam.passingMarks }}</td>
+            </tr>
+            <tr *ngIf="!blendedExams()?.length">
+              <td colspan="6" class="text-center text-muted py-3">No subject exams scheduled.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="isLoading()">
+  Loading exam group details...
+</div>

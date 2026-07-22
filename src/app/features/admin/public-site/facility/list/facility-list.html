@@ -1,0 +1,11 @@
+<div class="page-container">
+    @if(permission().canList){
+    <common-data-grid [config]="gridConfig"></common-data-grid>
+    }
+</div>
+<ng-template #banner let-row="row">
+  <div class="user-profile-cell">
+    <app-safe-image class="user-profile-cell__avatar" [config]="{ src: row.icon, alt: 'Image' }">
+    </app-safe-image>
+  </div>
+</ng-template>

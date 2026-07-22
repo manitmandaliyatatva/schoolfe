@@ -1,0 +1,95 @@
+<div
+  class="nav-item-wrapper"
+  [class.collapsed]="collapsed()"
+  (mouseenter)="onHoverStart()"
+  (mouseleave)="onHoverEnd()"
+>
+  @if (isToggleMenu()) {
+    <li
+      (click)="onToggle($event)"
+      [class.parent-active]="isItemActive(item(), inheritedParentRoute())"
+      [class.flyout-open]="isFlyoutOpen()"
+    >
+      @if (item().icon) {
+        <mat-icon class="nav-icon" [class.mat-icon-only]="item().iconType !== 'image'">
+          @if (item().iconType === 'image') {
+            <img [src]="item().icon" [alt]="item().label" />
+          } @else {
+            {{ item().icon }}
+          }
+        </mat-icon>
+      } @else if (!collapsed()) {
+        <span class="nav-icon-placeholder" aria-hidden="true"></span>
+      }
+
+      @if (!collapsed()) {
+        <span class="nav-label">{{ item().label }}</span>
+        <mat-icon class="arrow">
+          {{ isExpanded() ? 'expand_less' : 'expand_more' }}
+        </mat-icon>
+      }
+    </li>
+
+    @if (isFlyoutOpen() && collapsed()) {
+      <div
+        class="sub-menu-flyout"
+        (click)="$event.stopPropagation()"
+        (mouseenter)="onHoverStart()"
+        (mouseleave)="onHoverEnd()"
+      >
+        @for (menu of item().options; track menu.key) {
+          <a [routerLink]="resolveChildRoute(menu)" routerLinkActive="active" (click)="onNavigate()">
+            {{ menu.label }}
+          </a>
+        }
+      </div>
+    }
+
+    @if (isExpanded() && !collapsed()) {
+      <ul class="sub-menu">
+        @for (menu of item().options; track menu.key) {
+          @if (menu.options?.length) {
+            <app-navbar-content
+              [item]="menu"
+              [collapsed]="collapsed()"
+              [inheritedParentRoute]="childParentRoute()"
+              [expandedKey]="expandedChildKey()"
+              (toggleRequested)="expandedChildKey.set($event)"
+            ></app-navbar-content>
+          } @else {
+            <li [routerLink]="resolveChildRoute(menu)" routerLinkActive="active" (click)="onNavigate()">
+              @if (menu.icon) {
+                <mat-icon class="nav-icon" [class.mat-icon-only]="menu.iconType !== 'image'">
+                  @if (menu.iconType === 'image') {
+                    <img [src]="menu.icon" [alt]="menu.label" />
+                  } @else {
+                    {{ menu.icon }}
+                  }
+                </mat-icon>
+              } @else {
+                <span class="nav-icon-placeholder" aria-hidden="true"></span>
+              }
+              <span class="nav-label">{{ menu.label }}</span>
+            </li>
+          }
+        }
+      </ul>
+    }
+  } @else {
+    <li [routerLink]="menuRoute()" routerLinkActive="active" (click)="onNavigate()">
+      @if (item().icon) {
+        <mat-icon class="nav-icon" [class.mat-icon-only]="item().iconType !== 'image'">
+          @if (item().iconType === 'image') {
+            <img [src]="item().icon" [alt]="item().label" />
+          } @else {
+            {{ item().icon }}
+          }
+        </mat-icon>
+      }
+
+      @if (!collapsed()) {
+        <span class="nav-label">{{ item().label }}</span>
+      }
+    </li>
+  }
+</div>

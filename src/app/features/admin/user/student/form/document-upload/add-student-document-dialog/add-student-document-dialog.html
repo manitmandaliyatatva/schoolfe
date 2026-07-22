@@ -1,0 +1,16 @@
+<mat-dialog-content>
+  <form [formGroup]="formGroup" class="pt-2">
+    <div class="text-field-outer custom-form-control">
+      <app-common-dropdown [config]="documentTypeDropdownConfig()"></app-common-dropdown>
+    </div>
+
+    <div class="upload-wrap pt-2">
+      <app-document-upload [config]="documentUploadConfig()"></app-document-upload>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<div class="dialog-actions">
+  <common-button [config]="cancelBtn()"></common-button>
+  <common-button [config]="saveBtn()"></common-button>
+</div>

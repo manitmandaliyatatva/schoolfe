@@ -1,0 +1,19 @@
+.boolean-status-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  .status-icon {
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+
+    &.true-icon {
+      color: #2f8a5b;
+    }
+
+    &.false-icon {
+      color: #d45454;
+    }
+  }
+}

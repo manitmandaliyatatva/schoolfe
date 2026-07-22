@@ -1,0 +1,81 @@
+.features-detail {
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background aesthetic mesh */
+.features-detail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(37, 161, 148, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(231, 52, 70, 0.03) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.erp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.feature-module {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 2rem;
+  opacity: 0;
+  /* for the fade-in-up animation */
+  border-left: 4px solid var(--primary-color);
+}
+
+.module-icon {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, rgba(37, 161, 148, 0.1), rgba(37, 161, 148, 0.2));
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  flex-shrink: 0;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.module-content h3 {
+  font-size: 1.25rem;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.module-content p {
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  word-wrap: break-word;
+  width: 200px;
+}
+
+/* Hover effects */
+.feature-module:hover .module-icon {
+  transform: scale(1.05) rotate(5deg);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.module-icon {
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 400px) {
+  .erp-grid {
+    grid-template-columns: 1fr;
+  }
+}

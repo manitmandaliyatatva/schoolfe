@@ -1,0 +1,17 @@
+export const REGEX_CONST = {
+  PASSWORD: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+  STRING: /^[a-zA-Z ]*$/,
+  STRING_NO_SPACE: /^[a-zA-Z]*$/,
+  EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  PHONE_NUMBER: /^\d{10}$/,
+  DIGIT: /^\d+$/,
+  NON_DIGIT: /\D/g,
+  CURRENCY: /^\d{1,8}(\.\d{1,2})?$/,
+  NON_NUMERIC_WITH_DOT: /[^\d.]/g,
+  HEIGHT_WEIGHT: /^\d+(\.\d{1,2})?$/,
+  ALPHANUMERIC: /^[A-Za-z0-9]+$/,
+  ALPHANUMERIC_WITH_SPACE: /^[a-zA-Z0-9 ]*$/,
+  TIME: /^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/,
+  GUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+  FEE_TYPE_CODE: /^[A-Z]{3}$/,
+};

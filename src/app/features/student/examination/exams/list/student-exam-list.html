@@ -1,0 +1,129 @@
+<section class="configuration-screen-layout">
+  @if (permission().canList) {
+    <div class="action-header">
+      <div class="action-header-left">
+        <common-search-input [control]="searchControl"></common-search-input>
+      </div>
+      <div class="action-header-right">
+        <common-button [config]="refreshButtonConfig()"></common-button>
+        <common-button [config]="filterSidebar.toggleButtonConfig()"></common-button>
+      </div>
+    </div>
+
+  <div class="exam-groups-container">
+    @for (group of groupedExams(); track group.examGroupId) {
+    <div class="exam-group-card" [class.is-expanded]="group.isExpanded">
+      <!-- Group Header -->
+      <div class="group-header" (click)="toggleGroup(group.examGroupId)">
+        <div class="group-header-info">
+          <div class="group-title-row">
+            <h3 class="group-title">{{ group.examGroupName }}</h3>
+            <span class="exam-count-badge">{{ group.examCount }} {{ group.examCount === 1 ? EXAM_CONST.EXAM : EXAM_CONST.EXAMS }}</span>
+          </div>
+          <div class="group-meta-row">
+            <span class="group-meta-item">
+              <mat-icon class="meta-icon">calendar_today</mat-icon>
+              <span>{{ group.startDate }} - {{ group.endDate }}</span>
+            </span>
+          </div>
+        </div>
+        <div class="group-header-right">
+          @if (group.status !== SYSTEM_CONST.STATUS.PROGRESS.COMPLETED && permission().canDownload) {
+          <div class="group-download-btn" (click)="$event.stopPropagation()">
+            <common-button [config]="getDownloadTimetableButtonConfig(group)"></common-button>
+          </div>
+          }
+          <span class="status-badge" [class]="group.status.toLowerCase().replace(' ', '-')">{{ group.status }}</span>
+          <button mat-icon-button class="expand-btn">
+            <mat-icon>{{ group.isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Group Content (Accordion Body) -->
+      @if (group.isExpanded) {
+      <div class="group-content-wrapper">
+        <div class="group-exams-list">
+          @for (exam of group.exams; track exam.examId) {
+            @if (exam.isHoliday) {
+              <div class="exam-schedule-item holiday-item">
+                <div class="status-indicator holiday-indicator"></div>
+                <div class="schedule-details">
+                  <div class="subject-section">
+                    <span class="subject-badge holiday-badge">
+                      <mat-icon>auto_stories</mat-icon>
+                      <span class="subject-name">{{ EXAM_CONST.HOLIDAY }}</span>
+                    </span>
+                  </div>
+                  <div class="time-location-section">
+                    <span class="info-item">
+                      <mat-icon>calendar_today</mat-icon>
+                      <span>{{ exam.examDate | date: CommonDateFormat.DDMMYYYY_WithSlash }}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            } @else {
+              <div class="exam-schedule-item" (click)="onViewDetails(exam)">
+                <!-- Left Colored Bar Indicator -->
+                <div class="status-indicator"></div>
+
+                <div class="schedule-details">
+                  <div class="subject-section">
+                    <span class="subject-badge">
+                      <mat-icon>menu_book</mat-icon>
+                      <span class="subject-name">{{ exam.subjectName }}</span>
+                    </span>
+                    <span class="type-tag">{{ exam.examTypeName }}</span>
+                  </div>
+
+                  <div class="time-location-section">
+                    <span class="info-item">
+                      <mat-icon>calendar_today</mat-icon>
+                      <span>{{ exam.examDate | date: CommonDateFormat.DDMMYYYY_WithSlash }}</span>
+                    </span>
+                    <span class="info-item">
+                      <mat-icon>schedule</mat-icon>
+                      <span>{{ formatTimeRange(exam.startTime, exam.endTime) }}</span>
+                    </span>
+                  </div>
+                </div>
+
+                <button mat-icon-button class="view-details-arrow" matTooltip="View Details">
+                  <mat-icon>chevron_right</mat-icon>
+                </button>
+              </div>
+            }
+          }
+        </div>
+      </div>
+      }
+    </div>
+    }
+
+    @if (groupedExams().length === 0 && !isLoading()) {
+    <div class="empty-state">
+      <mat-icon>inbox</mat-icon>
+      <p>No exams found</p>
+    </div>
+    }
+
+      <div appInfiniteScroll
+           [hasMore]="hasMore"
+           [isFetching]="isFetching"
+           (scrollEnd)="loadMore()"
+           class="scroll-sentinel">
+      </div>
+    </div>
+  }
+</section>
+
+<!-- ── Filter Sidebar Drawer ── -->
+<app-filter-drawer
+  [isOpen]="filterSidebar.isOpen()"
+  [form]="filterForm"
+  [config]="filterConfig"
+  [resetBtnConfig]="filterSidebar.resetButtonConfig()"
+  [applyBtnConfig]="filterSidebar.applyButtonConfig()"
+  (close)="filterSidebar.close()">
+</app-filter-drawer>

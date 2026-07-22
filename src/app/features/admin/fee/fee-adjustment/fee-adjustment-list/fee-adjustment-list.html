@@ -1,0 +1,24 @@
+<section class="configuration-screen-layout">
+    <app-fee-filter
+        [showFeeType]="true"
+        [showAdjustmentType]="true"
+        [showStatus]="true"
+        [defaultStatus]="defaultFeeStatusId"
+        (search)="onSearch($event)"
+        (clear)="onClear($event)">
+    </app-fee-filter>
+
+    @if (gridConfig && permission().canList) {
+    <div class="configuration-grid-card">
+        <common-data-grid [config]="gridConfig"></common-data-grid>
+    </div>
+    }
+</section>
+
+<ng-template #booleanStatus let-value="value">
+    <boolean-status [value]="value"></boolean-status>
+</ng-template>
+
+<ng-template #statusTemplate let-row="row">
+    <app-fee-status-chip [statusId]="row.feeStatus" [statusName]="row.feeStatusName"></app-fee-status-chip>
+</ng-template>

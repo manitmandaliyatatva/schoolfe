@@ -1,0 +1,538 @@
+// ─── Design Tokens ────────────────────────────────────────────────────────────
+$primary: var(--primary-color, #25a194);
+$primary-bg: #e9f7f6;
+$primary-dark: #1a7a73;
+$border: #e4e8ef;
+$surface: #ffffff;
+$surface-alt: #f8fafc;
+$text-primary: #1e293b;
+$text-secondary: #64748b;
+$text-muted: #94a3b8;
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 14px;
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+
+// ─── Page Layout ──────────────────────────────────────────────────────────────
+.role-permissions-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 0 2rem;
+
+  // ─── Page Header ──────────────────────────────────────────────────────
+  .page-header {
+    margin-bottom: 1.25rem;
+
+    .page-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: $text-primary;
+      margin: 0 0 4px;
+    }
+
+    .page-subtitle {
+      font-size: 0.875rem;
+      color: $text-secondary;
+      margin: 0;
+    }
+  }
+
+  // ─── Filter Bar ───────────────────────────────────────────────────────
+  .filter-bar {
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    box-shadow: $shadow-sm;
+
+    .filter-form {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 180px;
+      max-width: 280px;
+    }
+
+    .search-field {
+      max-width: 320px;
+    }
+
+    .filter-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: $text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .filter-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      margin-top: 4px;
+
+      &.warning {
+        color: #d97706;
+      }
+
+      .hint-icon {
+        font-size: 13px;
+        width: 13px;
+        height: 13px;
+      }
+    }
+
+    .filter-divider {
+      width: 1px;
+      align-self: stretch;
+      background: $border;
+      margin: 0 4px;
+
+      @media (max-width: 640px) {
+        display: none;
+      }
+    }
+  }
+
+  // ─── Permissions Card ─────────────────────────────────────────────────
+  .permissions-card {
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    overflow: hidden;
+  }
+
+  // ─── State Containers (Loading / Empty) ───────────────────────────────
+  .state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    gap: 0.75rem;
+
+    .empty-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: $primary-bg;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.25rem;
+
+      mat-icon {
+        font-size: 26px;
+        width: 26px;
+        height: 26px;
+        color: $primary;
+      }
+    }
+
+    .state-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $text-primary;
+      margin: 0;
+    }
+
+    .state-desc {
+      font-size: 0.875rem;
+      color: $text-secondary;
+      max-width: 380px;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+
+  // ─── Tree Section ─────────────────────────────────────────────────────
+  .tree-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  // Column Header
+  .tree-col-header {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 1.25rem;
+    background: #f1f5f9;
+    border-bottom: 1px solid $border;
+    gap: 0.75rem;
+
+    >div {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $text-muted;
+    }
+
+    .col-module {
+      flex: 0 0 260px;
+    }
+
+    .col-actions {
+      flex: 1;
+    }
+
+    .col-meta {
+      flex: 0 0 150px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+
+  // Tree Body
+  .tree-body {
+    overflow-y: auto;
+  }
+
+  // Module Block
+  .tree-module {
+    border-bottom: 1px solid $border;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  // ─── Shared Row Styles ────────────────────────────────────────────────
+  // Shared base — page rows allow chip wrapping (flex-start)
+  .page-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 8px 1.25rem;
+    min-height: 42px;
+
+    .row-left {
+      flex: 0 0 260px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      padding-top: 4px;
+    }
+
+    .row-actions {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .row-meta {
+      flex: 0 0 120px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      gap: 10px;
+      padding-top: 4px;
+    }
+  }
+
+  // Module row — fixed height, everything centred
+  .module-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1.25rem;
+    height: 40px;
+    min-height: 40px;
+
+    .row-left {
+      flex: 0 0 260px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      padding-top: 0;
+    }
+
+    .row-actions {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .row-meta {
+      flex: 0 0 120px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      padding-top: 0;
+    }
+  }
+
+  // ─── Module Row Specific ──────────────────────────────────────────────
+  .module-row {
+    background: #f8fafc;
+    border-bottom: 1px solid $border;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    user-select: none;
+
+    &:hover {
+      background: #f1f5f9;
+    }
+
+    &.expanded {
+      background: #eef2f7;
+    }
+
+    // Flat modules (direct actions — no sub-pages): not clickable for expand
+    &.flat-module {
+      cursor: default;
+      height: auto;
+      min-height: 40px;
+      align-items: flex-start;
+      padding-top: 6px;
+      padding-bottom: 6px;
+
+      &:hover {
+        background: #f8fafc; // no hover highlight since not expandable
+      }
+
+      .row-left {
+        padding-top: 2px;
+      }
+
+      .row-actions {
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .row-meta {
+        padding-top: 2px;
+        align-items: flex-start;
+      }
+    }
+
+    .module-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: $primary-bg;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      mat-icon {
+        font-size: 14px;
+        width: 14px;
+        height: 14px;
+        color: $primary;
+      }
+    }
+
+    .module-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: $text-primary;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1;
+    }
+  }
+
+  // ─── Expand / Chevron Button ──────────────────────────────────────────
+  .expand-btn {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.15s ease;
+    flex-shrink: 0;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.06);
+    }
+
+    .expand-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: $text-secondary;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  .expand-spacer {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  // ─── Page Row Specific ────────────────────────────────────────────────
+  .pages-body {
+    background: $surface;
+  }
+
+  .page-row {
+    border-top: 1px solid #f0f4f8;
+    min-height: 46px;
+
+    &:hover {
+      background: #fafbfd;
+    }
+
+    .page-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      flex-shrink: 0;
+    }
+
+    .page-name {
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: $text-secondary;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  // ─── Action Chips ─────────────────────────────────────────────────────
+  .action-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    align-items: center;
+    padding: 4px 0;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 28px;
+    padding: 0 14px;
+    border-radius: 14px;
+    border: 1px solid $border;
+    background: $surface;
+    font-size: 12.2px;
+    font-weight: 550;
+    color: $text-secondary;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    outline: none;
+    white-space: nowrap;
+    user-select: none;
+
+    &:hover {
+      border-color: #94a3b8;
+      color: $text-primary;
+      background: $surface-alt;
+    }
+
+    &.active {
+      background: $primary-bg;
+      border-color: $primary;
+      color: $primary-dark;
+
+      &:hover {
+        background: #d0efed;
+      }
+    }
+
+    .chip-icon {
+      font-size: 13px;
+      width: 13px;
+      height: 13px;
+      color: $primary;
+    }
+  }
+
+  // ─── Meta Badge ───────────────────────────────────────────────────────
+  .meta-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: #f1f5f9;
+    color: $text-muted;
+    border: 1px solid $border;
+    white-space: nowrap;
+
+    &.partial {
+      background: #fef9ec;
+      color: #b45309;
+      border-color: #fde68a;
+    }
+
+    &.allowed {
+      background: #ecfdf5;
+      color: #15803d;
+      border-color: #bbf7d0;
+    }
+  }
+
+  .meta-count {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $text-muted;
+    white-space: nowrap;
+  }
+
+  // ─── Tree Footer ──────────────────────────────────────────────────────
+  .tree-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.875rem 1.25rem;
+    border-top: 1px solid $border;
+    background: $surface-alt;
+  }
+
+  // ─── Material Overrides ───────────────────────────────────────────────
+  ::ng-deep {
+    .mat-mdc-checkbox {
+      --mdc-checkbox-unselected-icon-color: #94a3b8;
+      --mdc-checkbox-selected-icon-color: var(--primary-color, #25a194);
+      --mdc-checkbox-selected-focus-icon-color: var(--primary-color, #25a194);
+      --mdc-checkbox-selected-hover-icon-color: var(--primary-color, #25a194);
+
+      .mdc-checkbox__background {
+        border-radius: 4px !important;
+        border-width: 1.5px !important;
+      }
+
+      .mdc-label {
+        display: none; // hide label on header checkbox (no label text needed)
+      }
+    }
+
+    .mat-mdc-progress-spinner {
+      --mdc-circular-progress-active-indicator-color: var(--primary-color, #25a194);
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<div class="payment-dialog-layout">
+  <div class="breakdown-column">
+    <h3 class="fees-breakdown-title">{{ SYSTEM_CONST.LABELS.FEE.FEES_BREAKDOWN }}</h3>
+    <div class="adjustment-breakdown">
+      <table class="table w-100">
+        <thead>
+          <tr>
+            <th class="text-start">{{ SYSTEM_CONST.LABELS.FEE.FEE_TYPE_NAME }}</th>
+            <th class="text-end">{{ SYSTEM_CONST.LABELS.FEE.REMAINING_AMOUNT }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of paymentRows(); track row.feeStudentId) {
+            <tr>
+              <td class="text-start">{{ row.feeTypeName || '-' }}</td>
+              <td class="text-end">{{ (row.remainingAmount || 0) | currencyFormat }}</td>
+            </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr class="fw-bold">
+            <td class="text-start">{{ SYSTEM_CONST.LABELS.COMMON.TOTAL }}</td>
+            <td class="text-end">{{ totalAmount() | currencyFormat }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div class="form-column">
+    @if (data.stripeConfig) {
+      <app-stripe-gateway-dialog [config]="data.stripeConfig"></app-stripe-gateway-dialog>
+    } @else {
+      <app-admin-payment-form
+        [fees]="paymentRows()"
+        (onSave)="handleAdminSave($event)"
+        (onCancel)="onCancel()">
+      </app-admin-payment-form>
+    }
+  </div>
+</div>

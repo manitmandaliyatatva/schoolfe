@@ -1,0 +1,28 @@
+<label *ngIf="!useFloatingLabel()" class="form-field-label" [ngClass]="{ 'has-error': isError() }">
+  {{ config().label }}{{ isRequired() ? ' *' : '' }}
+</label>
+
+<mat-form-field
+  class="w-100 custom-form-field"
+  [class.has-error]="isError()"
+  [appearance]="config().appearance || 'outline'"
+  [floatLabel]="config().isFloatLabel ? 'always' : 'auto'"
+  [id]="config().id || ''"
+  subscriptSizing="dynamic">
+  <mat-label *ngIf="config().label && useFloatingLabel()">
+    {{ config().label }}
+  </mat-label>
+
+  <input
+    matInput
+    [formControlName]="config().formControlName"
+    [matTimepicker]="picker"
+    [placeholder]="config().placeholder || ''"
+    [matTimepickerMin]="config().minTime || null"
+    [matTimepickerMax]="config().maxTime || null">
+
+  <mat-timepicker-toggle matIconSuffix [for]="picker"></mat-timepicker-toggle>
+  <mat-timepicker #picker></mat-timepicker>
+</mat-form-field>
+
+<common-error [config]="errorConfig()"></common-error>

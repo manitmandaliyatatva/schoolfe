@@ -1,0 +1,70 @@
+@if (permission().canList) {
+  <div class="student-teachers-container">
+    
+    <div class="banner">
+      <div class="banner-content">
+        <div class="icon-wrapper">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="text-content">
+          <h2>Our Teachers</h2>
+          <p>Get to know your teachers and connect with them.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="search-wrapper">
+        <mat-icon class="search-icon">search</mat-icon>
+        <input type="text" class="search-input" placeholder="Search teachers..."
+               [formControl]="searchControl">
+      </div>
+    </div>
+
+    <div class="teachers-grid">
+      <div class="teacher-card" *ngFor="let teacher of teachers()">
+
+
+        <div class="avatar-container" [class.no-photo]="!teacher.photo">
+          <app-safe-image 
+            *ngIf="teacher.photo"
+            [config]="{ src: teacher.photo, userName: teacher.fullName, defaultImage: 'assets/user-default.png' }">
+          </app-safe-image>
+          <span *ngIf="!teacher.photo" class="initials">{{ teacher.initials }}</span>
+        </div>
+
+        <div class="teacher-info">
+          <h3>{{ teacher.fullName }}</h3>
+          <p class="subject">
+            <mat-icon>menu_book</mat-icon>
+            {{ teacher.extractedSubject }}
+          </p>
+          <div class="class-badge" *ngIf="teacher.extractedClass && teacher.extractedClass !== '-'">
+            {{ teacher.extractedClass }}
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="contact-wrapper">
+          <div class="contact-info">
+            <mat-icon>email</mat-icon>
+            <a *ngIf="teacher.email" [href]="'mailto:' + teacher.email" [title]="teacher.email" class="email-link">{{ teacher.email }}</a>
+            <span *ngIf="!teacher.email" title="">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div appInfiniteScroll
+         [hasMore]="hasMore"
+         [isFetching]="isFetching"
+         (scrollEnd)="loadMore()"
+         class="scroll-sentinel">
+    </div>
+
+    <div class="empty-state" *ngIf="teachers().length === 0 && !hasMore">
+      No teachers found.
+    </div>
+  </div>
+}

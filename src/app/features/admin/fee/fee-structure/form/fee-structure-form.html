@@ -1,0 +1,16 @@
+<!-- shared/components/base-form/base-form.html -->
+<section class="configuration-screen-layout">
+
+    <div class="configuration-screen-content">
+        <form [formGroup]="formGroup" (ngSubmit)="onSave()">
+            <common-dynamic-form [formControls]="formControls" />
+
+            <div class="form-actions configuration-screen-actions">
+                <common-button [config]="cancelBtn()" />
+                @if (!formGroup.disabled) {
+                    <common-button [config]="saveBtn()" />
+                }
+            </div>
+        </form>
+    </div>
+</section>

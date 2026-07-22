@@ -1,0 +1,73 @@
+.dynamic-form-section {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  &.no-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 0;
+    overflow-x: hidden;
+  }
+}
+
+.section-title {
+  margin: 0 0 1.25rem;
+  font-size: 1.125rem;
+  line-height: 1.2;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+
+.buttons-block {
+  display: flex;
+  gap: .5rem;
+  justify-content: flex-start;
+  margin-top: 5px;
+  margin-bottom: 0;
+  height: -webkit-fill-available;
+
+  .text-field-outer {
+    margin-bottom: 0px;
+  }
+}
+
+:host {
+  display: block;
+}
+
+:host ::ng-deep {
+  .dynamic-form-section {
+    .row {
+      row-gap: 0.75rem;
+    }
+
+    .text-field-outer form {
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .dynamic-form-section {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.slidetoggle-col {
+  display: flex !important;
+  align-items: flex-start !important;
+  padding-top: 1.5rem !important;
+}

@@ -1,0 +1,58 @@
+<section class="configuration-screen-layout student-fee-dashboard">
+  @if (permission().canList) {
+    @if (!isAdminUser && permission().canCreate) {
+      <div class="header-row d-flex justify-content-end align-items-center mb-3">
+        <common-button [config]="payFeesBtnConfig()"></common-button>
+      </div>
+    }
+
+    <div class="configuration-screen-content">
+      @if (isAdminUser && studentName()) {
+        <div class="student-info-card">
+          <div class="student-details">
+            <span class="student-info-label">Student Name:</span>
+            <span class="student-info-name">{{ studentName() }}</span>
+          </div>
+          <div class="header-actions">
+            <common-button [config]="payFeesBtnConfig()"></common-button>
+            <common-button [config]="backBtnConfig()"></common-button>
+          </div>
+        </div>
+      }
+
+      <div class="dashboard-cards">
+        <div class="summary-card payable">
+          <h5 class="card-title">{{ SYSTEM_CONST.LABELS.FEE.TOTAL_PAYABLE }}</h5>
+          <h2 class="card-amount">{{ totalPayable() | currencyFormat }}</h2>
+        </div>
+        <div class="summary-card paid">
+          <h5 class="card-title">{{ SYSTEM_CONST.LABELS.FEE.TOTAL_PAID }}</h5>
+          <h2 class="card-amount">{{ totalPaid() | currencyFormat }}</h2>
+        </div>
+        <div class="summary-card outstanding">
+          <h5 class="card-title">{{ SYSTEM_CONST.LABELS.FEE.TOTAL_OUTSTANDING }}</h5>
+          <h2 class="card-amount">{{ totalOutstanding() | currencyFormat }}</h2>
+        </div>
+      </div>
+
+      <div class="grid-container">
+        <common-data-grid #dataGrid [config]="gridConfig" />
+      </div>
+    </div>
+  }
+</section>
+
+<!-- Custom Templates for Grid Columns -->
+<ng-template #statusTemplate let-row="row">
+  <app-fee-status-chip [statusId]="row.status" [statusName]="row.statusName"></app-fee-status-chip>
+</ng-template>
+
+<ng-template #adjustmentTemplate let-row="row">
+  @if (row.adjustedAmount != 0) {
+    <a class="common-grid-link" href="javascript:void(0)" (click)="showAdjustmentBreakdown(row)">
+        {{ row.adjustedAmount | currencyFormat }}
+    </a>
+  } @else {
+    <span>-</span>
+  }
+</ng-template>

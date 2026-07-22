@@ -1,0 +1,206 @@
+:host {
+  display: block;
+  padding: 4px; // reduced outer spacing
+}
+
+.timetable-card {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+}
+
+
+.timetable-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  font-size: 13px;
+  line-height: 1.2; // compact text
+  border-radius: 8px;
+
+  background: #2a2a2a;
+  color: #e5e7eb;
+
+  &.orange {
+    background: rgba(249, 115, 22, 0.13);
+    color: #fb923c;
+  }
+
+  &.blue {
+    background: rgba(59, 130, 246, 0.13);
+    color: #60a5fa;
+  }
+
+  &.green {
+    background: rgba(34, 197, 94, 0.14);
+    color: #4ade80;
+  }
+
+  &.red {
+    background: rgba(239, 68, 68, 0.14);
+    color: #f87171;
+  }
+
+  &.teal {
+    background: rgba(20, 184, 166, 0.14);
+    color: #2dd4bf;
+  }
+
+  &.amber {
+    background: rgba(245, 158, 11, 0.14);
+    color: #fbbf24;
+  }
+
+  /* ===== Special States ===== */
+  &.break {
+    background: rgba(99, 102, 241, 0.12);
+    color: #a5b4fc;
+  }
+
+  &.holiday {
+    background: rgba(56, 189, 248, 0.12);
+    color: #7dd3fc;
+  }
+
+  &.noschedule {
+    background: rgba(7, 5, 5, 0);
+    color: #9ca3af;
+    border: 1px dashed rgb(189 188 188);
+    display: flex;
+    justify-content: center;
+  }
+}
+
+
+.timetable-card__title {
+  display: block;
+  flex-direction: column;
+  max-width: 185px; // 🔥 required for ellipsis to work
+  min-width: 0;
+  flex: 1; // take available space
+  min-width: 0;
+
+  /* Main text */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 700;
+
+  span {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #777879;
+    margin-top: 4px;
+    min-width: 0;
+    max-width: 100px;
+  }
+}
+
+/* ===== Action Buttons ===== */
+.timetable-card__action-wrap {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 4px 0px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ===== BUTTON ===== */
+.timetable-card__edit-btn {
+  width: 26px;
+  height: 26px;
+
+  .mat-icon {
+    font-size: 16px;
+    color: #9ca3af;
+  }
+
+  &:hover .mat-icon {
+    color: #727272;
+  }
+}
+
+/* ===== Body ===== */
+.timetable-card__body {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ===== Line Item ===== */
+.timetable-card__line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #d1d5db;
+
+  .mat-icon {
+    font-size: 16px;
+    color: #9ca3af;
+  }
+}
+
+/* ===== Special Cards ===== */
+.break-card {
+  .timetable-card__body {
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    color: #9ca3af;
+  }
+}
+
+.holiday-card {
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px dashed rgba(56, 189, 248, 0.3);
+
+  .timetable-card__header {
+    border-bottom: none;
+    justify-content: center;
+  }
+
+  .timetable-card__title {
+    font-size: 13px;
+    color: #7dd3fc;
+  }
+}
+
+/* ===== Empty Slot ===== */
+.no-schedule {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+
+  .timetable-card__body {
+    justify-content: center;
+    align-items: center;
+    color: #6b7280;
+  }
+}
+
+.timetable-multiline-tooltip {
+  white-space: pre-line !important;
+  max-width: 220px !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+// timetable-card.component.scss
+::ng-deep .timetable-multiline-tooltip .mdc-tooltip__surface {
+  white-space: pre-line !important;
+  max-width: 220px !important;
+}

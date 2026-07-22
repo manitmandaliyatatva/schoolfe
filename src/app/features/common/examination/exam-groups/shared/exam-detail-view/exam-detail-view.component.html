@@ -1,0 +1,102 @@
+<div class="view-detail-container" *ngIf="data">
+  <!-- Hero Header Section -->
+  <div class="exam-detail-hero">
+    <div class="hero-icon-wrapper">
+      <mat-icon>assignment</mat-icon>
+    </div>
+    <div class="hero-content">
+      <span class="hero-subtitle">{{ data.examTypeName }} Exam</span>
+      <h3 class="hero-title">{{ data.examName }}</h3>
+    </div>
+  </div>
+
+  <!-- Main Details Grid -->
+  <div class="exam-detail-grid">
+    <!-- Academic Details Card -->
+    <div class="detail-card academic-card">
+      <div class="card-header">
+        <mat-icon class="header-icon">school</mat-icon>
+        <h4>Academic Scope</h4>
+      </div>
+      <div class="card-body">
+        <div class="detail-item" *ngIf="!isStudent()">
+          <span class="item-label">{{SYSTEM_CONST.LABELS.COMMON.CLASSROOM}}</span>
+          <span class="item-value">{{ data.classSectionName }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="item-label">{{SYSTEM_CONST.LABELS.ACADEMIC.SUBJECT}}</span>
+          <span class="item-value">{{ data.subjectName }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timing & Schedule Card -->
+    <div class="detail-card schedule-card">
+      <div class="card-header">
+        <mat-icon class="header-icon">calendar_today</mat-icon>
+        <h4>Schedule & Time</h4>
+      </div>
+      <div class="card-body">
+        <div class="detail-item">
+          <span class="item-label">{{EXAM_CONST.EXAM_DATE}}</span>
+          <span class="item-value">{{ data.examDate | date: CommonDateFormat.DMMMYYYY_WithComma }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="item-label">Timing Range</span>
+          <span class="item-value">{{ formatTime(data.startTime) }} - {{ formatTime(data.endTime) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Marks Card -->
+    <div class="detail-card marks-card" [class.full-width]="isStudent()">
+      <div class="card-header">
+        <mat-icon class="header-icon">military_tech</mat-icon>
+        <h4>Grading Criteria</h4>
+      </div>
+      <div class="card-body">
+        <div class="detail-item">
+          <span class="item-label">Maximum Marks</span>
+          <span class="item-value highlight-value">{{ data.maxMarks }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="item-label">Passing Marks</span>
+          <span class="item-value highlight-value passing">{{ data.passingMarks }}</span>
+        </div>
+      </div>
+      <div class="marks-progress-container" *ngIf="data.maxMarks > 0">
+        <div class="progress-info">
+          <span>Passing Percentage Required</span>
+          <span>{{ (data.passingMarks / data.maxMarks * 100) | number: '1.0-0' }}%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" [style.width.%]="(data.passingMarks / data.maxMarks * 100)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Status Card -->
+    <div class="detail-card status-card" *ngIf="!isStudent()">
+      <div class="card-header">
+        <mat-icon class="header-icon">info</mat-icon>
+        <h4>System Status</h4>
+      </div>
+      <div class="card-body column-flow">
+        <div class="status-row">
+          <span class="status-label">{{EXAM_CONST.PUBLISH}} Status</span>
+          <div class="status-badge" [ngClass]="data.isPublished ? 'published' : 'unpublished'">
+            <mat-icon class="badge-icon">{{ data.isPublished ? 'check_circle' : 'unpublished' }}</mat-icon>
+            <span>{{ data.isPublished ? 'Published' : 'Unpublished' }}</span>
+          </div>
+        </div>
+        <div class="status-row">
+          <span class="status-label">{{SYSTEM_CONST.LABELS.COMMON.STATUS}}</span>
+          <div class="status-badge" [ngClass]="data.isActive ? 'active' : 'inactive'">
+            <mat-icon class="badge-icon">{{ data.isActive ? 'check_circle' : 'cancel' }}</mat-icon>
+            <span>{{ data.isActive ? 'Active' : 'Inactive' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

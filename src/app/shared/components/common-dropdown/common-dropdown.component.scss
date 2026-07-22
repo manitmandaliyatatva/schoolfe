@@ -1,0 +1,60 @@
+.dropdown-load-more-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
+
+::ng-deep .no-checkbox .mat-pseudo-checkbox {
+    display: none !important;
+    pointer-events: none;
+}
+
+::ng-deep .no-checkbox {
+    background-color: transparent !important;
+    color: #4d4d4d !important;
+    pointer-events: none;
+
+    >* {
+        opacity: 1 !important;
+    }
+}
+
+::ng-deep .select-all-container {
+    padding: 0 16px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #e0e0e0;
+    border-top: 1px solid #e0e0e0;
+    background: #f0f0fa;
+}
+
+::ng-deep .select-all-container:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+::ng-deep .select-all-container .mat-mdc-checkbox {
+    width: 100%;
+}
+
+::ng-deep .select-all-container .mat-mdc-checkbox .mdc-form-field {
+    width: 100%;
+}
+
+::ng-deep .select-all-container .mat-mdc-checkbox .mdc-checkbox {
+    margin-left: -11px;
+    margin-right: 4px;
+}
+
+::ng-deep .select-all-container .mat-mdc-checkbox .mdc-label {
+    padding-left: 0px;
+    font-weight: 700 !important;
+    cursor: pointer;
+    color: var(--mat-option-label-text-color, var(--mat-app-on-surface));
+    font-family: var(--mat-option-label-text-font, var(--mat-app-label-large-font));
+    line-height: var(--mat-option-label-text-line-height, var(--mat-app-label-large-line-height));
+    font-size: var(--mat-option-label-text-size, var(--mat-app-body-large-size));
+    letter-spacing: var(--mat-option-label-text-tracking, var(--mat-app-label-large-tracking));
+    font-weight: var(--mat-option-label-text-weight, var(--mat-app-body-large-weight));
+}

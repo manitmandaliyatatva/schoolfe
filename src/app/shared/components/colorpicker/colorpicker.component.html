@@ -1,0 +1,26 @@
+<form [formGroup]="formGroup()!">
+    @if (!floatLabel()){
+    <label class="form-field-label" [ngClass]="{'has-error': isError()}">{{config().label}}{{ isRequired() ? ' *' : '' }}</label>
+    }
+    <mat-form-field class="w-100 custom-form-field" [class.has-error]="isError()"
+        [appearance]="config().appearance ?? 'outline'" subscriptSizing="dynamic"
+        [hideRequiredMarker]="!config().label">
+        @if(floatLabel()){
+        <mat-label>
+            {{config().label}}
+        </mat-label>
+        }
+        <input matInput type="text" id={{inputId()}} [formControlName]="formControlName()"
+            [placeholder]="placeholder()" (change)="onChange($event)" (blur)="onBlur($event)" maxlength="20" />
+        
+        <div matSuffix class="color-picker-wrapper">
+          <input type="color" [formControlName]="formControlName()" (input)="onColorInput($event)" (change)="onChange($event)" tabindex="-1" />
+          <div class="color-swatch" [style.backgroundColor]="control()?.value || '#000000'"></div>
+        </div>
+        
+        @if(isHintText()){
+        <mat-hint align="start"><strong>{{config().hintText}}</strong></mat-hint>
+        }
+    </mat-form-field>
+    <common-error [config]="errorConfig()"></common-error>
+</form>

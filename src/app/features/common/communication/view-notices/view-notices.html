@@ -1,0 +1,47 @@
+@if (isDashboardMode()) {
+<div class="dashboard-list-container">
+  @for (row of store.list(); track row.noticeId) {
+  <app-dashboard-list-item [config]="{
+          date: row.publishDate,
+          title: row.title,
+          subtitle: row.noticeTypeName,
+          accentColor: row.isImportant ? '#ef4444' : undefined,
+          tooltipText: row.isImportant ? 'Important' : undefined
+        }" (click)="onEdit(row)"></app-dashboard-list-item>
+  } @empty {
+  <app-dashboard-empty-state [message]="DASHBOARD_CONSTANTS.EMPTY_STATES.NOTICES"
+    icon="notifications"></app-dashboard-empty-state>
+  }
+</div>
+} @else {
+<section class="configuration-screen-layout">
+  @if (gridConfig && this.permission().canList) {
+  <div class="configuration-grid-card">
+    <common-data-grid [config]="gridConfig"></common-data-grid>
+  </div>
+  }
+</section>
+}
+<ng-template #noticeUI let-row="row">
+  <mat-card class="notice-card" [class.emergency-card]="row.isImportant" (click)="onEdit(row)">
+    <div class="card-inner">
+
+      <div class="date-box">
+        <span class="date-day">{{ row.publishDate | date:'d' }}</span>
+        <span class="date-month">{{ row.publishDate | date:'MMM' }}</span>
+      </div>
+
+      <div class="notice-content">
+        <div class="notice-row-top">
+          <span class="notice-title">{{ row.title }}</span>
+        </div>
+        <div class="notice-row-bottom">
+          <span class="notice-desc">{{ row.description }}</span>
+        </div>
+      </div>
+
+      <mat-icon class="chevron-icon">chevron_right</mat-icon>
+
+    </div>
+  </mat-card>
+</ng-template>

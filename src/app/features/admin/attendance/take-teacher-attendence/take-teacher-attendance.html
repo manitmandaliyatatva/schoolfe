@@ -1,0 +1,72 @@
+<form [formGroup]="formGroup">
+    <common-dynamic-form [formControls]="filterFormControls()"></common-dynamic-form>
+</form>
+
+<div class="summary">
+  <mat-card class="card" [style.--pill-bg]="bgColor" [style.--pill-color]="color">
+    <div>{{systemConst.LABELS.COMMON.TOTAL}}</div>
+    <h2>{{teachers().length}}</h2>
+  </mat-card>
+  @for (item of attendanceStatusStore.list(); track $index) {
+  <mat-card class="card" [style.--pill-bg]="item.backgroundColorCode" [style.--pill-color]="item.colorCode">
+    <div>{{item.attendanceStatusName}}</div>
+    <h2>{{getCountForStatastic(item.attendanceStatusId)}}</h2>
+  </mat-card>
+  }
+</div>
+<div class="mark-all-wrapper" *ngIf="selectedTeachers().length > 0 && !isReadOnly()">
+  <div class="mark-all-btn">
+    <span>{{systemConst.LABELS.COMMON.MARK_SELECTED}}:</span>
+    <mat-radio-group class="status-group pill-radio-group" (change)="onChangeSelected($event)">
+      @for (item of attendanceStatusStore.list(); track $index) {
+      <mat-radio-button class="pill-radio" [style.--pill-bg]="item.backgroundColorCode"
+        [style.--pill-color]="item.colorCode"
+        [value]="item.attendanceStatusId">{{item.attendanceStatusName}}</mat-radio-button>
+      }
+    </mat-radio-group>
+  </div>
+  <mat-form-field appearance="outline" class="custom-form-field remark-field">
+    <input matInput placeholder="Enter Remark" (input)="updateRemark('', $any($event.target).value)" />
+  </mat-form-field>
+</div>
+
+@if(getAttendanceStore.isSuccess()){
+<common-data-grid [config]="teacherListGrid"></common-data-grid>
+}
+
+<ng-template #adStatus let-value="value" let-row="row">
+  <mat-radio-group [value]="value" (change)="updateStatus(row.teacherId, $event.value)"
+    class="status-group pill-radio-group" [disabled]="isReadOnly()">
+    @for (item of attendanceStatusStore.list(); track $index) {
+    <mat-radio-button class="pill-radio" [style.--pill-bg]="item.backgroundColorCode"
+      [style.--pill-color]="item.colorCode"
+      [value]="item.attendanceStatusId">{{item.attendanceStatusName}}</mat-radio-button>
+    }
+  </mat-radio-group>
+</ng-template>
+
+<ng-template #adRemark let-value="value" let-row="row">
+  <mat-form-field appearance="outline" class="w-100 custom-form-field remark-field">
+    <input matInput [value]="value" placeholder="Enter Remark" [disabled]="isReadOnly()"
+      (input)="updateRemark(row.teacherId, $any($event.target).value)" />
+  </mat-form-field>
+</ng-template>
+
+<ng-template #adSave let-value="value" let-row="row">
+  <div>
+    <button matMiniFab (click)="saveAttendance(value)" [disabled]="isReadOnly()">
+      <mat-icon>save</mat-icon>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #teacherNameCell let-row="row">
+  <div class="user-profile-cell">
+    <app-safe-image class="user-profile-cell__avatar" [config]="{ src: row.photo, alt: (row.fullName) + ' photo', userName: row.fullName }">
+    </app-safe-image>
+    <div class="user-profile-cell__details">
+      <div class="user-profile-cell__name">{{ row.fullName || '-' }}</div>
+      <div class="user-profile-cell__info">Teacher Code: {{ row.teacherCode ?? '-' }}</div>
+    </div>
+  </div>
+</ng-template>

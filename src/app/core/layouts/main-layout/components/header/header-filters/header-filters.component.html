@@ -1,0 +1,73 @@
+<form [formGroup]="formGroup" class="header-select-form">
+  @if (showBranchDropdown()) {
+  <div class="header-select-wrapper branch-role-wrapper">
+    <div class="branch-role-selector" [matMenuTriggerFor]="branchRoleMenu">
+      <span class="status-dot"></span>
+      <div class="selector-text">
+        <span class="branch-name">{{ currentBranchName() }}</span>
+        <span class="role-name">{{ currentRoleName() }}</span>
+      </div>
+      <mat-icon class="chevron-icon">keyboard_arrow_down</mat-icon>
+    </div>
+  </div>
+  }
+
+  @if (academicYearConfig()) {
+  <div class="header-select-wrapper">
+    <app-common-dropdown [config]="academicYearConfig()"></app-common-dropdown>
+  </div>
+  }
+</form>
+
+<mat-menu #branchRoleMenu="matMenu" class="branch-role-dropdown-menu">
+  <div class="menu-container" (click)="$event.stopPropagation()">
+    <div class="menu-header">
+      <div class="menu-title">{{ FILTER_CONST.MENU_TITLE }}</div>
+      <div class="menu-subtitle">{{ FILTER_CONST.CURRENTLY_LABEL }} {{ currentBranchName() }} · {{ currentRoleName() }}</div>
+    </div>
+
+    <div class="menu-divider"></div>
+
+    <div class="menu-section-title">{{ FILTER_CONST.YOUR_BRANCHES_TITLE }}</div>
+
+    <div class="branches-list">
+      @for (br of branches(); track br.branchId; let idx = $index) {
+        <div class="branch-item-container">
+          <div class="branch-header" (click)="toggleBranch(br.branchId, $event)" [class.expanded]="expandedBranchId() === br.branchId">
+            <span class="branch-color-dot" [style.background-color]="getBranchColor(idx)"></span>
+            <div class="branch-info">
+              <span class="branch-name">{{ br.branchName }}</span>
+              <span class="branch-roles-count">{{ br.userTypes.length }} {{ br.userTypes.length === 1 ? FILTER_CONST.ROLE_SINGULAR : FILTER_CONST.ROLES_PLURAL }} {{ FILTER_CONST.AVAILABLE_LABEL }}</span>
+            </div>
+            <div class="branch-status-arrow">
+              @if (br.branchId?.toLowerCase() === authStore.branchid()?.toLowerCase()) {
+                <span class="active-badge">{{ FILTER_CONST.ACTIVE_LABEL }}</span>
+              }
+              <mat-icon class="arrow-icon">{{ expandedBranchId() === br.branchId ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+            </div>
+          </div>
+
+          @if (expandedBranchId() === br.branchId) {
+            <div class="branch-roles-list">
+              @for (role of br.userTypes; track role.userTypeId) {
+                <div class="role-item" (click)="selectBranchRole(br, role)" [class.active-role]="br.branchId?.toLowerCase() === authStore.branchid()?.toLowerCase() && role.userTypeName === currentRoleName()">
+                  <mat-icon class="role-icon">{{ getRoleIcon(role.userTypeName) }}</mat-icon>
+                  <span class="role-name">{{ role.userTypeName }}</span>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="menu-divider"></div>
+
+    <div class="menu-footer-actions">
+      <div class="footer-info">
+        <mat-icon class="info-icon">info_outline</mat-icon>
+        <span>{{ FILTER_CONST.FOOTER_INFO }}</span>
+      </div>
+    </div>
+  </div>
+</mat-menu>

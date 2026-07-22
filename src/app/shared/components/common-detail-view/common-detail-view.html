@@ -1,0 +1,32 @@
+<div class="popup-details-grid" *ngIf="data()">
+  <div *ngFor="let field of fields()" 
+       class="popup-details-item" 
+       [ngClass]="'span-' + (field.span || 3)">
+    <p class="popup-details-label">{{ field.label }}</p>
+    
+    <div class="popup-details-value">
+      <ng-container [ngSwitch]="field.type || 'text'">
+        <!-- Date display -->
+        <span *ngSwitchCase="'date'" [ngClass]="field.cssClass || ''">
+          {{ data()[field.key] | date: (field.dateFormat || defaultDateFormat) }}
+        </span>
+
+        <!-- Status Chip display -->
+        <app-status-chip *ngSwitchCase="'status-chip'" 
+                         [config]="{ value: () => !!data()[field.key] }">
+        </app-status-chip>
+
+        <!-- Custom render template display -->
+        <ng-container *ngSwitchCase="'custom'">
+          <ng-container *ngTemplateOutlet="field.customTemplate!; context: { $implicit: data() }">
+          </ng-container>
+        </ng-container>
+
+        <!-- Default text/fallback display -->
+        <span *ngSwitchDefault [ngClass]="field.cssClass || ''">
+          {{ data()[field.key] || '-' }}
+        </span>
+      </ng-container>
+    </div>
+  </div>
+</div>

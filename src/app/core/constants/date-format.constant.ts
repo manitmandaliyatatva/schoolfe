@@ -1,0 +1,20 @@
+export enum CommonDateFormat {
+    YYYYMMDD_WithDash = 'yyyy-MM-dd',
+    YYYYMMDDHHmmss_WithDash = 'yyyy-MM-dd HH:mm:ss',
+    YYYYMMDDTHHmmss_WithDash = "yyyy-MM-dd'T'HH:mm:ss",
+    DDMMYYYYHHmm_WithSlash = 'dd/MM/yyyy, HH:mm',
+    DDMMYYYYHHmmss_WithSlash = 'dd/MM/yyyy, HH:mm:ss',
+    HHmm = 'HH:mm',
+    HHmmss = 'HH:mm:ss',
+    DDMMYYYY_WithSlash = 'dd/MM/yyyy',
+    YYYYMMDDHHmm_WithDash = 'yyyy-MM-dd HH:mm',
+    MMMMYYYY_WithSpace = 'MMMM yyyy',
+    HHmm12 = 'HH:mm',
+    HHmmss12 = 'HH:mm:ss',
+    dddd = 'EEEE',
+    YYYYMMDD = 'yyyyMMdd',
+    MMMddYYYY_WithSpace = 'MMM dd, yyyy',
+    DDMMMYYYY_WithSpace = 'dd MMM yyyy',
+    DMMMYYYY_WithComma = 'd MMM, yyyy',
+    DDMMMYYYY_WithComma = 'dd MMM, yyyy'
+}

@@ -1,0 +1,44 @@
+<div class="stripe-gateway-container" [class.embedded]="isEmbedded">
+  @if (!isEmbedded) {
+    <div class="gateway-header">
+      <h3>{{ constants.SECURE_PAYMENT }}</h3>
+      <div class="stripe-logo">
+        <img src="stripe.svg" alt="Stripe" width="60" height="25" />
+      </div>
+    </div>
+
+    <div class="amount-display">
+      <span class="label">{{ constants.TOTAL_AMOUNT_TO_PAY }}</span>
+      <span class="amount">{{ totalAmount() | currencyFormat }}</span>
+    </div>
+  }
+
+  @if (isInitializing()) {
+    <div class="gateway-loader">
+      <div class="spinner"></div>
+      <p>{{ constants.INITIALIZING_GATEWAY }}</p>
+    </div>
+  } @else {
+    <form [formGroup]="formGroup" class="stripe-form">
+      <div class="row">
+        <div class="col-12 text-field-outer">
+          <common-textbox [config]="payerNameConfig"></common-textbox>
+        </div>
+      </div>
+
+      @if (elementsOptions()) {
+        <div class="form-row">
+          <label>{{ constants.PAYMENT_METHOD }}</label>
+          <div class="stripe-element-container">
+            <ngx-stripe-payment [options]="paymentElementOptions" [elementsOptions]="elementsOptions()!"></ngx-stripe-payment>
+          </div>
+        </div>
+      }
+    </form>
+  }
+
+  <div class="actions">
+    <common-button [config]="cancelBtn()"></common-button>
+    <common-button [config]="payBtn()"></common-button>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+<form [formGroup]="formGroup()!">
+    @if (!floatLabel()){
+    <label class="form-field-label" [ngClass]="{'has-error': isError()}">{{config().label}}{{ isRequired() ? ' *' : '' }}</label>
+    }
+    <mat-form-field class="w-100 custom-form-field" [class.has-error]="isError()"
+        [appearance]="config().appearance ?? 'outline'" subscriptSizing="dynamic"
+        [hideRequiredMarker]="!config().label">
+        @if(floatLabel()){
+        <mat-label>
+            @if (config().imgUrl && config().lableImg){
+            <em><img [src]="config().imgUrl" alt="" /></em>
+            }
+            {{config().label}}
+        </mat-label>
+        }
+
+        @if(isPrefixIcon() && !isPrefixIconList()){
+        <mat-icon matPrefix (click)="onIconClick('prefix')">{{config().prefixIcon?.icon}}</mat-icon>
+        }
+        @if(config().imgUrl && config().isPrefixImg){
+        <mat-icon matPrefix (click)="onImgUrlClick()"><img [src]="config().imgUrl?.icon" alt="" /></mat-icon>
+        }
+        @if(!isPrefixIcon() && isPrefixIconList()){
+        <ng-container class="icon-list-container">
+            @for (prefixIcon of config().prefixIconList; track $index; let i = $index) {
+            <mat-icon (click)="onIconClick('prefix',i)" matPrefix>{{prefixIcon.icon}}</mat-icon>
+            }
+        </ng-container>
+        }
+        @if (prefixText()) {
+        <span matTextPrefix>{{ prefixText() }}</span>
+        }
+        @if (config().type == inputTypes.number) {
+        <input NoScrollInput numericInput [maxDecimalDigits]="allowFloatValues() ? 2 : 0" matInput id={{inputId()}} [formControlName]="formControlName()"
+            [placeholder]="placeholder()" (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)"
+            (change)="onChange($event)" (blur)="onBlur($event)" [disabled]="isTextBoxDisable()" [attr.maxlength]="effectiveMaxLength()" />
+        } @else if (config().type == inputTypes.contactNumber) {
+        <input NoScrollInput contactMask matInput id={{inputId()}} [formControlName]="formControlName()"
+            [placeholder]="placeholder()" (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)"
+            (change)="onChange($event)" (blur)="onBlur($event)" [disabled]="isTextBoxDisable()" [attr.maxlength]="effectiveMaxLength()" />
+        } @else if (this.config().type === inputTypes.currency) {
+        <input NoScrollInput currencyMask matInput id={{inputId()}} [formControlName]="formControlName()"
+            [placeholder]="placeholder()" (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)"
+            (change)="onChange($event)" (blur)="onBlur($event)" [disabled]="isTextBoxDisable()" [attr.maxlength]="effectiveMaxLength()" />
+        } @else if (this.config().type === inputTypes.percentage) {
+        <input NoScrollInput percentageMask matInput id={{inputId()}} [formControlName]="formControlName()"
+            [placeholder]="placeholder()" (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)"
+            (change)="onChange($event)" (blur)="onBlur($event)" [disabled]="isTextBoxDisable()" [attr.maxlength]="effectiveMaxLength()" />
+        }
+        @else if (config().type === inputTypes.textarea) {
+        <textarea matInput id={{inputId()}} [formControlName]="formControlName()" [placeholder]="placeholder()"
+            (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)" (change)="onChange($event)"
+            (blur)="onBlur($event)" [disabled]="isTextBoxDisable()" rows="4" [attr.maxlength]="effectiveMaxLength()"></textarea>
+        }
+        @else {
+        <input matInput id={{inputId()}} [formControlName]="formControlName()" [placeholder]="placeholder()"
+            (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)" (change)="onChange($event)"
+            (blur)="onBlur($event)" [type]="inputType()" [disabled]="isTextBoxDisable()" [attr.maxlength]="effectiveMaxLength()" />
+        }
+        @if(config().imgUrl && config().isSuffixImg){
+        <mat-icon matSuffix (click)="config().imgUrl?.click()"><img [src]="config().imgUrl?.icon" alt="" /></mat-icon>
+        }
+        @if(config().type === inputTypes.password) {
+        <mat-icon matSuffix (click)="togglePasswordVisibility()" style="cursor: pointer;">
+            {{ showPassword() ? 'visibility' : 'visibility_off' }}
+        </mat-icon>
+        }
+        @if(isSuffixIcon() && !isSuffixIconList()){
+        <mat-icon matSuffix (click)="onIconClick('suffix')">{{config().suffixIcon?.icon}}</mat-icon>
+        }
+        @if(isHintText()){
+        <mat-hint align="start"><strong>{{config().hintText}}</strong></mat-hint>
+        }
+        @if(!isSuffixIcon() && isSuffixIconList()){
+        <ng-container class="icon-list-container">
+            @for(suffixIcon of config().suffixIconList; track $index; let i = $index) {
+            <mat-icon (click)="onIconClick('suffix',i)" matSuffix>{{suffixIcon.icon}}</mat-icon>
+            }
+        </ng-container>
+        }
+        @if(suffixText()){
+        <span matTextSuffix>{{suffixText()}}</span>
+        }
+        @if(config().textSuffixSelect){
+        <mat-select matSuffix (selectionChange)="onSufficOptionChange($event)"
+            [value]="config().textSuffixSelect?.selectedOption">
+            @for (option of config().textSuffixSelect?.options; track option.value) {
+            <mat-option [value]="option.value">
+                {{option.text}}
+            </mat-option>
+            }
+        </mat-select>
+        }
+    </mat-form-field>
+    <common-error [config]="errorConfig()"></common-error>
+</form>

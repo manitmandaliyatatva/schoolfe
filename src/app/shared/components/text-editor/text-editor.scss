@@ -1,0 +1,186 @@
+// ── Base Variables ──────────────────────────────────────────────────────────
+.text-editor-wrapper {
+  --editor-font:           'DM Sans', sans-serif;
+  --editor-radius:         8px;
+  --editor-border:         #d1d5db;
+  --editor-border-focus:   #6366f1;
+  --editor-border-error:   #ef4444;
+  --editor-bg:             #ffffff;
+  --editor-toolbar-bg:     #f8fafc;
+  --editor-label-color:    #374151;
+  --editor-desc-color:     #6b7280;
+  --editor-hint-color:     #9ca3af;
+  --editor-badge-bg:       #f1f5f9;
+  --editor-shadow-focus:   0 0 0 3px rgba(99, 102, 241, 0.15);
+  --editor-shadow-error:   0 0 0 3px rgba(239, 68, 68, 0.12);
+  --editor-transition:     0.18s cubic-bezier(0.4, 0, 0.2, 1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: var(--editor-font);
+}
+
+// ── Theme: Dark ─────────────────────────────────────────────────────────────
+.text-editor-wrapper.theme-dark {
+  --editor-border:         #374151;
+  --editor-border-focus:   #818cf8;
+  --editor-bg:             #1e1e2e;
+  --editor-toolbar-bg:     #16161f;
+  --editor-label-color:    #e2e8f0;
+  --editor-desc-color:     #94a3b8;
+  --editor-hint-color:     #64748b;
+  --editor-badge-bg:       #2d2d3f;
+  --editor-shadow-focus:   0 0 0 3px rgba(129, 140, 248, 0.18);
+}
+
+// ── Theme: Minimal ──────────────────────────────────────────────────────────
+.text-editor-wrapper.theme-minimal {
+  --editor-border:         #e5e7eb;
+  --editor-border-focus:   #111827;
+  --editor-toolbar-bg:     #fafafa;
+  --editor-shadow-focus:   0 0 0 2px rgba(17, 24, 39, 0.08);
+}
+
+// ── Theme: Warm ─────────────────────────────────────────────────────────────
+.text-editor-wrapper.theme-warm {
+  --editor-border:         #e2c9a0;
+  --editor-border-focus:   #d97706;
+  --editor-bg:             #fffbf5;
+  --editor-toolbar-bg:     #fef3c7;
+  --editor-shadow-focus:   0 0 0 3px rgba(217, 119, 6, 0.15);
+}
+
+// ── Label ───────────────────────────────────────────────────────────────────
+.editor-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--editor-label-color);
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  .required-mark {
+    color: var(--editor-border-error);
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+// ── Description ─────────────────────────────────────────────────────────────
+.editor-description {
+  font-size: 12px;
+  color: var(--editor-desc-color);
+  margin: 0;
+  line-height: 1.5;
+}
+
+// ── Container ───────────────────────────────────────────────────────────────
+.editor-container {
+  border: 1.5px solid var(--editor-border);
+  border-radius: var(--editor-radius);
+  background: var(--editor-bg);
+  overflow: hidden;
+  transition:
+    border-color var(--editor-transition),
+    box-shadow   var(--editor-transition);
+
+  &.focused {
+    border-color: var(--editor-border-focus);
+    box-shadow:   var(--editor-shadow-focus);
+  }
+
+  &.ng-invalid.ng-touched {
+    border-color: var(--editor-border-error);
+    box-shadow:   var(--editor-shadow-error);
+  }
+
+  &.disabled {
+    opacity: 0.55;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}
+
+// ── Toolbar Overrides ────────────────────────────────────────────────────────
+.editor-container {
+  ::ng-deep .NgxEditor__MenuBar {
+    background:    var(--editor-toolbar-bg);
+    border-bottom: 1px solid var(--editor-border);
+    padding:       6px 10px;
+    border-radius: 0;
+    flex-wrap:     wrap;
+    gap:           2px;
+  }
+
+  ::ng-deep .NgxEditor__MenuItem--Icon {
+    border-radius: 5px;
+    padding:       4px 6px;
+    transition:    background var(--editor-transition);
+  }
+
+  ::ng-deep .NgxEditor__MenuItem--Icon:hover,
+  ::ng-deep .NgxEditor__MenuItem--Active {
+    background: var(--editor-border-focus) !important;
+    color:      #fff !important;
+  }
+}
+
+// ── Editor Body ──────────────────────────────────────────────────────────────
+.editor-container {
+  ::ng-deep .NgxEditor {
+    border:        none !important;
+    border-radius: 0 !important;
+    box-shadow:    none !important;
+    font-family:   var(--editor-font);
+    font-size:     14px;
+    line-height:   1.7;
+    overflow-y:    auto;
+  }
+
+  ::ng-deep .NgxEditor__Content {
+    padding: 14px 16px;
+  }
+
+  ::ng-deep .NgxEditor__Placeholder::before {
+    color:       #c4c9d4;
+    font-style:  italic;
+  }
+}
+
+// ── Footer ───────────────────────────────────────────────────────────────────
+.editor-footer {
+  display:         flex;
+  gap:             8px;
+  justify-content: flex-end;
+}
+
+.count-badge {
+  display:     inline-flex;
+  align-items: center;
+  gap:         4px;
+  font-size:   11px;
+  color:       var(--editor-hint-color);
+  background:  var(--editor-badge-bg);
+  padding:     3px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+  transition:  color var(--editor-transition);
+
+  &.over-limit {
+    color: var(--editor-border-error);
+  }
+}
+
+// ── Hint Text ─────────────────────────────────────────────────────────────────
+.editor-hint {
+  margin:      0;
+  font-size:   12px;
+  color:       var(--editor-hint-color);
+  line-height: 1.5;
+}
+
+.has-error {
+    color: #e73b3b;
+}

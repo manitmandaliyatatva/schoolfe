@@ -1,0 +1,33 @@
+<div class="app-shell" [class.student-theme]="isStudent()">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="!isExpanded()" [class.mobile-open]="isMobile() && isExpanded()">
+    <app-navbar [collapsed]="!isExpanded()"></app-navbar>
+  </aside>
+
+  <!-- Mobile backdrop -->
+  @if (isMobile() && isExpanded()) {
+  <div class="sidebar-backdrop" (click)="toggleSidebar()"></div>
+  }
+
+  <!-- Right Panel -->
+  <div class="right-panel">
+
+    <!-- Header -->
+    <app-header [pageTitle]="pageTitle()" [sidebarExpanded]="isExpanded()" (toggle)="toggleSidebar()"></app-header>
+
+    <!-- Page Content -->
+    <main class="page-content">
+      <app-breadcrumb></app-breadcrumb>
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <img src="tatvasoft-logo.svg" alt="TatvaSoft" />
+      <span>Copyright © All rights reserved.</span>
+    </footer>
+
+  </div>
+
+</div>

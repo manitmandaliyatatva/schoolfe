@@ -1,0 +1,117 @@
+.contact-section {
+  background-color: transparent;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.contact-info {
+  padding: 3rem;
+}
+
+.form-card-section {
+  padding: 3rem;
+}
+
+.contact-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+}
+
+.contact-description {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  color: var(--text-secondary);
+}
+
+.info-item {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  align-items: flex-start;
+}
+
+.icon-wrapper {
+  background: rgba(37, 161, 148, 0.1);
+  color: var(--primary-color);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-item h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.info-item p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.form-section-heading {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 2rem;
+}
+
+.form-action-buttons {
+  margin-top: 2rem;
+}
+
+/* Trendy Form Overrides */
+::ng-deep .trendy-form .form-control {
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 12px !important;
+  padding: 0.9rem 1.2rem !important;
+  background: #f8fafc !important;
+  transition: all 0.3s ease !important;
+  width: 100% !important;
+}
+
+::ng-deep .trendy-form .form-control:focus {
+  background: white !important;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 4px rgba(37, 161, 148, 0.1) !important;
+  outline: none !important;
+}
+
+::ng-deep .trendy-form label {
+  font-weight: 600 !important;
+  color: #333 !important;
+  margin-bottom: 0.6rem !important;
+  display: block !important;
+}
+
+::ng-deep .trendy-form .form-group {
+  margin-bottom: 1.5rem !important;
+}
+
+@media (max-width: 992px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .contact-info,
+  .form-card-section {
+    padding: 2rem;
+  }
+}

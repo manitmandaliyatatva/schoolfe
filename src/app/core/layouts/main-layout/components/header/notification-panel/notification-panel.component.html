@@ -1,0 +1,41 @@
+<mat-menu #notificationMenu="matMenu" class="notification-panel" xPosition="before" backdropClass="notif-backdrop">
+  <div class="panel-header" (click)="$event.stopPropagation()">
+    <span class="panel-title">{{ HEADER_CONST.NOTIFICATIONS }}</span>
+    <common-button [config]="markAllAsReadBtn()"></common-button>
+  </div>
+  
+  <div class="panel-list">
+    @for (notification of notificationService.notifications(); track notification.notificationId) {
+      <div class="notif-item" [class.unread]="!notification.isRead" (click)="openNotificationDialog(notification)">
+        <div class="notif-card-body">
+          <div class="notif-card-header">
+            <div class="notif-title-wrapper">
+              @if (!notification.isRead) {
+                <span class="unread-glow-dot" title="Unread"></span>
+              }
+              <span class="notif-title">{{ notification.title || HEADER_CONST.NOTIFICATION }}</span>
+            </div>
+            <span class="time">{{ getTimeAgo(notification.createdOn) }}</span>
+          </div>
+          <div class="notif-desc">{{ notification.message }}</div>
+        </div>
+        
+        <div class="notif-actions-drawer" (click)="$event.stopPropagation()">
+          @if (!notification.isRead) {
+            <button class="action-btn read-btn" (click)="markAsRead(notification, $event)" title="Mark as Read">
+              <mat-icon>done</mat-icon>
+            </button>
+          }
+          <button class="action-btn view-btn" (click)="viewDetails(notification, $event)" title="View Details">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <mat-icon>notifications_off</mat-icon>
+        <span>{{ HEADER_CONST.NO_NEW_NOTIFICATIONS }}</span>
+      </div>
+    }
+  </div>
+</mat-menu>

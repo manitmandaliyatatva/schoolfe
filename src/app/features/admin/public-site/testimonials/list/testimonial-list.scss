@@ -1,0 +1,13 @@
+.quote-text {
+  height: 18px;
+  width: 240px;
+  -webkit-line-clamp: 5; // number of lines
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  line-height: 12px;
+  max-height: 100px;
+  white-space: nowrap;
+}

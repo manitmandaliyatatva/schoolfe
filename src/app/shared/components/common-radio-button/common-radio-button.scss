@@ -1,0 +1,21 @@
+.common-radio-button {
+  display: grid;
+  gap: 0.5rem;
+}
+
+
+mat-radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
+mat-radio-group.vertical {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+mat-radio-group.horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}

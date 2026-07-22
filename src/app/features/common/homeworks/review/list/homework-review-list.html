@@ -1,0 +1,19 @@
+<section class="configuration-screen-layout">
+    @if (gridConfig && permission().canList) {
+  <div class="configuration-grid-card">
+    <common-data-grid [config]="gridConfig"></common-data-grid>
+  </div>
+  }
+</section>
+
+<ng-template #submittedToReviewCell let-row="row">
+  {{ row.submittedCount ?? 0 }} / {{ row.totalStudents ?? 0 }}
+</ng-template>
+
+<ng-template #reviewedCell let-row="row">
+  {{ row.reviewedCount ?? 0 }} / {{ row.submittedCount ?? 0 }}
+</ng-template>
+
+<ng-template #classSectionCellTemplate let-row="row">
+  {{ row.className }} ({{ row.sectionName }})
+</ng-template>

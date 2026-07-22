@@ -1,0 +1,28 @@
+.common-datepicker-host {
+  display: block;
+  
+  input[readonly] {
+    cursor: pointer !important;
+  }
+}
+
+// Styling for the custom multiselect calendar inside mat-menu
+.multi-datepicker-menu {
+  max-width: none !important;
+  width: 296px !important;
+  background-color: var(--white, #fff) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15) !important;
+  padding: 8px !important;
+  overflow: hidden !important;
+
+  // Modern angular material custom classes mapping
+  .mat-calendar-body-cell.selected-date-cell {
+    .mat-calendar-body-cell-content {
+      background-color: var(--primary-color, #25A194) !important;
+      color: white !important;
+      border-radius: 50% !important;
+      font-weight: bold;
+    }
+  }
+}

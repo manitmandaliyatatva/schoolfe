@@ -1,0 +1,169 @@
+@use "../../../../../assets/style/variables.scss" as *;
+
+/* ── Action Header (Search & Refresh) ── */
+.action-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  .action-header-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    max-width: 320px;
+  }
+
+  .action-header-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  common-search-input {
+    width: 100%;
+    max-width: 100%;
+  }
+
+}
+
+/* ── Subjects Cards Responsive Grid ── */
+.subjects-cards-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Subject Card Premium Styling ── */
+.subject-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.45) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 22px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  box-sizing: border-box;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+    border-color: rgba(59, 130, 246, 0.3);
+
+    &::before {
+      background: #cbd5e1;
+    }
+  }
+
+  /* Left accent gradient border */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+    border-radius: 20px 0 0 20px;
+  }
+}
+
+.subject-card-icon-box {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
+
+  .inner-icon {
+    font-size: 22px;
+    font-weight: 800;
+    color: #2563eb;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.subject-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.subject-card-name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.35;
+}
+
+.subject-card-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  background: #f1f5f9;
+  padding: 3px 8px;
+  border-radius: 6px;
+  width: fit-content;
+
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #94a3b8;
+  }
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: #888;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    color: #ccc;
+  }
+
+  p {
+    font-size: 16px;
+    margin: 0;
+  }
+}

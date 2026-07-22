@@ -1,0 +1,12 @@
+.quote-text {
+    /* height: 0; */
+    width: 350px;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    margin: 0 5px 0 5px;
+    /* text-align: center; */
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: break-spaces;
+}

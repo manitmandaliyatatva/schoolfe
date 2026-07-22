@@ -1,0 +1,147 @@
+<section class="configuration-screen-layout">
+  <!-- Page Header Actions -->
+  <div class="breadcrumb-back-btn">
+    <common-button [config]="backBtnConfig()"></common-button>
+    @if (isPublishBtnVisible() && !isExamPublished()) {
+    <common-button [config]="publishBtnConfig()"></common-button>
+    }
+  </div>
+
+  <!-- Top Filters Card -->
+  <div class="marks-filter-card">
+    <div class="header-container w-100">
+      <!-- Left Info: Exam Group Details -->
+      <div class="exam-group-meta-container">
+        <div class="meta-item exam-item">
+          <div class="meta-icon-wrapper exam-icon">
+            <mat-icon class="meta-icon">assignment</mat-icon>
+          </div>
+          <div class="meta-content">
+            <span class="meta-label">{{ marksConst.EXAM_GROUP }}</span>
+            <span class="meta-value">{{ examGroupStore.data()?.examGroupName || detailsStore.data()?.examGroupName ||
+              '-' }}</span>
+          </div>
+        </div>
+        @if (examGroupStore.data()?.examGroupStartDate) {
+        <div class="meta-item date-item">
+          <div class="meta-icon-wrapper date-icon">
+            <mat-icon class="meta-icon">calendar_today</mat-icon>
+          </div>
+          <div class="meta-content">
+            <span class="meta-label">{{ systemConst.LABELS.COMMON.DATE }}</span>
+            <span class="meta-value dates-highlight">
+              {{ examGroupStore.data()!.examGroupStartDate | date: commonDateFormat.DDMMMYYYY_WithComma }} - {{
+              examGroupStore.data()!.examGroupEndDate | date: commonDateFormat.DDMMMYYYY_WithComma }}
+            </span>
+          </div>
+        </div>
+        }
+        @if (isExamPublished()) {
+        <div class="meta-item">
+          <div class="published-badge">
+            <span class="published-badge__check">
+              <mat-icon>check</mat-icon>
+            </span>
+            <span class="published-badge__text">{{ marksConst.PUBLISHED }}</span>
+          </div>
+        </div>
+        }
+      </div>
+
+      <!-- Right Selector: Section Dropdown -->
+      <div class="section-dropdown-container" [formGroup]="filterForm">
+        <app-common-dropdown [config]="classSectionDropdownConfig()"></app-common-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <!-- Students Data Grid -->
+  @if (gridConfig()) {
+  <div class="configuration-grid-card">
+    <common-data-grid [config]="gridConfig()!"></common-data-grid>
+  </div>
+  } @else {
+  <div class="no-records-container">
+    <mat-icon class="no-records-icon">info</mat-icon>
+    <p>{{ marksConst.NO_STUDENTS_FOUND }}</p>
+  </div>
+  }
+
+
+</section>
+
+<!-- Student Name Cell Template -->
+<ng-template #studentNameCell let-row="row">
+  <div class="user-profile-cell">
+    <app-safe-image class="user-profile-cell__avatar" [config]="{ src: row.photo, alt: row.fullName + ' photo' }">
+    </app-safe-image>
+    <div class="user-profile-cell__details">
+      <div class="user-profile-cell__name">{{ row.fullName || '-' }}</div>
+      <div class="user-profile-cell__info">{{ marksConst.ROLL_NO }}: {{ row.rollNumber ?? '-' }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Subject Mark Cell Template -->
+<ng-template #subjectMarkCell let-row="row" let-column="column">
+  <ng-container *ngIf="getExamMark(row, column.field) as mark; else noMarkTemplate">
+    @if (mark.isAbsent) {
+    <span class="result-chip absent" [matTooltip]="getEvaluatedTooltip(mark)"
+      [matTooltipDisabled]="!mark.lastEvaluatedName && !mark.lastEvaluatedDate && !mark.remarks">{{ marksConst.ABSENT
+      }}</span>
+    } @else if (mark.obtainedMarks !== null && mark.obtainedMarks !== undefined) {
+    <div class="marks-display-cell" [matTooltip]="getEvaluatedTooltip(mark)"
+      [matTooltipDisabled]="!mark.lastEvaluatedName && !mark.lastEvaluatedDate && !mark.remarks">
+      <span class="obtained-marks-text" [class.fail-text]="mark.obtainedMarks < mark.passingMarks">
+        {{ mark.obtainedMarks }} ({{ mark.grade }})
+      </span>
+    </div>
+    } @else {
+    <span class="no-marks">-</span>
+    }
+  </ng-container>
+  <ng-template #noMarkTemplate>
+    <span class="no-marks">-</span>
+  </ng-template>
+</ng-template>
+
+<!-- Overall Summary Cell Template -->
+<ng-template #overallSummaryCell let-row="row">
+  <ng-container *ngIf="getStudentSummary(row) as summary; else noSummaryTemplate">
+    <div class="summary-display-cell">
+      @if (summary.result !== marksConst.ABSENT) {
+      <div class="summary-marks-row">
+        <span class="summary-val" [class.fail-text]="summary.hasFailed">{{ summary.text }}</span>
+      </div>
+      } @else {
+      <span class="no-marks">-</span>
+      }
+    </div>
+  </ng-container>
+  <ng-template #noSummaryTemplate>
+    <span class="no-marks">-</span>
+  </ng-template>
+</ng-template>
+
+<!-- Percentage & Grade Cell Template -->
+<ng-template #percentageGradeCell let-row="row">
+  <ng-container *ngIf="getStudentSummary(row) as summary; else noSummaryTemplate">
+    <div class="summary-display-cell">
+      @if (summary.percentage !== null) {
+      <div class="summary-percentage-row">
+        <span class="result-chip" [class.pass]="summary.result === marksConst.PASS"
+          [class.fail]="summary.result === marksConst.FAIL">
+          {{ summary.percentage }}% ({{ summary.grade }})
+        </span>
+      </div>
+      } @else if (summary.result === marksConst.ABSENT) {
+      <span class="result-chip absent">{{ marksConst.ABSENT }}</span>
+      } @else {
+      <span class="no-marks">-</span>
+      }
+    </div>
+  </ng-container>
+  <ng-template #noSummaryTemplate>
+    <span class="no-marks">-</span>
+  </ng-template>
+</ng-template>

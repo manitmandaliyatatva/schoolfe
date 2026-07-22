@@ -1,0 +1,18 @@
+<section class="configuration-screen-layout">
+  <mat-tab-group [selectedIndex]="selectedTab()" (selectedIndexChange)="onTabChange($event)" dynamicHeight mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" [disableRipple]="true">
+    <mat-tab label="Page">
+      @if (gridConfig && selectedTab() === 0) {
+        <div class="configuration-grid-card">
+          <common-data-grid [config]="gridConfig"></common-data-grid>
+        </div>
+      }
+    </mat-tab>
+    <mat-tab label="Action">
+      @if (gridConfig && selectedTab() === 1) {
+        <div class="configuration-grid-card">
+          <common-data-grid [config]="gridConfig"></common-data-grid>
+        </div>
+      }
+    </mat-tab>
+  </mat-tab-group>
+</section>

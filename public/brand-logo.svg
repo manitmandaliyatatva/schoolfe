@@ -1,0 +1,53 @@
+<svg width="2000" height="2000" viewBox="0 0 2000 2000" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Outer Circle -->
+  <circle cx="1000" cy="850" r="600"
+          stroke="#284458"
+          stroke-width="20"
+          fill="none"/>
+
+  <!-- Logo Group -->
+  <g>
+
+    <!-- Sun Rays -->
+    <path d="M1000 400L1000 460M1120 440L1080 500M1220 560L1150 600M1280 750L1200 750M880 440L920 500M780 560L850 600M720 750L800 750"
+          stroke="#F99D1C"
+          stroke-width="18"
+          stroke-linecap="round"/>
+
+    <!-- Sun -->
+    <circle cx="1000" cy="700" r="140" fill="#F99D1C" />
+
+    <!-- Book -->
+    <path d="M1000 900C700 900 500 750 500 750L600 1000C600 1000 800 1150 1000 1150C1200 1150 1400 1000 1400 1000L1500 750C1500 750 1300 900 1000 900Z"
+          fill="#2D9F8E" />
+    <path d="M1000 1000C800 1000 600 900 600 900L700 1100C700 1100 850 1200 1000 1200C1150 1200 1300 1100 1300 1100L1400 900C1400 900 1200 1000 1000 1000Z"
+          fill="#258476" />
+
+    <!-- Network -->
+    <!-- Network (FIXED - moved up) -->
+    <circle cx="1000" cy="1150" r="35" fill="#2D9F8E" />
+
+    <path d="M900 1230L960 1170M1100 1230L1040 1170M1000 1300V1170"
+          stroke="#2D9F8E"
+          stroke-width="20"
+          stroke-linecap="round"/>
+
+    <circle cx="900" cy="1280" r="28" fill="#2D9F8E" />
+    <circle cx="1100" cy="1280" r="28" fill="#2D9F8E" />
+    <circle cx="1000" cy="1350" r="28" fill="#2D9F8E" />
+
+  </g>
+
+  <!-- TEXT -->
+  <text x="1000" y="1750"
+        text-anchor="middle"
+        font-family="Arial, sans-serif"
+        font-weight="700"
+        font-size="180"
+        fill="#284458"
+        letter-spacing="8">
+    SHIKSHA HUB
+  </text>
+
+</svg>

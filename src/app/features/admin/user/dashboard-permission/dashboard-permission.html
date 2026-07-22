@@ -1,0 +1,62 @@
+<section class="dashboard-permission-page">
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <form [formGroup]="form" class="filter-form">
+            <!-- User Type -->
+            <div class="filter-field">
+                <app-common-dropdown [config]="userTypeDropdownConfig()">
+                </app-common-dropdown>
+            </div>
+
+            <!-- Role -->
+            <div class="filter-field">
+                <app-common-dropdown [config]="roleDropdownConfig()">
+                </app-common-dropdown>
+            </div>
+        </form>
+    </div>
+
+    <!-- Permissions Card -->
+    <div class="permissions-card">
+        <div class="card-header d-flex justify-content-between align-items-center" *ngIf="form.get('roleId')?.value && hasDashboardCanList()">
+            <h5 class="card-title">Dashboard Permissions</h5>
+            <mat-slide-toggle [checked]="isAllEnabled()" (change)="toggleAll($event.checked)" color="primary">Enable All</mat-slide-toggle>
+        </div>
+
+        <div class="card-body" *ngIf="form.get('roleId')?.value && hasDashboardCanList()">
+            <form [formGroup]="form" (ngSubmit)="onSave()">
+                <div formGroupName="widgets" class="widget-grid">
+                    @for (widget of availableWidgets(); track widget.key) {
+                    <div class="widget-item">
+                        <div class="widget-icon">
+                            <mat-icon>{{ widget.icon }}</mat-icon>
+                        </div>
+                        <div class="widget-info">
+                            <h6 class="widget-name">{{ widget.label }}</h6>
+                        </div>
+                        <mat-slide-toggle [formControlName]="widget.key" color="primary"></mat-slide-toggle>
+                    </div>
+                    }
+                </div>
+
+                <div class="footer-actions">
+                    <common-button [config]="saveButtonConfig()"></common-button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Empty State (No Role Selected) -->
+        <div class="empty-state" *ngIf="!form.get('roleId')?.value">
+            <mat-icon>lock_open</mat-icon>
+            <p class="empty-title">No Role Selected</p>
+            <p class="empty-desc">Please select a User Type and Role to manage global dashboard chart permissions.</p>
+        </div>
+
+        <!-- No Permission State -->
+        <div class="empty-state" *ngIf="form.get('roleId')?.value && !hasDashboardCanList()">
+            <mat-icon>block</mat-icon>
+            <p class="empty-title">No Permission</p>
+            <p class="empty-desc">The selected role does not have permission to list/view the Dashboard.</p>
+        </div>
+    </div>
+</section>

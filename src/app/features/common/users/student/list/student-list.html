@@ -1,0 +1,18 @@
+<section class="configuration-screen-layout">
+  @if (gridConfig && this.permission().canList) {
+    <div class="configuration-grid-card">
+      <common-data-grid [config]="gridConfig"></common-data-grid>
+    </div>
+  }
+</section>
+
+<ng-template #studentNameCell let-row="row">
+  <div class="user-profile-cell">
+    <app-safe-image class="user-profile-cell__avatar" [config]="{ src: row.photo, alt: (row.fullName) + ' photo', userName: row.fullName }">
+    </app-safe-image>
+    <div class="user-profile-cell__details">
+      <div class="user-profile-cell__name">{{ row.fullName || '-' }}</div>
+      <div class="user-profile-cell__info">Roll No: {{ row.rollNumber ?? '-' }}</div>
+    </div>
+  </div>
+</ng-template>

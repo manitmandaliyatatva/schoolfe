@@ -1,0 +1,217 @@
+@use '../../../../../assets/style/variables.scss' as *;
+
+.classmates-container {
+  padding: 12px;
+}
+
+.action-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  .action-header-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    max-width: 320px;
+  }
+
+  .action-header-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  common-search-input {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.classmate-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.classmate-card-wrapper {
+  display: block;
+  height: 100%;
+  container-type: inline-size;
+}
+
+.classmate-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.4) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 20px;
+  gap: 16px;
+  border: none;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  height: 100%;
+  box-sizing: border-box;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  }
+
+  .gender-tab {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 0 24px 0 12px;
+    padding: 6px 16px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.05);
+
+    &.male {
+      background: #e6f2fe;
+      color: #0284c7;
+    }
+
+    &.female {
+      background: #fdf2f8;
+      color: #db2777;
+    }
+
+    &.other {
+      background: #fff8e1;
+      color: #ff9b00;
+    }
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+
+    .classmate-avatar-wrapper {
+      width: 56px;
+      height: 56px;
+      background: #e6f6f4;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+
+      .classmate-avatar {
+        width: 100%;
+        height: 100%;
+        display: block;
+
+        ::ng-deep img {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important;
+          border-radius: 16px !important;
+        }
+      }
+    }
+
+    .classmate-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+
+      .classmate-name {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #0f172a;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        line-height: 1.3;
+      }
+
+      .classmate-roll-no {
+        font-size: 13px;
+        color: #64748b;
+        margin-top: 4px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  &__bottom {
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 12px;
+
+    .detail-row {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: 16px;
+      row-gap: 8px;
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 400;
+      white-space: nowrap;
+
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: #94a3b8;
+      }
+    }
+  }
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: #888;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    color: #ccc;
+  }
+
+  p {
+    font-size: 16px;
+    margin: 0;
+  }
+}
+
+.scroll-sentinel {
+  grid-column: 1 / -1;
+  height: 1px;
+}

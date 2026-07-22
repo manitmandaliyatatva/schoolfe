@@ -1,0 +1,11 @@
+<div class="p-3">
+  <ng-template #statusTemplate let-row="row">
+    <app-status-chip [config]="{ value: () => row.isActive && !row.isDeleted }" />
+  </ng-template>
+
+  <div class="page-header configuration-screen-header mb-3 d-flex justify-content-end">
+    <common-button [config]="addBtn()"></common-button>
+  </div>
+
+  <common-data-grid [config]="guardianGridConfig"></common-data-grid>
+</div>

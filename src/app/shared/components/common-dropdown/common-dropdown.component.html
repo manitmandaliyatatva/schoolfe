@@ -1,0 +1,132 @@
+@if (isFormReady()) {
+    @if (isLoaded()) {
+        <form [formGroup]="parentFormGroup()!">
+            @if (!floatLabel) {
+                <label class="form-field-label" [ngClass]="{'has-error': isError}">
+                    {{ config().label }}{{ isRequired() ? ' *' : '' }}
+                </label>
+            }
+
+            <ng-template
+                [ngIf]="isAllowMultiple"
+                [ngIfThen]="multiSelectDropdown"
+                [ngIfElse]="dropdown">
+            </ng-template>
+
+            <ng-template #dropdown>
+                <mat-form-field class="w-100 custom-form-field" [class.has-error]="isError" [appearance]="appearance" subscriptSizing="dynamic"
+                    [hideRequiredMarker]="!config().label">
+                    <mat-label *ngIf="floatLabel">{{ config().label }}</mat-label>
+                    <mat-select
+                        #select
+                        [id]="id"
+                        [formControlName]="formControlName"
+                        [disabled]="isDisabled()"
+                        (openedChange)="onDropdownOpened($event)"
+                        (selectionChange)="selectionChange()">
+
+                        <mat-option *ngIf="isAllowSearching">
+                            <ngx-mat-select-search
+                                [formControl]="dropdownSearchCtrl"
+                                [placeholderLabel]="searchPlaceholderLabel"
+                                [noEntriesFoundLabel]="''"
+                                [hideClearSearchButton]="hideClearSearchButton()">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        @for (option of dropDownOptions(); track option.value) {
+                            <mat-option
+                                [value]="option.value"
+                                [ngStyle]="{ display: option.hidden ? 'none' : '' }">
+                                {{ option.text }}
+                            </mat-option>
+                        }
+
+                        <mat-option
+                            *ngIf="noMoreData && !isLoading()"
+                            [disabled]="true">
+                            No Data Found
+                        </mat-option>
+
+                        <div *ngIf="isLoading()">
+                            <mat-spinner diameter="25"></mat-spinner>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
+                <!-- ✅ errorConfig called with () -->
+                <common-error [config]="errorConfig()"></common-error>
+            </ng-template>
+
+            <ng-template #multiSelectDropdown>
+                <mat-form-field class="w-100 custom-form-field" [class.has-error]="isError" [appearance]="appearance" subscriptSizing="dynamic"
+                    [hideRequiredMarker]="!config().label">
+                    <mat-label *ngIf="floatLabel">{{ config().label }}</mat-label>
+                    <mat-select
+                        #select
+                        [id]="id"
+                        [formControlName]="formControlName"
+                        [disabled]="isDisabled()"
+                        multiple
+                        (openedChange)="onDropdownOpened($event)"
+                        (selectionChange)="optionClick()">
+
+                        <mat-option *ngIf="isAllowSearching">
+                            <ngx-mat-select-search
+                                [formControl]="dropdownSearchCtrl"
+                                [placeholderLabel]="searchPlaceholderLabel"
+                                [noEntriesFoundLabel]="''"
+                                [hideClearSearchButton]="hideClearSearchButton()"
+                                [showToggleAllCheckbox]="showToggleAllCheckbox"
+                                [toggleAllCheckboxChecked]="isChecked()"
+                                [toggleAllCheckboxIndeterminate]="isIndeterminate()"
+                                (toggleAll)="toggleSelectAll($event)">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        @if (enableSelectAllOption) {
+                            <div class="select-all-container">
+                                <mat-checkbox
+                                    color="primary"
+                                    [checked]="isAllSelected()"
+                                    (change)="onSelectAllOptionClick($event.checked)"
+                                    (click)="$event.stopPropagation()">
+                                    {{ selectAllOptionLabel }}
+                                </mat-checkbox>
+                            </div>
+                        }
+
+                        @if(dropDownOptions()){
+                            @for (option of dropDownOptions(); track option.value) {
+                                <mat-option
+                                    [value]="option.value"
+                                    [ngStyle]="{ display: option.hidden ? 'none' : '' }">
+                                    {{ option.text }}
+                                </mat-option>
+                            }
+                        }@if(dropDownOption) {
+                            @for (option of dropDownOption; track option.value) {
+                                <mat-option
+                                    [value]="option.value"
+                                    [ngStyle]="{ display: option.hidden ? 'none' : '' }">
+                                    {{ option.text }}
+                                </mat-option>
+                            }
+                        }
+
+                        <mat-option
+                            *ngIf="noMoreData && !isLoading()"
+                            [disabled]="true">
+                            No Data Found
+                        </mat-option>
+
+                        <div *ngIf="isLoading()">
+                            <mat-spinner diameter="25"></mat-spinner>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
+                <common-error [config]="errorConfig()"></common-error>
+            </ng-template>
+
+        </form>
+    }
+}

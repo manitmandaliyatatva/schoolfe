@@ -1,0 +1,10 @@
+<div class="form-card-section">
+  <form [formGroup]="form">
+    <common-dynamic-form [formControls]="formControls"></common-dynamic-form>
+
+    <div class="form-action-buttons">
+      <common-button [config]="cancelButtonConfig()"></common-button>
+      <common-button [config]="saveButtonConfig()"></common-button>
+    </div>
+  </form>
+</div>

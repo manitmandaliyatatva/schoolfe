@@ -1,0 +1,44 @@
+.adjustment-breakdown {
+  min-width: 400px;
+}
+
+.table {
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+thead th {
+  background-color: #fcefdc;
+  font-weight: 600;
+  color: #333;
+  padding: 12px;
+  border-bottom: 2px solid #eee;
+}
+
+tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  color: #555;
+}
+
+tfoot td {
+  padding: 12px;
+  border-top: 1px solid #333;
+  color: #000;
+}
+
+.text-start {
+  text-align: left;
+}
+
+.text-end {
+  text-align: right;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.w-100 {
+  width: 100%;
+}

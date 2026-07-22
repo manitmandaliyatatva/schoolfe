@@ -1,0 +1,16 @@
+.teacher-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__name {
+    font-weight: 500;
+  }
+}

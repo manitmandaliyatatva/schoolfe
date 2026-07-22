@@ -1,0 +1,144 @@
+@if (permission().canList) {
+  <div class="student-homework-dashboard">
+    
+    <!-- ── KPI Cards Strip ── -->
+    <div class="kpi-strip">
+      <ng-container [ngTemplateOutlet]="kpiCard" [ngTemplateOutletContext]="{ className: 'kpi-reviewed', icon: 'check_circle', label: homeworkConst.REVIEWED, count: reviewedCount() }"></ng-container>
+      <ng-container [ngTemplateOutlet]="kpiCard" [ngTemplateOutletContext]="{ className: 'kpi-pending', icon: 'schedule', label: homeworkConst.PENDING, count: pendingCount() }"></ng-container>
+      <ng-container [ngTemplateOutlet]="kpiCard" [ngTemplateOutletContext]="{ className: 'kpi-total', icon: 'assignment', label: homeworkConst.TOTAL_TASKS, count: totalTasksCount() }"></ng-container>
+    </div>
+
+    <!-- ── Action Header (Search & Filter) ── -->
+    <div class="action-header">
+      <div class="action-header-left">
+        <common-search-input [control]="searchControl"></common-search-input>
+      </div>
+      <div class="action-header-right">
+        <common-button [config]="refreshButtonConfig()"></common-button>
+        <common-button [config]="filterSidebar.toggleButtonConfig()"></common-button>
+      </div>
+    </div>
+
+    <!-- ── Homework Cards Grid ── -->
+    <div class="homework-cards-container">
+      @for (row of homeworks(); track row.homeworkId) {
+        <div class="homework-card">
+          <!-- Title on top (full width) -->
+          <div class="homework-card-title-row">
+            <h3 class="homework-title">{{ row.title }}</h3>
+          </div>
+
+          <!-- Content row below the title -->
+          <div class="homework-card-content-row">
+            <!-- Subject Icon -->
+            <div class="homework-icon-box">
+              <mat-icon>assignment</mat-icon>
+            </div>
+
+            <!-- Info Block -->
+            <div class="homework-info">
+              <div class="homework-meta">
+                <!-- Subject Badge -->
+                <span class="meta-badge">
+                  <mat-icon>menu_book</mat-icon>
+                  <span>{{ row.subjectName || 'GENERAL' }}</span>
+                </span>
+
+                <!-- Class indicator -->
+                <span class="meta-item">
+                  <mat-icon>meeting_room</mat-icon>
+                  <span>{{ row.classSectionName }}</span>
+                </span>
+
+                <!-- Teacher indicator -->
+                <span class="meta-item">
+                  <mat-icon>person</mat-icon>
+                  <span>{{ row.assignedByUserName }}</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- Status & Actions Block -->
+            <div class="homework-status-block">
+              <!-- Status badge -->
+              <app-homework-status-chip [status]="row.studentHomeworkStatus"></app-homework-status-chip>
+
+              <!-- Due date -->
+              <div class="due-date">
+                <mat-icon>calendar_month</mat-icon>
+                <span>{{ homeworkConst.DUE }} {{ row.dueDate | date:'dd/MM/yyyy' }}</span>
+              </div>
+
+              <!-- Actions trigger -->
+              <div class="card-actions">
+                <button mat-icon-button [matMenuTriggerFor]="actionMenu" class="action-btn" (click)="$event.stopPropagation()">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #actionMenu="matMenu" class="premium-menu">
+                  @if (!isPastAY && (!row.studentHomeworkStatus || row.studentHomeworkStatus == homeWorkStatus.pending || row.studentHomeworkStatus == homeWorkStatus.needsCorrection || row.studentHomeworkStatus == homeWorkStatus.rejected || row.studentHomeworkStatus == homeWorkStatus.submitted)) {
+                    <button mat-menu-item (click)="onSubmitAssignment(row)">
+                      <mat-icon class="action-menu-icon color-send">send</mat-icon>
+                      <span>{{ homeworkConst.SUBMISSION.DIALOG_TITLE }}</span>
+                    </button>
+                  }
+                  @if (row.studentHomeworkStatus == homeWorkStatus.reviewed || row.studentHomeworkStatus == homeWorkStatus.needsCorrection || row.studentHomeworkStatus == homeWorkStatus.rejected || (isPastAY && row.studentHomeworkStatus == homeWorkStatus.submitted)) {
+                    <button mat-menu-item (click)="onViewSubmission(row)">
+                      <mat-icon class="action-menu-icon color-view">visibility</mat-icon>
+                      <span>{{ homeworkConst.SUBMISSION.VIEW_BUTTON }}</span>
+                    </button>
+                  }
+                  @if (row.attachmentFilePath) {
+                    <button mat-menu-item (click)="onViewAttachmentClick(row)">
+                      <mat-icon class="action-menu-icon color-attachment">picture_as_pdf</mat-icon>
+                      <span>{{ homeworkConst.VIEW_ATTACHMENT }}</span>
+                    </button>
+                  }
+                </mat-menu>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (homeworks().length === 0 && !isLoading()) {
+        <div class="empty-state">
+          <mat-icon>inbox</mat-icon>
+          <p>No homeworks found</p>
+        </div>
+      }
+
+      <div appInfiniteScroll
+           [hasMore]="hasMore"
+           [isFetching]="isFetching"
+           (scrollEnd)="loadMore()"
+           class="scroll-sentinel">
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ── Filter Sidebar Drawer ── -->
+<app-filter-drawer
+  [isOpen]="filterSidebar.isOpen()"
+  [form]="filterForm"
+  [config]="filterConfig"
+  [resetBtnConfig]="filterSidebar.resetButtonConfig()"
+  [applyBtnConfig]="filterSidebar.applyButtonConfig()"
+  (close)="filterSidebar.close()">
+</app-filter-drawer>
+
+<!-- ═══════ KPI CARD ng-template ═══════ -->
+<ng-template #kpiCard let-className="className" let-icon="icon" let-label="label" let-count="count">
+  <div class="kpi-card" [ngClass]="className">
+    <div class="kpi-accent"></div>
+    <div class="kpi-body">
+      <div class="kpi-icon-wrap">
+        <mat-icon>{{ icon }}</mat-icon>
+      </div>
+      <div class="kpi-content">
+        <div class="kpi-label">{{ label }}</div>
+        <div class="kpi-number">{{ count }}</div>
+      </div>
+    </div>
+  </div>
+</ng-template>

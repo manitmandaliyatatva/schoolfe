@@ -1,0 +1,50 @@
+<div class="notice-dialog-header">
+    <h2 mat-dialog-title>{{DASHBOARD_CONSTANTS.NOTICE.NOTICE_DETAILS}}</h2>
+    <button mat-icon-button mat-dialog-close (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content>
+    <!-- Priority badge -->
+    @if (notice?.isImportant) {
+    <span class="badge-important">{{DASHBOARD_CONSTANTS.NOTICE.IMPORTANT}}</span>
+    }
+
+    <!-- Title & Publish Date -->
+    <div class="notice-dialog-grid">
+      <div class="notice-field">
+        <span class="field-label">{{DASHBOARD_CONSTANTS.NOTICE.TITLE}}</span>
+        <span class="field-value">{{ notice?.title }}</span>
+      </div>
+      <div class="notice-field">
+        <span class="field-label">{{DASHBOARD_CONSTANTS.NOTICE.PUBLISH_DATE}}</span>
+        <span class="field-value">{{ notice?.publishDate | date:'dd/MM/yyyy' }}</span>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="notice-dialog-grid">
+      <div class="notice-field">
+        <span class="field-label">{{DASHBOARD_CONSTANTS.NOTICE.DESCRIPTION}}</span>
+        <span class="field-value">{{ notice?.description ?? '-' }}</span>
+      </div>
+      @if (notice?.expiryDate) {
+      <div class="notice-field">
+        <span class="field-label">{{DASHBOARD_CONSTANTS.NOTICE.EXPIRY_DATE}}</span>
+        <span class="field-value">{{ notice?.expiryDate | date:'dd/MM/yyyy' }}</span>
+      </div>
+      }
+    </div>
+    @if (notice?.attachmentFileName) {
+    <div class="notice-field">
+      <span class="field-label">{{DASHBOARD_CONSTANTS.NOTICE.ATTACHMENT}}</span>
+      <div class="attachment-row">
+        <span class="attachment-name">{{ notice?.attachmentFileName }}</span>
+        <button *ngIf="permission().canDownload" mat-icon-button (click)="viewNoticeDocument(notice!)" matTooltip="Preview">
+          <mat-icon class="attach-icon preview">visibility</mat-icon>
+        </button>
+      </div>
+    </div>
+    }
+  </mat-dialog-content>

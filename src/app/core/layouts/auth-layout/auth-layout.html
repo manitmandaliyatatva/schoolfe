@@ -1,0 +1,21 @@
+<div class="login-page">
+  <div class="auth-shell">
+    <section class="visual-panel">
+      <div class="visual-art">
+        <img [src]="authIllustration()" alt="Authentication artwork" />
+      </div>
+    </section>
+
+    <section class="content-panel">
+      <div class="logo-wrap">
+        <img [src]="publicStore.logo()" alt="Brand Logo" />
+        <p >{{publicStore.schoolName()}}</p>
+
+      </div>
+
+      <div class="form-wrap">
+        <router-outlet></router-outlet>
+      </div>
+    </section>
+  </div>
+</div>

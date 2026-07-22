@@ -1,0 +1,301 @@
+@if (isFilterEnabled()) {
+  <app-filter-drawer
+    [isOpen]="isFilterSidebarOpen()"
+    [title]="filterTitle()"
+    [form]="filterForm()"
+    [config]="filterFeatureConfig()!.form"
+    [resetBtnConfig]="filterResetButtonConfig()"
+    [applyBtnConfig]="filterApplyButtonConfig()"
+    (close)="onFilterOverlayBackdropClick()">
+  </app-filter-drawer>
+}
+
+
+<div class="common-data-grid-wrap" [id]="gridId()">
+  @if (isSearchEnabled() || isFilterToggleButtonVisible() || hasToolbarButtons() || hasAddButton()) {
+  <div class="common-data-grid-search-wrap">
+    <div class="grid-toolbar-left">
+      @if (isSearchEnabled()) {
+      <mat-form-field appearance="outline" class="common-data-grid-search-field">
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+          matInput
+          [placeholder]="searchPlaceholder()"
+          [ngModel]="searchText()"
+          (ngModelChange)="onSearchTextChange($event)"
+        />
+      </mat-form-field>
+      }
+    </div>
+
+    <div class="grid-toolbar-right">
+      @if (isRefreshButtonEnabled()) {
+        <common-button [config]="refreshButtonConfig()"></common-button>
+      }
+      @for (buttonConfig of toolbarButtons(); track $index) {
+        <common-button [config]="buttonConfig"></common-button>
+      }
+      @if (isFilterToggleButtonVisible()) {
+      <common-button [config]="filterToggleButtonConfig()"></common-button>
+      }
+      @if (hasAddButton()) {
+        <common-button [config]="addButtonConfig()!"></common-button>
+      }
+    </div>
+  </div>
+  }
+
+  @if (hasAppliedFilterChips()) {
+  <div class="grid-filter-chip-wrap">
+    @for (chip of appliedFilterChips(); track chip.formControlName) {
+    <div class="grid-filter-chip">
+      <span>{{ chip.label }}: <b>{{ chip.value }}</b></span>
+      <button type="button" (click)="removeFilterChip(chip)">
+        <mat-icon class="chip-remove-icon">close</mat-icon>
+      </button>
+    </div>
+    }
+    @if (canClearAllFilterChips()) {
+    <button type="button" class="grid-filter-clear-all-btn" (click)="clearAllFilterChips()">
+      {{SYSTEM_CONST.ACTION_BUTTONS.CLEAR_ALL}}
+    </button>
+    }
+  </div>
+  }
+
+  @if (featuresConfig()?.customViewTemplate) {
+    <div class="common-data-grid-cards-wrap">
+      <div class="common-data-grid-cards-container">
+        @for (row of pagedData(); track $index) {
+          <ng-container [ngTemplateOutlet]="featuresConfig()!.customViewTemplate!" [ngTemplateOutletContext]="{ $implicit: row }" />
+        }
+      </div>
+      @if (totalRecords() === 0) {
+        <div class="no-records-card-state">
+          @if (loading()) {
+            Loading...
+          } @else {
+            No records found.
+          }
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="common-data-grid-table-wrap">
+      <table mat-table [dataSource]="tableDataSource()" class="common-data-grid-table" matSort
+        (matSortChange)="onSortChange($event)"
+        cdkDropList
+        [cdkDropListDisabled]="!featuresConfig()?.enableDragAndDrop"
+        (cdkDropListDropped)="onRowDropped($event)">
+        @if (isCheckboxEnabled()) {
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef style="width: 48px">
+              <mat-checkbox #masterCheckbox color="primary" *ngIf="isMasterCheckboxEnabled()"
+                (click)="onMasterCheckboxSelection()"></mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row; let rowIndex = index" style="width: 48px">
+              <mat-checkbox *ngIf="isCheckboxVisible(row)" color="primary" [disabled]="isCheckboxDisabled(row)"
+                (click)="onSelection(row);$event.stopPropagation()" [checked]="isDataSelected(row)"></mat-checkbox>
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+        }
+
+        @if (featuresConfig()?.enableDragAndDrop) {
+          <ng-container matColumnDef="dragHandle">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+              <div class="drag-handle-wrap" cdkDragHandle>
+                <mat-icon class="drag-handle-icon text-muted">drag_indicator</mat-icon>
+              </div>
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+        }
+
+        @for (column of visibleColumns(); track column.field) {
+        <ng-container [matColumnDef]="getColumnKey(column)">
+          <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.isSortable ? getColumnKey(column) : ''"
+            [disabled]="!column.isSortable" [style.width]="getColumnWidth(column)"
+            [ngClass]="{
+              'text-center': column.alignment === 'center',
+              'text-end': column.alignment === 'right'
+            }">
+            <div class="grid-header-content" [ngClass]="{
+              'justify-content-center': column.alignment === 'center',
+              'justify-content-end': column.alignment === 'right'
+            }">
+              <span [innerHTML]="column.title"></span>
+              @if (column.isSortable) {
+              <span class="grid-sort-icon-wrap"
+                [class.sorted-asc]="columnSortDirection()[getColumnKey(column)] === 'asc'"
+                [class.sorted-desc]="columnSortDirection()[getColumnKey(column)] === 'desc'">
+                <span class="grid-sort-arrow arrow-up"></span>
+                <span class="grid-sort-arrow arrow-down"></span>
+              </span>
+              }
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let row; let rowIndex = index" [style.width]="getColumnWidth(column)"
+            [class.is-link-column]="isLinkColumn(column, row)" [ngStyle]="column?.cellStyle ? column.cellStyle(row) : null"
+            [ngClass]="{
+              'text-center': column.alignment === 'center',
+              'text-end': column.alignment === 'right'
+            }">
+            @if (isCustomTemplateColumn(column) && column.customRenderCell) {
+            <ng-container [ngTemplateOutlet]="column.customRenderCell" [ngTemplateOutletContext]="{
+                    $implicit: row,
+                    row: row,
+                    value: getCellValue(row, column),
+                    column: column,
+                    rowIndex: rowIndex
+                  }" />
+            } @else if (isDefaultStatusColumn(column)) {
+            <app-status-chip [config]="{ 
+                value: () => isStatusActive(row, column), 
+                activeText: column.statusConfig?.activeText, 
+                inactiveText: column.statusConfig?.inactiveText,
+                isHidden: () => isStatusHidden(row, column)
+              }" />
+            } @else if (isBooleanIconColumn(column)) {
+            <boolean-status [value]="!!getCellValue(row, column)" />
+            } @else if (isEditableColumn(column)) {
+            @if (isCheckboxEdit(column)) {
+            <mat-checkbox [ngModel]="!!getCellValue(row, column)" (change)="onEditCheckboxChange(column, row, $event)" />
+            } @else {
+            <input matInput [type]="isNumberEdit(column) ? 'number' : 'text'" [ngModel]="getCellValue(row, column)"
+              (ngModelChange)="onEditValueChange(column, row, $event)" />
+            }
+            } @else if (isLinkColumn(column, row)) {
+            <a class="common-grid-link" href="javascript:void(0)" (click)="onCellClick(column, row)">
+              {{ getDisplayValue(row, column) }}
+            </a>
+            } @else {
+            <div class="grid-cell-content" (click)="onCellClick(column, row)">
+              {{ getDisplayValue(row, column) }}
+            </div>
+            }
+          </td>
+        </ng-container>
+        }
+
+        @if (hasActionButtons()) {
+        <ng-container matColumnDef="__actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="grid-actions-wrap">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+              @for (button of config().actionButtons; track $index) {
+              @if (isActionButtonDisplayed(button, row)) {
+              <button mat-menu-item class="btn w-100 justify-content-start" type="button" [disabled]="isActionButtonDisabled(button, row)"
+                [matTooltip]="button.tooltipText || ''" (click)="onActionClick(button, row)">
+                @if (isImageIcon(button)) {
+                <img class="grid-action-icon" [src]="button.buttonIconUrl" [alt]="button.tooltipText || 'action'" />
+                } @else {
+                <mat-icon>{{ button.matIconName || 'more_vert' }}</mat-icon>
+                }
+                <span class="text-span">{{button.buttonText ? button.buttonText : ''}}</span>
+              </button>
+              }
+              }
+              </mat-menu>
+            </div>
+          </td>
+        </ng-container>
+        }
+
+        <ng-container matColumnDef="__fullWidth">
+          <td mat-cell *matCellDef="let row" [attr.colspan]="mergeColumnSpan()" class="full-width-cell">
+            @if (fullWidthRowTemplate()) {
+              <ng-container [ngTemplateOutlet]="fullWidthRowTemplate()!" [ngTemplateOutletContext]="{ $implicit: row }" />
+            }
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns()" [style.display]="isHeaderRowDisplayed() ? '' : 'none'">
+        </tr>
+
+        <tr mat-row *matRowDef="let row; columns: displayedColumns(); when: isRegularRow"
+          cdkDrag
+          [cdkDragDisabled]="!featuresConfig()?.enableDragAndDrop"
+          [cdkDragData]="row"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['__fullWidth']; when: isFullWidthRow"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns().length || 1">
+            @if (loading()) {
+            Loading...
+            } @else {
+            No records found.
+            }
+          </td>
+        </tr>
+      </table>
+    </div>
+  }
+
+  @if (isPaginationDisplayed()) {
+    <mat-paginator
+      class="grid-internal-paginator"
+      [length]="totalRecords()"
+      [pageIndex]="getCurrentPageIndex()"
+      [pageSize]="getPageSize()"
+      [pageSizeOptions]="pageSizeOptions()"
+      [showFirstLastButtons]="showFirstLastButtons()"
+      (page)="onPageChange($event)" />
+
+    <div class="common-data-grid-pagination">
+      <div class="pagination-left">
+        <span class="rows-per-page-label">Rows per page:</span>
+        <mat-form-field appearance="outline" class="rows-per-page-field">
+          <mat-select
+            [value]="getPageSize()"
+            panelClass="grid-page-size-panel"
+            (selectionChange)="onPageSizeSelect($event.value)">
+          @for (sizeOption of pageSizeOptions(); track sizeOption) {
+              <mat-option [value]="sizeOption">{{ sizeOption }}</mat-option>
+          }
+          </mat-select>
+        </mat-form-field>
+        <span class="rows-range-label">{{ currentRangeLabel() }}</span>
+      </div>
+
+      <div class="pagination-right">
+        @if (showFirstLastButtons()) {
+          <button
+            type="button"
+            class="page-nav-btn"
+            [disabled]="!canGoPrevious()"
+            (click)="goToFirstPage()"
+            aria-label="First page">
+            <mat-icon>keyboard_double_arrow_left</mat-icon>
+          </button>
+        }
+
+       @for (page of visiblePageNumbers(); track page) {
+        <button
+          type="button"
+          class="page-number-btn"
+          [class.active]="page === currentpageIndex()"
+          (click)="goToPage(page- 1)">
+          {{ page }}
+        </button>
+      }
+
+        @if (showFirstLastButtons()) {
+          <button
+            type="button"
+            class="page-nav-btn"
+            [disabled]="!canGoNext()"
+            (click)="goToLastPage()"
+            aria-label="Last page">
+            <mat-icon>keyboard_double_arrow_right</mat-icon>
+          </button>
+        }
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,111 @@
+<ng-container *ngIf="formGroup && config().formControlName; else fallbackInput">
+  <label *ngIf="!useFloatingLabel" class="form-field-label" [ngClass]="{ 'has-error': isError }">
+    {{ config().label }}{{ isRequired ? ' *' : '' }}
+  </label>
+
+  <ng-container *ngIf="config().multiple; else singleDatepicker">
+    <mat-form-field class="w-100 custom-form-field" [class.has-error]="isError"
+      [appearance]="config().appearance || 'outline'" [floatLabel]="config().isFloatLabel ? 'always' : 'auto'"
+      [id]="config().id || ''" subscriptSizing="dynamic">
+      <mat-label *ngIf="config().label && useFloatingLabel">
+        {{ config().label }}
+      </mat-label>
+
+      <input matInput [value]="formattedSelectedDates" [placeholder]="config().placeholder || ''"
+        [matMenuTriggerFor]="pickerMenu" #menuTrigger="matMenuTrigger" readonly />
+
+      <!-- Warning Info Button -->
+      <common-warning *ngIf="!control?.disabled" matSuffix [control]="control"
+        [getWarning]="config().getWarning"></common-warning>
+
+      <!-- Suffix icon toggles menu -->
+      <button matSuffix mat-icon-button type="button" [disabled]="control?.disabled"
+        (click)="menuTrigger.openMenu(); $event.stopPropagation()"
+        (mousedown)="$event.preventDefault(); $event.stopPropagation()">
+        <mat-icon>{{ toggleIcon }}</mat-icon>
+      </button>
+
+      <!-- Clear Button -->
+      <button matSuffix mat-icon-button
+        *ngIf="selectedDates.length && !control?.disabled && config().allowClear !== false" (click)="clearValue()"
+        matTooltip="Clear dates" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-menu #pickerMenu="matMenu" class="multi-datepicker-menu" panelClass="multi-datepicker-menu"
+      [hasBackdrop]="true" xPosition="after" yPosition="below">
+      <div (click)="$event.stopPropagation()">
+        <mat-calendar [minDate]="minDateMoment" [maxDate]="maxDateMoment" [dateFilter]="dateFilterFn()"
+          [dateClass]="dateClass" (selectedChange)="onMultiDateSelected($event)">
+        </mat-calendar>
+      </div>
+    </mat-menu>
+  </ng-container>
+    <mat-datepicker #picker [startView]="config().mode === 'year' ? 'multi-year' : 'month'" (yearSelected)="chosenYearHandler($event, picker)"></mat-datepicker>
+
+  <ng-template #singleDatepicker>
+    <mat-form-field class="w-100 custom-form-field" [class.has-error]="isError"
+      [appearance]="config().appearance || 'outline'" [floatLabel]="config().isFloatLabel ? 'always' : 'auto'"
+      [id]="config().id || ''" subscriptSizing="dynamic">
+      <mat-label *ngIf="config().label && useFloatingLabel">
+        {{ config().label }}
+      </mat-label>
+
+      <input matInput [matDatepicker]="picker" [formControlName]="config().formControlName"
+        [placeholder]="config().placeholder || ''" [min]="minDate" [max]="maxDate" [matDatepickerFilter]="dateFilterFn()"
+        (dateChange)="onDateChange($event.value)" (focus)="onFocus(picker)" (keydown.tab)="onTab(picker)" />
+
+      <!-- Warning Info Button -->
+      <common-warning *ngIf="!control?.disabled" matSuffix [control]="control"
+        [getWarning]="config().getWarning"></common-warning>
+
+      <!-- Toggle -->
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>
+          {{ toggleIcon }}
+        </mat-icon>
+      </mat-datepicker-toggle>
+
+      <!-- Clear Button -->
+      <button matSuffix mat-icon-button *ngIf="control?.value && !control?.disabled && config().allowClear !== false"
+        (click)="clearValue()" matTooltip="Clear date" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-hint align="start" *ngIf="config().hintText"><strong>{{ config().hintText }}</strong></mat-hint>
+    </mat-form-field>
+  </ng-template>
+  <common-error [config]="errorConfig()"></common-error>
+
+</ng-container>
+
+<!-- FALLBACK -->
+<ng-template #fallbackInput>
+  <label *ngIf="!useFloatingLabel" class="form-field-label" [ngClass]="{ 'has-error': isError }">
+    {{ config().label }}{{ isRequired ? ' *' : '' }}
+  </label>
+
+  <mat-form-field class="w-100 custom-form-field" [class.has-error]="isError"
+    [appearance]="config().appearance || 'outline'" [floatLabel]="config().isFloatLabel ? 'always' : 'auto'"
+    [id]="config().id || ''" subscriptSizing="dynamic">
+    <mat-label *ngIf="config().label && useFloatingLabel">
+      {{ config().label }}
+    </mat-label>
+
+    <input matInput [matDatepicker]="pickerFallback" [placeholder]="config().placeholder || ''" [min]="minDate"
+      [max]="maxDate" [matDatepickerFilter]="dateFilterFn()" (dateChange)="onDateChange($event.value)"
+      (focus)="onFocus(pickerFallback)" (keydown.tab)="onTab(pickerFallback)" />
+
+    <mat-datepicker-toggle matSuffix [for]="pickerFallback">
+      <mat-icon matDatepickerToggleIcon>
+        {{ toggleIcon }}
+      </mat-icon>
+    </mat-datepicker-toggle>
+
+    <mat-datepicker #pickerFallback [startView]="config().mode === 'year' ? 'multi-year' : 'month'" (yearSelected)="chosenYearHandler($event, pickerFallback)"></mat-datepicker>
+
+  </mat-form-field>
+
+</ng-template>

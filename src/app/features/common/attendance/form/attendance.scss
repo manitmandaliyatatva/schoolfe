@@ -1,0 +1,180 @@
+.container {
+  padding: 20px;
+}
+
+.summary {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+
+  .card {
+    flex: 1;
+    min-width: 150px;
+    height: 54px;
+    padding: 0 20px;
+    border-radius: 8px;
+    background-color: var(--pill-bg);
+    border: 1px solid color-mix(in srgb, var(--pill-color) 15%, transparent);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+    cursor: default;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    div {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: color-mix(in srgb, var(--pill-color) 90%, black);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 29px;
+      font-weight: 800;
+      color: color-mix(in srgb, var(--pill-color) 100%, black);
+      line-height: 1;
+    }
+  }
+}
+
+.mark-all-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.mark-all {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  margin-left: 10px;
+}
+
+.save-all {
+  margin-top: 16px;
+  display: flex;
+  justify-content: end;
+}
+
+
+.pill-radio {
+  ::ng-deep .mdc-form-field {
+    margin: 0;
+  }
+
+  ::ng-deep .mdc-label {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid #bdbdbd;
+    cursor: pointer;
+    font-size: 13px;
+    color: #616161;
+    transition: all 0.2s ease;
+  }
+
+  /* Hover effect */
+  &:hover ::ng-deep .mdc-label {
+    background-color: #f5f5f5;
+  }
+
+  /* Selected state */
+  &.mat-mdc-radio-checked ::ng-deep .mdc-label {
+    background-color: var(--primary-light, #25A194);
+    color: white;
+    border-color: var(--primary-light, #25A194);
+  }
+}
+
+.mark-all-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+
+  span {
+    font-weight: 500;
+    color: #424242;
+    white-space: nowrap;
+  }
+}
+
+/* Group Layout */
+.pill-radio-group {
+  display: flex;
+  gap: 12px;
+}
+
+/* Hide default radio circle */
+.pill-radio ::ng-deep .mdc-radio {
+  display: none;
+}
+
+/* Remove extra spacing */
+.pill-radio ::ng-deep .mdc-form-field {
+  margin: 0;
+}
+
+.pill-radio ::ng-deep .mdc-label {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 5px;
+  border: 2px solid color-mix(in srgb, var(--pill-color) 15%, transparent);
+  background-color: #fff;
+  color: var(--pill-color);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Hover - slight tint */
+.pill-radio:hover ::ng-deep .mdc-label {
+  background-color: color-mix(in srgb, var(--pill-bg) 100%, transparent);
+}
+
+/* Selected - fill background */
+.pill-radio.mat-mdc-radio-checked ::ng-deep .mdc-label {
+  background-color: color-mix(in srgb, var(--pill-color) 75%, transparent);
+  color: var(--pill-bg);
+  border-color: var(--pill-bg);
+  font-weight: 600;
+}
+
+/* Hide radio circle + ripple */
+.pill-radio ::ng-deep .mdc-radio,
+.pill-radio ::ng-deep .mat-ripple,
+.pill-radio ::ng-deep .mat-mdc-focus-indicator {
+  display: none;
+}
+
+.mat-mdc-mini-fab {
+  background: #fff;
+  color: var(--primary-color, #25A194);
+  box-shadow: none;
+}
+
+.remark-field {
+  width: 250px;
+  ::ng-deep {
+    .mdc-text-field--outlined {
+      min-height: 34px !important;
+      height: 34px !important;
+    }
+    .mat-mdc-form-field-infix {
+      min-height: 34px !important;
+    }
+  }
+}
+

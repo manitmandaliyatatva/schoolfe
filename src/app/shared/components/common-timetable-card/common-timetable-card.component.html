@@ -1,0 +1,33 @@
+<div class="timetable-card" [class.break-card]="data()?.isBreak" [class.holiday-card]="isHolidayCard()">
+  <div class="timetable-card__header" [ngClass]="headerClass()">
+    <span class="timetable-card__title" [matTooltip]="tooltipContent()" matTooltipClass="timetable-multiline-tooltip"
+      matTooltipPosition="below" matTooltipShowDelay="300">
+      {{ title() }}
+      <span>{{ data()?.subjectName }}</span>
+    </span>
+    @if (showActions()) {
+    <div class="timetable-card__action-wrap">
+      @if (canEdit()) {
+      <button mat-icon-button type="button" class="timetable-card__edit-btn" aria-label="Edit timetable"
+        (click)="onEditClick()">
+        <mat-icon>edit</mat-icon>
+      </button>
+      }
+      @if (canDelete()) {
+      <button mat-icon-button type="button" class="timetable-card__edit-btn" aria-label="Delete timetable"
+        (click)="onDeleteClick()">
+        <mat-icon>delete</mat-icon>
+      </button>
+      }
+    </div>
+    }
+    @if (showAddAction()) {
+    <div class="timetable-card__action-wrap">
+      <button mat-icon-button type="button" class="timetable-card__edit-btn" aria-label="Add timetable"
+        (click)="onAddClick()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    }
+  </div>
+</div>

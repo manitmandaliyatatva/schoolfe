@@ -1,0 +1,47 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="closeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2 class="modal-title">Admission Enquiry</h2>
+      <button class="close-btn" (click)="closeModal()">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+      <form class="enquiry-form">
+        <div class="form-group">
+          <label>Full Name*</label>
+          <input type="text" class="form-control" placeholder="Your full name" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Mobile Number*</label>
+          <input type="tel" class="form-control" placeholder="Your phone number" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Select Course*</label>
+          <select class="form-control" required>
+            <option value="">Select Course</option>
+            <option value="science">Science</option>
+            <option value="commerce">Commerce</option>
+            <option value="arts">Arts</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>State*</label>
+          <select class="form-control" required>
+            <option value="">Select State</option>
+            <option value="gujarat">Gujarat</option>
+            <option value="maharashtra">Maharashtra</option>
+            <option value="delhi">Delhi</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-actions text-center">
+          <button type="button" class="btn btn-secondary submit-btn">Apply Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

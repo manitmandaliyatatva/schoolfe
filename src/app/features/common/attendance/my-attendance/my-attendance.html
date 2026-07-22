@@ -1,0 +1,105 @@
+@if (permission().canList) {
+  <div class="attendance-dashboard">
+    <!-- ═══════ KPI CARDS ═══════ -->
+    <div class="kpi-strip">
+      @for (stat of dynamicStats(); track stat.code) {
+      <div class="kpi-card">
+        <div class="kpi-accent" [style.backgroundColor]="stat.color || '#000000'"></div>
+        <div class="kpi-body">
+          <div class="kpi-label">{{ stat.name }}</div>
+          <div class="kpi-number" [style.color]="stat.color || '#000000'">{{ stat.count }}</div>
+        </div>
+      </div>
+      }
+      <div class="kpi-card kpi-pending">
+        <div class="kpi-accent"></div>
+        <div class="kpi-body">
+          <div class="kpi-label">Pending</div>
+          <div class="kpi-number">{{ pendingCount() }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ MAIN GRID ═══════ -->
+    <div class="main-grid">
+
+      <!-- ── Calendar ── -->
+      <div class="panel calendar-panel">
+        <div class="panel-header">
+          <div class="cal-nav">
+            <button mat-icon-button (click)="previousMonth()" [disabled]="disablePreviousMonth()"><mat-icon>chevron_left</mat-icon></button>
+            <span class="panel-title clickable-title" (click)="picker.open()">
+              <mat-icon>calendar_month</mat-icon> {{ monthName() }} {{ selectedYear() }}
+            </span>
+            <input
+              [matDatepicker]="picker"
+              [value]="viewDate()"
+              [min]="calendarMinDate()"
+              [max]="calendarMaxDate()"
+              class="datepicker-input-hidden"
+            />
+            <mat-datepicker #picker startView="year" (monthSelected)="setMonthAndYear($event, picker)"></mat-datepicker>
+            <button mat-icon-button (click)="nextMonth()" [disabled]="disableNextMonth()"><mat-icon>chevron_right</mat-icon></button>
+          </div>
+          <span class="chip-light">{{ daysInMonth() }} days</span>
+        </div>
+
+        <div class="cal-grid">
+          <div class="cal-head" *ngFor="let d of weekDays">{{ d }}</div>
+
+          <div *ngFor="let c of calendarCells()"
+               class="cal-cell"
+               [class.empty]="c.isEmpty"
+               [class.weekend]="c.isWeekend"
+               [class.holiday-cell]="c.isHoliday"
+               [style.background]="c.bgTint"
+               [matTooltip]="c.remark"
+               [matTooltipDisabled]="!c.remark">
+            <ng-container *ngIf="!c.isEmpty">
+              <span class="cal-status" *ngIf="c.status && c.status !== 'PD' && c.status !== 'W'" 
+                    [style.color]="c.statusColor || null">{{ c.status }}</span>
+              <span class="cal-date" [style.color]="c.statusColor || null">{{ c.date }}</span>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="cal-legend">
+          @for (legend of calendarLegends(); track legend.name) {
+            <span class="leg"><span class="ldot" [style.backgroundColor]="legend.color || '#000000'"></span> {{ legend.name }}</span>
+          }
+        </div>
+      </div>
+
+      <!-- ── Right column ── -->
+      <div class="right-col">
+
+        <!-- Attendance Breakdown -->
+        <div class="panel">
+          <div class="panel-header bb">
+            <span class="panel-title"><mat-icon>bar_chart</mat-icon> Attendance breakdown</span>
+          </div>
+          <div class="breakdown-list">
+            @for (stat of dynamicStats(); track stat.code) {
+            <div class="bd-row">
+              <div class="bd-head">
+                <span class="bd-label"><span class="ldot" [style.backgroundColor]="stat.color || '#000000'"></span> {{ stat.name }}</span>
+                <span class="bd-val"><b>{{ stat.count }}</b> {{ stat.percentage }}%</span>
+              </div>
+              <mat-progress-bar mode="determinate" [value]="stat.percentage" class="bar-present" [style.--mdc-linear-progress-active-indicator-color]="stat.color || '#000000'"></mat-progress-bar>
+            </div>
+            }
+            <!-- Pending -->
+            <div class="bd-row">
+              <div class="bd-head">
+                <span class="bd-label"><span class="ldot" style="background:#9ca3af"></span> Pending</span>
+                <span class="bd-val"><b>{{ pendingCount() }}</b> {{ pendingPercentage() }}%</span>
+              </div>
+              <mat-progress-bar mode="determinate" [value]="pendingPercentage()" class="bar-pending"></mat-progress-bar>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+}

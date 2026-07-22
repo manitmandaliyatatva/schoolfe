@@ -1,0 +1,77 @@
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 80px;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  animation: chipFadeIn 220ms ease-out;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+  }
+
+  &.paid {
+    background: #f0fdf4;
+    color: #166534;
+    border-color: #dcfce7;
+  }
+
+  &.partial {
+    background: #fffbeb;
+    color: #92400e;
+    border-color: #fef3c7;
+  }
+
+  &.pending {
+    background: #fff7ed;
+    color: #9a3412;
+    border-color: #ffedd5;
+  }
+
+  &.overdue {
+    background: #fef2f2;
+    color: #991b1b;
+    border-color: #fee2e2;
+  }
+
+  &.unpaid {
+    background: #f8fafc;
+    color: #334155;
+    border-color: #e2e8f0;
+  }
+
+  &.late-paid {
+    background: #f5f3ff;
+    color: #5b21b6;
+    border-color: #ddd6fe;
+  }
+
+  &.default {
+    background: #f9fafb;
+    color: #374151;
+    border-color: #f3f4f6;
+  }
+}
+
+@keyframes chipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-badge {
+    animation: none;
+    transition: none;
+  }
+}

@@ -1,0 +1,163 @@
+<section class="configuration-screen-layout">
+  <!-- Top Filters Card -->
+  <div class="marks-filter-card" [formGroup]="filterForm">
+    <div class="row w-100 align-items-center">
+      <div class="col-12 col-md-6 mb-2 mb-md-0">
+        <app-common-dropdown [config]="classSectionDropdownConfig()"></app-common-dropdown>
+      </div>
+      <div class="col-12 col-md-6">
+        <app-common-dropdown [config]="subjectDropdownConfig()"></app-common-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <!-- Details Info Card -->
+  @if (selectedExam()) {
+  <div class="marks-info-card">
+    <div class="marks-info-item exam-item">
+      <div class="meta-icon-wrapper exam-icon">
+        <mat-icon class="meta-icon">assignment</mat-icon>
+      </div>
+      <div class="meta-content">
+        <span class="marks-info-label">{{ marksConst.EXAM_NAME }}</span>
+        <span class="marks-info-value">{{ examGroupStore.data()?.examGroupName || detailsStore.data()?.examGroupName ||
+          '-' }}</span>
+      </div>
+    </div>
+    <div class="marks-info-item date-item">
+      <div class="meta-icon-wrapper date-icon">
+        <mat-icon class="meta-icon">calendar_today</mat-icon>
+      </div>
+      <div class="meta-content">
+        <span class="marks-info-label">{{ marksConst.EXAM_DATE }}</span>
+        <span class="marks-info-value">{{ selectedExam().examDate | date: 'd MMMM, yyyy' }}</span>
+      </div>
+    </div>
+    <div class="marks-info-item pass-item">
+      <div class="meta-icon-wrapper pass-icon">
+        <mat-icon class="meta-icon">check_circle_outline</mat-icon>
+      </div>
+      <div class="meta-content">
+        <span class="marks-info-label">{{ marksConst.PASSING_MARKS }}</span>
+        <span class="marks-info-value max-marks-highlight">{{ selectedExam().passingMarks }}</span>
+      </div>
+    </div>
+    <div class="marks-info-item max-item">
+      <div class="meta-icon-wrapper max-icon">
+        <mat-icon class="meta-icon">bar_chart</mat-icon>
+      </div>
+      <div class="meta-content">
+        <span class="marks-info-label">{{ marksConst.MAX_MARKS }}</span>
+        <span class="marks-info-value max-marks-highlight">{{ selectedExam().maxMarks }}</span>
+      </div>
+    </div>
+    @if (isExamPublished()) {
+    <div class="marks-info-item ms-md-auto align-self-center">
+      <div class="published-badge">
+        <span class="published-badge__check">✓</span>
+        <span class="published-badge__text">Published</span>
+      </div>
+    </div>
+    }
+  </div>
+  }
+
+  <!-- Students Data Grid -->
+  @if (gridConfig()) {
+  <div class="configuration-grid-card">
+    <common-data-grid [config]="gridConfig()!"></common-data-grid>
+  </div>
+  }
+
+  <!-- Action Footer -->
+  <div class="marks-action-footer">
+    <common-button [config]="cancelBtnConfig()"></common-button>
+    @if (isPublishBtnVisible() && !isExamPublished()) {
+    <common-button [config]="publishBtnConfig()"></common-button>
+    }
+    <common-button [config]="saveAllBtnConfig()"></common-button>
+  </div>
+</section>
+
+<!-- Student Name Cell Template -->
+<ng-template #studentNameCell let-row="row">
+  <div class="user-profile-cell">
+    <app-safe-image class="user-profile-cell__avatar" [config]="{ src: row.photo, alt: row.fullName + ' photo' }">
+    </app-safe-image>
+    <div class="user-profile-cell__details">
+      <div class="user-profile-cell__name">{{ row.fullName || '-' }}</div>
+      <div class="user-profile-cell__info">{{ marksConst.ROLL_NO }}: {{ row.rollNumber ?? '-' }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Obtained Marks Cell Template -->
+<ng-template #obtainedMarksCell let-row="row">
+  @if (row.exams && row.exams[0]) {
+  <mat-form-field appearance="outline" class="w-100 custom-form-field marks-input-field">
+    <input matInput numericInput NoScrollInput [value]="row.exams[0].isAbsent ? '' : row.exams[0].obtainedMarks"
+      [disabled]="row.exams[0].isAbsent || isReadOnly()" [max]="selectedExam()?.maxMarks" min="0"
+      placeholder="" (input)="onMarksChange(row, $event)" />
+  </mat-form-field>
+  }
+</ng-template>
+
+<!-- Percentage Cell Template -->
+<ng-template #percentageCell let-row="row">
+  @if (row.exams && row.exams[0] && !row.exams[0].isAbsent) {
+  {{ getFormattedPercentage(row.exams[0].percentage) }}
+  } @else {
+  -
+  }
+</ng-template>
+
+<!-- Grade Cell Template -->
+<ng-template #gradeCell let-row="row">
+  @if (row.exams && row.exams[0] && !row.exams[0].isAbsent) {
+  {{ row.exams[0].grade || '-' }}
+  } @else {
+  -
+  }
+</ng-template>
+
+<!-- Result Cell Template -->
+<ng-template #resultCell let-row="row">
+  @if (row.exams && row.exams[0] && row.exams[0].isAbsent) {
+  <span class="result-chip absent">Absent</span>
+  } @else if (row.exams && row.exams[0] && row.exams[0].obtainedMarks !== null && row.exams[0].obtainedMarks !==
+  undefined && selectedExam()?.passingMarks !== undefined && selectedExam()?.passingMarks !== null) {
+  <span class="result-chip" [class.pass]="row.exams[0].obtainedMarks >= selectedExam()!.passingMarks"
+    [class.fail]="row.exams[0].obtainedMarks < selectedExam()!.passingMarks">
+    {{ row.exams[0].obtainedMarks >= selectedExam()!.passingMarks ? 'Pass' : 'Fail' }}
+  </span>
+  } @else {
+  <span>-</span>
+  }
+</ng-template>
+
+<!-- Absent Cell Template -->
+<ng-template #absentCell let-row="row">
+  @if (row.exams && row.exams[0]) {
+  <mat-slide-toggle [checked]="row.exams[0].isAbsent" [disabled]="isReadOnly()"
+    (change)="onAbsentChange(row, $event.checked)"></mat-slide-toggle>
+  }
+</ng-template>
+
+<!-- Remarks Cell Template -->
+<ng-template #remarksCell let-row="row">
+  @if (row.exams && row.exams[0]) {
+  <mat-form-field appearance="outline" class="w-100 custom-form-field remarks-input-field">
+    <input matInput type="text" [value]="row.exams[0].remarks || ''" [placeholder]="marksConst.REMARKS_PLACEHOLDER"
+      [disabled]="isReadOnly()" (input)="onRemarksChange(row, $any($event.target).value)"
+      maxlength="100" />
+  </mat-form-field>
+  }
+</ng-template>
+
+<!-- Actions Cell Template -->
+<ng-template #actionsCell let-row="row">
+  <button class="save-row-btn" mat-icon-button [matTooltip]="systemConst.ACTION_BUTTONS.SAVE"
+    [disabled]="!isRowValid(row) || isReadOnly()" (click)="onSaveRow(row)">
+    <mat-icon class="save-icon">save</mat-icon>
+  </button>
+</ng-template>

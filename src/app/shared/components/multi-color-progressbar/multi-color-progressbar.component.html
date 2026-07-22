@@ -1,0 +1,15 @@
+<div class="multi-progress-bar-container">
+  <div class="multi-progress-bar">
+    @for (segment of segments(); track segment.label) {
+      @if (segment.value > 0 && total() > 0) {
+        <div
+          class="progress-segment"
+          [style.width.%]="(segment.value / total()) * 100"
+          [style.background-color]="segment.color"
+          [matTooltip]="segment.label + ': ' + segment.value"
+          matTooltipPosition="above"
+        ></div>
+      }
+    }
+  </div>
+</div>

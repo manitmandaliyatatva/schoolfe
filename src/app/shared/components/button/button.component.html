@@ -1,0 +1,61 @@
+@if(this.config().variant === 'fab' && isBtnVisible){
+  <div [matTooltip]="config().tooltipText" matTooltipClass="custom-tooltip" [matTooltipPosition]="config().tooltipPosition || 'above'">
+    <button mat-fab class="btn" [class.disabled-btn]="isDisable()" [class]="cssClasses" [type]="btnType" [color]="btnColor" [id]="inputId()" (click)="onClick($event)" [disabled]="isDisable()">
+      <mat-icon *ngIf="config().icon">{{config().icon}}</mat-icon>
+      <mat-icon *ngIf="config().iconUrl"><img [src]="config().iconUrl" alt="" /></mat-icon>
+    </button>
+  </div>
+}
+
+@if(this.config().variant === 'flat' && isBtnVisible){
+  <div [matTooltip]="config().tooltipText" matTooltipClass="custom-tooltip" [matTooltipPosition]="config().tooltipPosition || 'above'">
+    <button mat-flat-button class="btn" [class.disabled-btn]="isDisable()" [class]="cssClasses" [type]="btnType" [id]="inputId()" [color]="btnColor" (click)="onClick($event)" [disabled]="isDisable()">
+      <mat-icon *ngIf="config().icon">{{config().icon}}</mat-icon>
+      <mat-icon *ngIf="config().iconUrl"><img [src]="config().iconUrl" alt="" /></mat-icon>
+      <span class="text-span">{{config().buttonText ? config().buttonText : ''}}</span>
+      <span *ngIf="config().badge" class="filter-count">{{config().badge}}</span>
+    </button>
+  </div>
+}
+
+@if(this.config().variant === 'stroked' && isBtnVisible){
+  <div [matTooltip]="config().tooltipText" matTooltipClass="custom-tooltip" [matTooltipPosition]="config().tooltipPosition || 'above'">
+    <button mat-stroked-button class="btn" [class.disabled-btn]="isDisable()" [class]="cssClasses" [type]="btnType" [id]="inputId()" [color]="btnColor" (click)="onClick($event)" [disabled]="isDisable()">
+      <mat-icon *ngIf="config().icon">{{config().icon}}</mat-icon>
+      <mat-icon *ngIf="config().iconUrl"><img [src]="config().iconUrl" alt="" /></mat-icon>
+      <span class="text-span">{{config().buttonText ? config().buttonText : ''}}</span>
+      <span *ngIf="config().badge" class="filter-count">{{config().badge}}</span>
+    </button>
+  </div>
+}
+
+@if(this.config().variant === 'raised' && isBtnVisible){
+  <div [matTooltip]="config().tooltipText" matTooltipClass="custom-tooltip" [matTooltipPosition]="config().tooltipPosition || 'above'">
+    <button mat-raised-button class="btn" [class.disabled-btn]="isDisable()" [class]="cssClasses" [type]="btnType" [id]="inputId()" [color]="btnColor" (click)="onClick($event)" [disabled]="isDisable()">
+      <mat-icon *ngIf="config().icon">{{config().icon}}</mat-icon>
+      <mat-icon *ngIf="config().iconUrl"><img [src]="config().iconUrl" alt="" /></mat-icon>
+      <span class="text-span">{{config().buttonText ? config().buttonText : ''}}</span>
+      <span *ngIf="config().badge" class="filter-count">{{config().badge}}</span>
+    </button>
+  </div>
+}
+@if(this.config().variant === 'icon' && isBtnVisible){
+  <div [matTooltip]="config().tooltipText" matTooltipClass="custom-tooltip" [matTooltipPosition]="config().tooltipPosition || 'above'">
+    <button mat-icon-button class="btn" [class.disabled-btn]="isDisable()" [class]="cssClasses" [type]="btnType" [color]="btnColor" [id]="inputId()" (click)="onClick($event)" [disabled]="isDisable()">
+      <mat-icon *ngIf="config().icon">{{config().icon}}</mat-icon>
+      <mat-icon *ngIf="config().iconUrl"><img [src]="config().iconUrl" alt="" /></mat-icon>
+      <span *ngIf="config().badge" class="filter-count">{{config().badge}}</span>
+    </button>
+  </div>
+}
+
+@if(this.config().variant === 'basic' && isBtnVisible){
+  <div [matTooltip]="config().tooltipText" matTooltipClass="custom-tooltip" [matTooltipPosition]="config().tooltipPosition || 'above'">
+    <button mat-button [ngClass]="cssClasses" [class.disabled-btn]="isDisable()" class="btn w-100 justify-content-start" [type]="btnType" [id]="inputId()" [color]="btnColor" (click)="onClick($event)" [disabled]="isDisable()">
+      <mat-icon *ngIf="config().icon">{{config().icon}}</mat-icon>
+      <span *ngIf="config().iconUrl" style="margin-right: 5px;"><img [src]="config().iconUrl" alt="" /></span>
+      <span class="text-span">{{config().buttonText ? config().buttonText : ''}}</span>
+      <span *ngIf="config().badge" class="filter-count">{{config().badge}}</span>
+    </button>
+  </div>
+}

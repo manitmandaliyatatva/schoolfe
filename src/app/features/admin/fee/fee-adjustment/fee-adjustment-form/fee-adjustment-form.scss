@@ -1,0 +1,17 @@
+.paid-alert {
+    color: #d45454;
+    background-color: #fff2f2;
+    border: 1px solid #f3d0d0;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1rem;
+
+    .material-icons {
+        font-size: 18px;
+    }
+}

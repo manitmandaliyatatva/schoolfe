@@ -1,0 +1,135 @@
+<section class="configuration-screen-layout classroom-timetable-page" [class.my-timetable]="isMyTimetable()">
+  <!-- Desktop Timetable View -->
+  <div class="desktop-timetable-view">
+    <div class="position-relative d-flex flex-column">
+      @if (!isMyTimetable()) {
+        <form [formGroup]="filterForm">
+          <common-dynamic-form [formControls]="filterFormControls()"></common-dynamic-form>
+        </form>
+      }
+      
+      @if (classroomTimetableGridConfig && permission().canList) {
+        <div class="d-flex justify-content-end mb-2" [class.mt-2]="isMyTimetable()" style="gap: 8px;">
+          <common-button [config]="refreshButtonConfig()"></common-button>
+          <common-button [config]="downloadButtonConfig()"></common-button>
+        </div>
+      }
+    </div>
+
+    @if (classroomTimetableGridConfig && permission().canList) {
+    <div class="configuration-grid-card timetable-grid-card">
+      <common-data-grid [config]="classroomTimetableGridConfig"></common-data-grid>
+    </div>
+    }
+  </div>
+
+  <!-- Mobile Timetable View (Only for student My Timetable) -->
+  @if (isMyTimetable() && permission().canList) {
+    <div class="mobile-timetable-view">
+      <!-- Weekday Tabs Selector -->
+      <div class="weekday-tabs-container">
+        @for (day of activeWeekDays; track day.key) {
+          <button 
+            type="button" 
+            class="weekday-tab-btn" 
+            [class.active]="selectedDay() === day.key"
+            (click)="selectedDay.set(day.key)"
+          >
+            {{ day.label }}
+          </button>
+        }
+      </div>
+
+      <!-- Mobile View Header -->
+      <div class="mobile-header-container">
+        <span class="mobile-header-title">My Timetable</span>
+        <div class="d-flex" style="gap: 8px;">
+          <common-button [config]="refreshButtonConfig()"></common-button>
+          <common-button [config]="downloadButtonConfig()"></common-button>
+        </div>
+      </div>
+
+      <!-- Class List -->
+      <div class="class-list-container">
+        @for (row of classroomTimetableGridConfig.data; track row.rowId) {
+          @let item = getCellRow(row, selectedDay());
+          @if (item) {
+            @let theme = getThemeColor(item.subjectId, item.subjectName, !!item.isBreak);
+            @let timeItem = getFirstItem(row);
+            <div 
+              class="timetable-card-mobile" 
+              [class.no-schedule-card]="item.isNoSchedule"
+              [style.border-left-color]="theme.borderLeftColor"
+              [style.background-color]="theme.bgColor"
+            >
+              <!-- Left section: Time slot details -->
+              <div class="time-section">
+                <mat-icon class="time-icon" [style.color]="theme.textColor">
+                  {{ item.isBreak ? 'local_cafe' : 'schedule' }}
+                </mat-icon>
+                <div class="time-range" [style.color]="theme.textColor">
+                  <span class="start-time">{{ formatTime(timeItem?.startTime) }}</span>
+                  <span class="time-separator">-</span>
+                  <span class="end-time">{{ formatTime(timeItem?.endTime) }}</span>
+                </div>
+              </div>
+
+              <!-- Middle section: Class & Teacher Info -->
+              <div class="info-section">
+                @if (item.isBreak) {
+                  <h4 class="subject-title break-title" [style.color]="theme.textColor">BREAK</h4>
+                  <p class="teacher-name font-medium">Take a short break</p>
+                } @else if (item.isNoSchedule) {
+                  <h4 class="subject-title" [style.color]="theme.textColor">No Schedule</h4>
+                  <p class="teacher-name">-</p>
+                } @else {
+                  <h4 class="subject-title" [style.color]="theme.textColor">{{ item.subjectName || '-' }}</h4>
+                  <p class="teacher-name">{{ item.teacherName || '-' }}</p>
+                }
+              </div>
+
+              <!-- Right section: Subject theme icon -->
+              <div class="icon-section" [style.background-color]="theme.iconBgColor">
+                <mat-icon [style.color]="theme.textColor">
+                  {{ getSubjectIcon(item.subjectId, item.subjectName, !!item.isBreak) }}
+                </mat-icon>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  }
+</section>
+
+<ng-template #timetableCardCell let-row="row" let-column="column" let-rowIndex="rowIndex">
+  @let card = getCellRow(row, column.field, rowIndex);
+  @if (card) {
+    <common-timetable-card
+      [data]="card"
+      [variantIndex]="row.colorIndex ?? rowIndex"
+      [canAdd]="permission().canCreate"
+      [canEdit]="permission().canUpdate"
+      [canDelete]="permission().canDelete"
+      (addClicked)="onAddClick($event)"
+      (editClicked)="onEditClick($event)"
+      (deleteClicked)="onDeleteClick($event)"
+    >
+    </common-timetable-card>
+  }
+</ng-template>
+
+<ng-template #breakRowTemplate let-row>
+  <div class="break-row-banner">
+    <div class="break-content">
+      <span class="break-title">Break</span>
+      <span class="break-time">({{ getBreakTimeRange(row) }})</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #timeslotcol let-row="row">
+  <div class="time-slot-label" >
+    {{ getRowTimeRange(row) }}
+  </div>
+</ng-template>

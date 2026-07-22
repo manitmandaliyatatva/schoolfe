@@ -1,0 +1,52 @@
+.payment-dialog-layout {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  padding: 8px 0;
+  overflow-x: hidden;
+
+  .breakdown-column {
+    flex: 1;
+    min-width: 320px;
+
+    .fees-breakdown-title {
+      margin: 0 0 16px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .adjustment-breakdown {
+      min-width: auto;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      overflow: hidden;
+
+      .table {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .form-column {
+    flex: 1.2;
+    padding-left: 24px;
+    border-left: 1px solid #eee;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 32px;
+
+    .breakdown-column {
+      min-width: 100%;
+    }
+
+    .form-column {
+      padding-left: 0;
+      border-left: none;
+      padding-top: 32px;
+      border-top: 1px solid #eee;
+    }
+  }
+}

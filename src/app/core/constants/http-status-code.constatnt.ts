@@ -1,0 +1,1 @@
+export const HttpSuccess = [200, 201];

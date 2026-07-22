@@ -1,0 +1,55 @@
+<form [formGroup]="formGroup">
+    <common-dynamic-form [formControls]="filterFormControls()"></common-dynamic-form>
+</form>
+<div class="attendance-legend" *ngIf="pageType() == 'view'">
+    @for (item of attendanceStatusStore.list(); track item.attendanceStatusId) {
+    <div class="legend-item" [style.color]="item.colorCode" [style.background]="item.backgroundColorCode"
+        [style.border-color]="item.colorCode">
+        {{item.attendanceStatusName}} ({{item.attendanceStatusCode}})
+    </div>
+    }
+    <div class="legend-item" style="border-color: #7e22ce; background-color: #e8d4fa; color: #7e22ce;">
+        Holiday (H)
+    </div>
+</div>
+@if(pageType() == 'view'){
+<common-data-grid [config]="detailsViewGrid"></common-data-grid>
+}
+
+@if(pageType() == 'report'){
+<common-data-grid [config]="reportViewGrid"></common-data-grid>
+}
+
+<ng-template #nameTemplate let-row="row">
+    <div class="student-cell">
+
+        <div class="name">
+            {{row.name}} <span class="year">({{row.rollNumber}})</span>
+        </div>
+
+        <div class="badges">
+            <span class="badge green">P:{{row.presentCount || 0}}</span>
+            <span class="badge red">A:{{row.absentCount || 0}}</span>
+            <span class="badge orange">HD:{{row.halfDayCount || 0}}</span>
+            <span class="badge blue">L:{{row.leaveCount || 0}}</span>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #attendanceCellTemplate let-value="value">
+    <span [matTooltip]="getTooltipText(value)" matTooltipClass="multiline-tooltip" class="attendance-cell-trigger">{{ value?.status || '' }}</span>
+</ng-template>
+
+<ng-template #attendanceTemplate let-row="row">
+    <div class="attendance-cell">
+        <app-multi-color-progressbar 
+            [segments]="getProgressSegments(row)"
+            [total]="row.totalDays"
+            class="flex-grow-1"
+        ></app-multi-color-progressbar>
+
+        <div class="percentage-text">
+            {{row.percentage}}%
+        </div>
+    </div>
+</ng-template>

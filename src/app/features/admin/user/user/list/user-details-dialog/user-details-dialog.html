@@ -1,0 +1,11 @@
+<app-common-detail-view [data]="user" [fields]="userDetailFields"></app-common-detail-view>
+
+<!-- Custom render template for Phone Number -->
+<ng-template #phoneTemplate let-data>
+  <span class="contact-value">{{ data.phoneNumber | contactFormat }}</span>
+</ng-template>
+
+<!-- Custom render template for User Type -->
+<ng-template #userTypeTemplate let-data>
+  <span>{{ getUserTypeText(data.userRoleList) }}</span>
+</ng-template>

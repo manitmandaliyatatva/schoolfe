@@ -1,0 +1,30 @@
+<mat-stepper [linear]="true" #stepper [class.hide-stepper-header]="!isStepperForm()" class="auth-stepper">
+  <mat-step [stepControl]="loginForm" [editable]="false">
+    <ng-template matStepLabel>Login</ng-template>
+    <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="submit()">
+      <div class="auth-copy">
+        <p>{{Login_Const.LOGIN_TO_YOUR_ACCOUNT}}</p>
+      </div>
+      <common-dynamic-form [formControls]="formControls"></common-dynamic-form>
+      <a class="forgot-link" routerLink="/forget-password">{{Login_Const.FORGET_PASSWORD}}?</a>
+
+      <!-- <common-button [config]="loginButtonConfig()"></common-button> -->
+    </form>
+  </mat-step>
+  
+  <mat-step>
+    <ng-template matStepLabel>{{Login_Const.SELECT_USER_TYPE}}</ng-template>
+    <div class="role-selection-container">
+      <div class="role-cards">
+        @for(role of roles(); track role.id){
+        <div class="role-card" (click)="selectRole(role)">
+          <div class="role-image-container">
+            <img [src]="role.image" [alt]="role.name" class="role-image" />
+          </div>
+          <span class="role-name">{{role.label}}</span>
+        </div>
+        }
+      </div>
+    </div>
+  </mat-step>
+</mat-stepper>

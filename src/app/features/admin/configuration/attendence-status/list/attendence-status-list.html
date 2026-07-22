@@ -1,0 +1,14 @@
+<section class="configuration-screen-layout">
+        @if (gridConfig && this.permission().canList) {
+    <div class="configuration-grid-card">
+        <common-data-grid [config]="gridConfig"></common-data-grid>
+    </div>
+    }
+</section>
+
+<ng-template #statusDisplayTemplate let-row>
+    <span class="status-chip" [style.color]="row.colorCode" [style.background-color]="row.backgroundColorCode"
+        [style.border-color]="row.colorCode">
+        {{row.attendanceStatusName}}
+    </span>
+</ng-template>

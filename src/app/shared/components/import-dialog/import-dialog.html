@@ -1,0 +1,57 @@
+<div class="import-wrapper">
+  <div class="upload-container">
+    <div class="guidance-box">
+      <p class="guidance-title"><strong>{{ importDialogConst.GUIDANCE_TITLE }}</strong></p>
+      <ul class="guidance-list">
+        <li>{{ importDialogConst.GUIDANCE_HEADERS }}</li>
+        <li>{{ importDialogConst.GUIDANCE_DATE_FORMAT }}</li>
+        <li>{{ importDialogConst.GUIDANCE_FILE_TYPE }}</li>
+      </ul>
+    </div>
+    
+    <label class="drop-zone" [class.drag-over]="isDragOver()" 
+           (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+      <div class="icon-wrap">
+        <mat-icon class="upload-icon">description</mat-icon>
+        <p class="upload-title">{{ importDialogConst.UPLOAD_TITLE }}</p>
+      </div>
+      <input type="file" (change)="onFileSelected($event)" accept=".xlsx, .xls" style="display: none;" />
+    </label>
+    
+    <div class="file-actions-wrapper">
+      <div class="file-actions">
+        <label class="choose-file-btn">
+          {{ importDialogConst.CHOOSE_FILE }}
+          <input type="file" (change)="onFileSelected($event)" accept=".xlsx, .xls" style="display: none;" />
+        </label>
+        <span class="file-name" [title]="selectedFile()?.name || importDialogConst.NO_FILE_CHOSEN">
+          {{ selectedFile()?.name || importDialogConst.NO_FILE_CHOSEN }}
+        </span>
+      </div>
+
+      @if (validationError()) {
+        <div class="validation-error">
+          {{ validationError() }}
+        </div>
+      }
+    </div>
+    
+    @if (data.sampleFileEndpoint) {
+    <div class="sample-file">
+      {{ importDialogConst.DOWNLOAD_SAMPLE_PREFIX }} <a href="javascript:void(0)" (click)="downloadSample()">{{ importDialogConst.SAMPLE_FILE_LINK }}</a>
+    </div>
+    }
+
+    @if (errorFileBase64()) {
+    <div class="error-file-download">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      {{ importDialogConst.IMPORT_FAILED }} <a href="javascript:void(0)" (click)="downloadErrorFile()" class="error-link">{{ importDialogConst.DOWNLOAD_ERROR_FILE }}</a>
+    </div>
+    }
+  </div>
+</div>
+
+<div class="dialog-actions">
+  <common-button [config]="cancelBtn()"></common-button>
+  <common-button [config]="importBtn()"></common-button>
+</div>

@@ -1,0 +1,213 @@
+<!-- <section class="saas-hero">
+  <div class="container hero-container animate-fade-in-up">
+    <div class="hero-content">
+      <div class="badge glass-panel">✨ Admissions Open for 2026-27</div>
+      <h1>Empowering Minds at <br><span class="text-gradient">SIKSHA SCHOOL</span></h1>
+      <p>Nurturing future leaders through holistic education, state-of-the-art facilities, and a commitment to academic excellence.</p>
+      <div class="hero-actions">
+        <button (click)="openEnquiryModal()" class="btn btn-primary btn-lg">Apply for Admission</button>
+        <a routerLink="/features" class="btn btn-secondary btn-lg">Explore Campus</a>
+      </div>
+      <div class="hero-stats glass-panel">
+        <div class="stat"><strong>15+</strong><span>Years Excellence</span></div>
+        <div class="stat"><strong>100%</strong><span>Board Results</span></div>
+        <div class="stat"><strong>50+</strong><span>Extracurriculars</span></div>
+      </div>
+    </div>
+    <div class="hero-graphics">
+      <div class="glass-card main-mockup">
+        <div class="mockup-header">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        </div>
+        <div class="mockup-body">
+          <div class="skeleton-line title" style="width: 80%;">Academic Excellence</div>
+          <div class="skeleton-line" style="width: 100%;">Interactive Classrooms & Labs</div>
+          <div class="skeleton-line short" style="width: 60%;">Expert Faculty</div>
+          <div class="skeleton-chart"></div>
+        </div>
+      </div>
+      <div class="glass-card floating-card card-1">
+        <span class="icon">🏆</span>
+        <div>
+          <h4>Top Ranked</h4>
+          <p>Best in Region</p>
+        </div>
+      </div>
+      <div class="glass-card floating-card card-2">
+        <span class="icon">📅</span>
+        <div>
+          <h4>Upcoming Event</h4>
+          <p>Annual Sports Day</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-background-mesh"></div>
+</section> -->
+
+<!-- Auto-Playing Carousel Section -->
+<section class="premium-carousel">
+  <div class="carousel-slide" *ngFor="let slide of carouselSlides(); let i = index" [class.active]="i === currentSlide">
+    <div class="carousel-image-wrapper">
+      <img [src]="getSafeImageSrc(slide.imageUrl)" [alt]="slide.title" class="carousel-image">
+      <div class="carousel-overlay"></div>
+    </div>
+    @if (slide.title) {
+    <div class="carousel-content container">
+      <div class="slide-text">
+        <h2>{{ slide.title }}</h2>
+        <p>{{ slide.description }}</p>
+        <ng-container *ngIf="slide.buttonText">
+          <a *ngIf="isExternalLink(slide.buttonLink)" [href]="getExternalLink(slide.buttonLink)" target="_blank" class="btn btn-primary btn-lg">{{ slide.buttonText }}</a>
+          <a *ngIf="!isExternalLink(slide.buttonLink)" [routerLink]="slide.buttonLink" class="btn btn-primary btn-lg">{{ slide.buttonText }}</a>
+        </ng-container>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="carousel-indicators">
+    <button *ngFor="let slide of carouselSlides(); let i = index" class="indicator-dot"
+      [class.active]="i === currentSlide" (click)="setSlide(i)">
+    </button>
+  </div>
+</section>
+<section class="section branches-section" *ngIf="branches() && branches().length > 1">
+  <div class="container text-center">
+    <div class="badge glass-panel" style="margin-bottom: 1rem;">📍 Our Campuses</div>
+    <h2 class="branches-title">Explore Our Branches</h2>
+    <p class="section-subtitle" style="margin-bottom: 3rem;">Conveniently located across the city with world-class
+      infrastructure.</p>
+
+    <div class="branches-grid">
+      <div class="branch-card premium-card" *ngFor="let branch of branches(); let idx = index">
+        <div class="branch-icon-wrapper" [ngClass]="idx % 3 === 0 ? 'orange-bg' : (idx % 3 === 1 ? 'blue-bg' : 'red-bg')">
+          <span class="icon">🏫</span>
+        </div>
+        <div class="branch-info">
+          <h3>{{ branch.branchName }}</h3>
+          <div class="branch-details">
+            <!-- <span class="board-badge">{{ branch.branchCode }}</span> -->
+            <span class="grades">{{ branch.address || branch.city }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- News & Announcements Section -->
+<section class="section news-section" *ngIf="news() && news().length > 0">
+  <div class="container">
+    <div class="testimonials-header" style="margin-bottom: 2rem;">
+      <div class="header-text">
+        <div class="badge glass-panel" style="margin-bottom: 1rem;">📰 Latest Updates</div>
+        <h2>News & Announcements</h2>
+        <p class="section-subtitle" style="margin-bottom: 0;">Stay up-to-date with the latest events and achievements at {{settingService.schoolName()}}.</p>
+      </div>
+      <div class="carousel-nav">
+        <button class="nav-btn" (click)="scrollNews('left')" aria-label="Previous">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="nav-count">
+          <span>{{ news().length }}</span>
+          <small>Articles</small>
+        </div>
+        <button class="nav-btn" (click)="scrollNews('right')" aria-label="Next">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="news-grid scrollable-grid" #newsGrid>
+      <div class="news-card premium-card" *ngFor="let item of news()">
+        <div class="news-image">
+          <img [src]="getSafeImageSrc(item.imageUrl)" [alt]="item.title">
+          <div class="news-date-badge">
+            <span class="day">{{ item.newsDate | date:'dd' }}</span>
+            <span class="month">{{ item.newsDate | date:'MMM' }}</span>
+          </div>
+        </div>
+        <div class="news-content">
+          <div class="news-category">{{ item.category }}</div>
+          <h3>{{ item.title }}</h3>
+          <p class="news-desc" [innerHTML]="item.metaDescription"></p>
+          <a [routerLink]="['/news', item.newsId]" class="read-more">Read More →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section testimonials-section" *ngIf="testimonials() && testimonials().length > 0">
+  <div class="container">
+    <div class="testimonials-header">
+      <div class="header-text">
+        <div class="badge glass-panel" style="margin-bottom: 1rem;">💬 Testimonials</div>
+        <h2>What Our Community Says</h2>
+        <p class="section-subtitle" style="margin-bottom: 0;">Hear from our parents, students, and alumni.</p>
+      </div>
+      <div class="carousel-nav">
+        <button class="nav-btn" (click)="scrollTestimonials('left')" aria-label="Previous">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="nav-count">
+          <span>{{ testimonials().length }}</span>
+          <small>Reviews</small>
+        </div>
+        <button class="nav-btn" (click)="scrollTestimonials('right')" aria-label="Next">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="testimonial-grid" #testimonialGrid>
+      <div class="testimonial-card premium-card" *ngFor="let t of testimonials()">
+        <div class="card-header">
+          <div class="testimonial-author">
+            <div class="author-avatar"><img [src]="getSafeImageSrc(t.profileImageUrl)" [alt]="t.personName"></div>
+            <div class="author-info">
+              <h4>{{ t.personName }}</h4>
+              <p>{{ t.designation }}</p>
+            </div>
+          </div>
+          <div class="quote-icon">❝</div>
+        </div>
+        <form [formGroup]="formGroup" class="star-rating-form">
+          <app-star-rating [config]="starConfig(t?.rating)"></app-star-rating>
+        </form>
+        <p class="quote-text" [innerHTML]="t.reviewMessage"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section cta-section text-center">
+  <div class="container">
+    <div class="cta-card">
+      <div class="cta-content">
+        <h2>Ready to Join {{settingService.schoolName()}}?</h2>
+        <p>Give your child the foundation they deserve. Admissions are open for the current academic year.</p>
+        <div class="cta-actions" *ngIf="settingService.admissionButton()">
+          <a [href]="settingService.admissionForm()" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">Enroll Now</a>
+        </div>
+      </div>
+      <div class="cta-decoration">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+<mat-form-field appearance="outline" class="custom-form-field">
+    <mat-label>{{ label() }}</mat-label>
+  
+    <input
+      matInput
+      [value]="fileName()"
+      placeholder="Choose file"
+      readonly
+      (click)="fileInput.click()"
+    />
+  
+    <button
+      mat-icon-button
+      matSuffix
+      type="button"
+      (click)="fileInput.click()">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+  
+    <input
+      #fileInput
+      type="file"
+      hidden
+      [attr.accept]="accept || null"
+      (change)="onFileChange($event)"
+    />
+  
+    @if (control().touched && control().invalid) {
+      <mat-error>Invalid field</mat-error>
+    }
+  </mat-form-field>
+  

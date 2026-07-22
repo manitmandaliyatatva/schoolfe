@@ -1,0 +1,296 @@
+<section class="user-view-page configuration-screen-layout">
+  <div class="header-row d-flex justify-content-between align-items-center mb-3">
+    <h2 class="page-title configuration-screen-title mb-0">{{ data()?.title || '' }}</h2>
+    <common-button [config]="backBtnConfig()"></common-button>
+  </div>
+
+  <div class="configuration-screen-content">
+    @if (data()) {
+    <div class="configuration-card mb-3 p-0">
+      <div class="user-view-card">
+        <!-- Sidebar -->
+        <div class="user-sidebar">
+          <div class="profile-photo">
+            <app-safe-image [config]="safeImageConfig()"></app-safe-image>
+          </div>
+          <div class="profile-header text-center">
+            <h2 class="user-name">{{ data()?.fullName || '-' }}</h2>
+            <div class="user-ids">
+              <p class="id-row">{{ data()?.codeLabel }}: <span class="id-value">{{ data()?.code || '-' }}</span></p>
+              <div class="sidebar-status-container mt-2 gap-2 flex-wrap">
+                @for (chipConfig of data()?.statusChips; track $index) {
+                  <app-status-chip [config]="chipConfig" />
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-actions d-flex justify-content-center gap-3 mt-4">
+            @for (btnConfig of actionBtnConfigs(); track $index) {
+              <common-button [config]="btnConfig"></common-button>
+            }
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="user-main-info flex-grow-1">
+        <!-- Info Grid (Personal & Academic) -->
+        <div class="info-sections-grid">
+          <div class="info-group">
+            <div class="group-header"><h3>{{ systemConst().SECTIONS.PERSONAL }}</h3></div>
+            <div class="detail-rows">
+              @for (item of data()?.personalInfo; track item.label) {
+                <div class="detail-row">
+                  <span class="label">{{ item.label }}</span>
+                  <span class="separator">:</span>
+                  <span class="value">
+                    @if (item.isDate) {
+                      {{ item.value | date: dateFormat }}
+                    } @else if (item.isPhone) {
+                      {{ item.value | contactFormat }}
+                    } @else {
+                      {{ item.value || '-' }}
+                    }
+                  </span>
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="info-group">
+            <div class="group-header"><h3>{{ data()?.academicInfoTitle }}</h3></div>
+            <div class="detail-rows">
+              @for (item of data()?.academicInfo; track item.label) {
+                <div class="detail-row">
+                  <span class="label">{{ item.label }}</span>
+                  <span class="separator">:</span>
+                  <span class="value">
+                    @if (item.isDate) {
+                      {{ item.value | date: dateFormat }}
+                    } @else if (item.isPhone) {
+                      {{ item.value | contactFormat }}
+                    } @else {
+                      {{ item.value || '-' }}
+                    }
+                  </span>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Address Info Section (Labels above Values) -->
+        <div class="info-group mt-5">
+          <div class="group-header"><h3>{{ systemConst().SECTIONS.ADDRESS }}</h3></div>
+          <div class="address-grid">
+            @for (item of data()?.addressInfo; track item.label) {
+              <div class="address-item">
+                <span class="address-label">{{ item.label }}</span>
+                <span class="address-value">{{ item.value || '-' }}</span>
+              </div>
+            }
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="additional-details-tabs">
+      <mat-tab-group dynamicHeight mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" [selectedIndex]="0">
+        @if (data()?.guardians; as guardians) {
+          @if (guardians.length > 0) {
+            <mat-tab [label]="labels()?.guardiansTab || systemConst().SECTIONS.GUARDIAN_INFO">
+              <div class="guardians-container mt-3">
+                <div class="row g-4">
+                  @for (guardian of guardians; track guardian.title) {
+                    <div class="col-12 col-md-6">
+                      <div class="view-detail-card h-100">
+                        <h4 class="card-title">{{ guardian.title }}</h4>
+                        <div class="row g-3">
+                          @for (item of guardian.details; track item.label) {
+                            <div class="col-12 col-sm-6">
+                              <div class="detail-item">
+                                <span class="detail-label">{{ item.label }}</span>
+                                <span class="detail-value">
+                                  @if (item.isDate) {
+                                    {{ item.value | date: dateFormat }}
+                                  } @else if (item.isPhone) {
+                                    {{ item.value | contactFormat }}
+                                  } @else {
+                                    {{ item.value || '-' }}
+                                  }
+                                </span>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            </mat-tab>
+          }
+        }
+        
+        <mat-tab [label]="labels()?.otherDetailsTab || systemConst().SECTIONS.OTHER">
+          <div class="other-details-container mt-3">
+            <div class="row g-4">
+              <!-- Previous School Details -->
+              @if (data()?.otherDetails?.previousSchool; as schoolDetails) {
+                <div class="col-12">
+                  <div class="view-detail-card h-100">
+                    <h4 class="card-title">{{ systemConst().SECTIONS.PREVIOUS_SCHOOL }}</h4>
+                    <div class="row g-4">
+                      @for (item of schoolDetails; track item.label) {
+                        <div class="col-12 col-md-6">
+                          <div class="detail-item">
+                            <span class="detail-label">{{ item.label }}</span>
+                            <span class="detail-value">
+                              @if (item.isDate) {
+                                {{ item.value | date: dateFormat }}
+                              } @else if (item.isPhone) {
+                                {{ item.value | contactFormat }}
+                              } @else {
+                                {{ item.value || '-' }}
+                              }
+                            </span>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- Profile Detail -->
+              @if (data()?.otherDetails?.profile; as profileDetails) {
+                <div class="col-12">
+                  <div class="view-detail-card">
+                    <h4 class="card-title">{{ systemConst().SECTIONS.PROFILE }}</h4>
+                    <div class="row g-4">
+                      @for (item of profileDetails; track item.label) {
+                        <div class="col-12 col-sm-6 col-md-3">
+                          <div class="detail-item">
+                            <span class="detail-label">{{ item.label }}</span>
+                            <span class="detail-value">
+                              @if (item.isDate) {
+                                {{ item.value | date: dateFormat }}
+                              } @else if (item.isPhone) {
+                                {{ item.value | contactFormat }}
+                              } @else {
+                                {{ item.value || '-' }}
+                              }
+                            </span>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- Bank Details -->
+              @if (data()?.otherDetails?.bank; as bankDetails) {
+                <div class="col-12">
+                  <div class="view-detail-card">
+                    <h4 class="card-title">{{ systemConst().SECTIONS.BANK }}</h4>
+                    <div class="row g-4">
+                      @for (item of bankDetails; track item.label) {
+                        <div class="col-12 col-md-4">
+                          <div class="detail-item">
+                            <span class="detail-label">{{ item.label }}</span>
+                            <span class="detail-value">
+                              @if (item.isDate) {
+                                {{ item.value | date: dateFormat }}
+                              } @else if (item.isPhone) {
+                                {{ item.value | contactFormat }}
+                              } @else {
+                                {{ item.value || '-' }}
+                              }
+                            </span>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </mat-tab>
+
+        @for (tab of data()?.additionalTabs; track tab.label) {
+          <mat-tab [label]="tab.label">
+            <div class="additional-tab-container mt-3">
+              <div class="row g-4">
+                @for (card of tab.cards; track card.title) {
+                  <div class="col-12 col-md-6">
+                    <div class="view-detail-card h-100">
+                      <h4 class="card-title">{{ card.title }}</h4>
+                      <div class="row g-3">
+                        @for (item of card.details; track item.label) {
+                          <div class="col-12 col-sm-6">
+                            <div class="detail-item">
+                              <span class="detail-label">{{ item.label }}</span>
+                              <span class="detail-value">
+                                @if (item.isDate) {
+                                  {{ item.value | date: dateFormat }}
+                                } @else if (item.isPhone) {
+                                  {{ item.value | contactFormat }}
+                                } @else {
+                                  {{ item.value || '-' }}
+                                }
+                              </span>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </mat-tab>
+        }
+
+        <mat-tab [label]="labels()?.documentsTab || systemConst().SECTIONS.DOCUMENTS">
+          <div class="documents-container mt-3">
+             <div class="document-list">
+               @if (data()?.documents && data()!.documents.length > 0) {
+                 @for (doc of data()!.documents; track doc.id) {
+                   <div class="document-horizontal-card">
+                     <div class="doc-icon-box">
+                       <mat-icon>description</mat-icon>
+                     </div>
+                     <div class="doc-content">
+                       <span class="doc-filename">{{ doc.fileName || (doc.typeName + '.pdf') }}</span>
+                     </div>
+                     <div class="doc-actions">
+                       @if (data()?.onView) {
+                         <button class="doc-action-button view-button" (click)="data()?.onView?.(doc.id)">
+                           <mat-icon>visibility</mat-icon>
+                         </button>
+                       }
+                       @if (data()?.onDownload) {
+                         <button class="download-button" (click)="data()?.onDownload?.(doc.id)">
+                           <mat-icon>file_download</mat-icon>
+                         </button>
+                       }
+                     </div>
+                   </div>
+                 }
+               } @else {
+                 <div class="no-docs-card text-center p-3 text-muted">
+                   <span>{{ systemConst().MESSAGES.INFO.NO_DOCUMENTS }}</span>
+                 </div>
+               }
+             </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    }
+  </div>
+</section>

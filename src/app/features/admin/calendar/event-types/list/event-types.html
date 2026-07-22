@@ -1,0 +1,19 @@
+<section class="configuration-screen-layout">
+    @if (gridConfig && this.permission().canList) {
+    <div class="configuration-grid-card">
+      <common-data-grid [config]="gridConfig"></common-data-grid>
+    </div>
+  }
+</section>
+
+<ng-template #colorTemplate let-row>
+  <div class="grid-color-cell d-flex">
+    <span class="color-badge"
+          [style.color]="row.colorCode"
+          [style.background-color]="row.colorCode + '26'"
+          [style.border-color]="row.colorCode + '66'"
+          style="padding: 4px 12px; border-radius: 4px; border: 1px solid; display: inline-block; font-weight: 500; font-size: 13px;">
+      {{ row.colorCode }}
+    </span>
+  </div>
+</ng-template>

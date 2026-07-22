@@ -1,0 +1,78 @@
+<div class="result-card">
+  <div class="status-tab" [class.pass]="!data().isAbsent && isPass()" [class.fail]="!data().isAbsent && !isPass()"
+    [class.absent]="data().isAbsent">
+    {{ data().isAbsent ? 'ABSENT' : (isPass() ? 'PASS' : 'FAIL') }}
+  </div>
+
+  <div class="result-card__header">
+    <div class="result-card__left">
+      <div class="subject-icon">
+        <div class="inner-icon">{{ letterIcon() }}</div>
+      </div>
+      <div class="evaluator-info">
+        <div class="evaluator-name">{{ data().evaluatedByName || '-' }}</div>
+        <div class="evaluator-date">
+          Evaluated on <br />
+          {{ data().evaluatedDate ? (data().evaluatedDate | date: CommonDateFormat.DDMMMYYYY_WithSpace) : '-' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card__middle">
+      <div class="title-wrapper">
+        <h3 class="exam-title">{{ data().examName }}</h3>
+        @if (isPass()) {
+        <button
+          type="button"
+          class="download-icon-btn"
+          [matTooltip]="'Download Certificate'"
+          (click)="onDownloadCertificate($event)"
+        >
+          <mat-icon>workspace_premium</mat-icon>
+        </button>
+        }
+      </div>
+      <div class="exam-details">
+        <div class="detail-row">
+          <span class="detail-item">
+            <mat-icon>calendar_today</mat-icon>
+            {{ data().examDate | date: CommonDateFormat.DDMMMYYYY_WithSpace }}
+          </span>
+          <span class="detail-item">
+            <mat-icon>access_time</mat-icon>
+            {{ formattedTimeRange() }}
+          </span>
+          <span class="detail-item">
+            <mat-icon>menu_book</mat-icon>
+            {{ data().subjectName }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card__right">
+      <div class="grade-badge" [ngClass]="data().grade ? 'grade-' + data().grade.charAt(0).toLowerCase() : ''">
+        {{ data().grade || '-' }}
+      </div>
+
+      <div class="progress-circle">
+        <svg width="64" height="64" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="26" fill="none" stroke="#f0f0f0" stroke-width="5"></circle>
+          <circle cx="32" cy="32" r="26" fill="none" [attr.stroke]="progressColor()" stroke-width="5"
+            stroke-linecap="round" [attr.stroke-dasharray]="circumference" [attr.stroke-dashoffset]="dashoffset()"
+            transform="rotate(-90 32 32)"></circle>
+        </svg>
+        <div class="progress-text">
+          <span class="percentage" [style.color]="progressColor()">{{ data().percentage || 0 }}%</span>
+          <span class="marks">{{ data().obtainedMarks || 0 }}/{{ data().maxMarks || 0 }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  @if (data().remarks) {
+  <div class="info-remark-container">
+    <mat-icon class="info-icon">info</mat-icon>
+    <span class="remark-text">{{ data().remarks }}</span>
+  </div>
+  }
+</div>

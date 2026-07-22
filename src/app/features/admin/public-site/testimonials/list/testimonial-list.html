@@ -1,0 +1,24 @@
+<div class="page-container">
+  @if(permission().canList){
+  <common-data-grid [config]="gridConfig"></common-data-grid>
+  }
+</div>
+
+
+<ng-template #reviewMessage let-row>
+  <div class="quote-text">
+    {{ row.reviewMessage.replace(/<[^>]*>/g, '') }}
+  </div>
+</ng-template>
+
+<form [formGroup]="formGroup">
+  <ng-template #rating let-row>
+    <app-star-rating [config]="starConfig(row?.rating)"></app-star-rating>
+  </ng-template>
+</form>
+<ng-template #banner let-row="row">
+  <div class="user-profile-cell">
+    <app-safe-image class="user-profile-cell__avatar" [config]="{ src: row.profileImageUrl, alt: 'Image' }">
+    </app-safe-image>
+  </div>
+</ng-template>

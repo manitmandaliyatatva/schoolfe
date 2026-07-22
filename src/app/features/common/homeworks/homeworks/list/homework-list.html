@@ -1,0 +1,11 @@
+<section class="configuration-screen-layout">
+    @if (gridConfig && permission().canList) {
+    <div class="configuration-grid-card">
+      <common-data-grid [config]="gridConfig"></common-data-grid>
+    </div>
+  }
+</section>
+
+<ng-template #statusCellTemplate let-row>
+  <app-homework-status-chip [status]="row.studentHomeworkStatus"></app-homework-status-chip>
+</ng-template>

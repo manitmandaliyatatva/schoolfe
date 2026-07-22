@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+::ng-deep .mat-form-field-suffix {
+  display: flex;
+  align-items: center;
+}
+
+button[mat-icon-button] {
+  width: 40px;
+  height: 40px;
+}

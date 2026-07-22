@@ -1,0 +1,63 @@
+@if(article()){
+
+<div>
+  <!-- Hero Section -->
+  <div class="article-hero">
+    <div class="hero-image-wrapper">
+      <img [src]="getSafeImageSrc(article().imageUrl)" [alt]="article().title" class="hero-image animate-zoom">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="container hero-content"
+      style="opacity: 0; animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;">
+      <div class="article-meta">
+        <span class="category">{{ article().category }}</span>
+        <span class="date"><span class="icon">📅</span> {{ article().newsDate | date:'longDate' }}</span>
+        <span class="author"><span class="icon">✍️</span> SIKSHA Admin</span>
+      </div>
+      <h1 class="article-title">{{ article().title }}</h1>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <section class="section article-content-section">
+    <div class="container">
+      <div class="article-wrapper"
+        style="opacity: 0; animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.2s;">
+        <div class="article-header-actions">
+          <a routerLink="/news" class="btn btn-secondary back-btn">
+            <span class="arrow">←</span> Back to News
+          </a>
+          <div class="social-share">
+            <span>Share:</span>
+            <button class="share-btn">f</button>
+            <button class="share-btn">in</button>
+            <button class="share-btn">𝕏</button>
+          </div>
+        </div>
+
+        <div class="article-body">
+          <p class="lead-summary">{{ article().title }}</p>
+
+          <div class="full-content" [innerHTML]="article().description"></div>
+        </div>
+
+        <div class="article-footer">
+          <div class="tags">
+            <span class="tag">#{{article().category}}</span>
+            <span class="tag">#SikshaSchool</span>
+            <span class="tag">#Education</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+}@else{
+<!-- Fallback if not found -->
+<div class="section container text-center"
+  style="min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+  <h2>Article Not Found</h2>
+  <p style="margin-bottom: 2rem; color: var(--text-secondary);">The news article you are looking for does not exist.</p>
+  <a routerLink="/news" class="btn btn-primary">Return to News</a>
+</div>
+}

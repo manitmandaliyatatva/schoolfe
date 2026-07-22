@@ -1,0 +1,15 @@
+<div class="page-header">
+  <div class="container text-center animate-fade-in-up">
+    <h1>About {{settingService.schoolName()}}</h1>
+    <p>Nurturing minds, building character, and shaping the future since 2011.</p>
+  </div>
+</div>
+
+<section class="section about-section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-content animate-fade-in-up" [innerHTML]="aboutUs().aboutContent">
+      </div>
+    </div>
+  </div>
+</section>

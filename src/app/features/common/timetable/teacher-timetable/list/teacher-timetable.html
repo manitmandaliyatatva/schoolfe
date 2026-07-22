@@ -1,0 +1,55 @@
+<section class="configuration-screen-layout teacher-timetable-page">
+  <div class="position-relative d-flex flex-column">
+    @if (!isMyTimetable()) {
+      <form [formGroup]="filterForm">
+        <common-dynamic-form [formControls]="filterFormControls()"></common-dynamic-form>
+      </form>
+    }
+    
+    @if (teacherTimetableGridConfig && permission().canList) {
+      <div class="d-flex justify-content-end mb-2" [class.mt-2]="isMyTimetable()" style="gap: 8px;">
+        <common-button [config]="refreshButtonConfig()"></common-button>
+        <common-button [config]="downloadButtonConfig()"></common-button>
+      </div>
+    }
+  </div>
+
+  @if (teacherTimetableGridConfig && permission().canList) {
+  <div class="configuration-grid-card timetable-grid-card">
+    <common-data-grid [config]="teacherTimetableGridConfig"></common-data-grid>
+  </div>
+  }
+</section>
+
+<ng-template #timetableCardCell let-row="row" let-column="column" let-rowIndex="rowIndex">
+  @let card = getCellRow(row, column.field, rowIndex);
+  @if (card) {
+    <common-timetable-card
+      [data]="card"
+      [variantIndex]="row.colorIndex ?? rowIndex"
+      [canAdd]="permission().canCreate"
+      [canEdit]="permission().canUpdate"
+      [canDelete]="permission().canDelete"
+      (addClicked)="onAddClick($event)"
+      (editClicked)="onEditClick($event)"
+      (deleteClicked)="onDeleteClick($event)"
+    >
+    </common-timetable-card>
+  }
+</ng-template>
+
+<ng-template #breakRowTemplate let-row>
+  <div class="break-row-banner">
+    <div class="break-content">
+      <span class="break-title">Break</span>
+      <span class="break-time">({{ getBreakTimeRange(row) }})</span>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #timeslotcol let-row="row">
+  <div class="time-slot-label" >
+    {{ getRowTimeRange(row) }}
+  </div>
+</ng-template>

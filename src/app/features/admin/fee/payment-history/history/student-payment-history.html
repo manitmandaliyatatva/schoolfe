@@ -1,0 +1,24 @@
+<section class="configuration-screen-layout student-payment-history-screen">
+  <div class="configuration-screen-content">
+    @if (studentName() && authStore.isAdmin()) {
+      <div class="student-info-card">
+        <div class="student-details">
+          <span class="student-info-label">{{ PaymentHistoryConst.STUDENT_NAME }}</span>
+          <span class="student-info-name">{{ studentName() }}</span>
+        </div>
+        <div class="header-actions">
+          @if (studentId) {
+            <common-button [config]="backBtnConfig()"></common-button>
+          }
+        </div>
+      </div>
+    }
+
+    @if (gridConfig && permission().canList) {
+      <div class="configuration-grid-card">
+        <common-data-grid [config]="gridConfig"></common-data-grid>
+      </div>
+    }
+  </div>
+</section>
+

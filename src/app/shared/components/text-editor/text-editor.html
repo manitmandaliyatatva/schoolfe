@@ -1,0 +1,70 @@
+<form [formGroup]="formGroup()">
+    <div class="text-editor-wrapper" [class]="themeClass()">
+        <!-- Label -->
+        @if (config().label) {
+        <label class="editor-label" [ngClass]="{'has-error': isError()}" [for]="inputId()">
+            {{ config().label }}
+            @if (isRequired()) {
+            <span class="required-mark">*</span>
+            }
+        </label>
+        }
+
+        <!-- Description -->
+        @if (config().description) {
+        <p class="editor-description">{{ config().description }}</p>
+        }
+
+        <!-- Editor Container -->
+        <div class="editor-container" [class.focused]="isFocused()" [class.disabled]="isDisabled()"
+            [class.ng-invalid]="isError()" [class.ng-touched]="control()?.touched">
+
+            <!-- Toolbar (rendered based on config) -->
+            @if (shouldShowToolbar()) {
+            <ngx-editor-menu [editor]="editor" [toolbar]="resolvedToolbar()"
+                [colorPresets]="config().colorPresets ?? defaultColorPresets" />
+            }
+
+            <!-- Editor Body bound to FormControl -->
+            <ngx-editor [id]="inputId()" [editor]="editor" [formControlName]="formControlName()"
+                [placeholder]="config().placeholder ?? 'Start typing...'"
+                [style.min-height]="config().minHeight ?? '150px'" [style.max-height]="config().maxHeight ?? 'none'"
+                (focusOut)="onBlur($event)" (focus)="onFocus()" />
+        </div>
+
+        <!-- Footer: word count / char count -->
+        @if (config().showWordCount || config().showCharCount) {
+        <div class="editor-footer">
+            @if (config().showWordCount) {
+            <span class="count-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h10" />
+                </svg>
+                {{ wordCount() }} words
+            </span>
+            }
+            @if (config().showCharCount) {
+            <span class="count-badge" [class.over-limit]="isOverCharLimit()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+                {{ charCount() }}
+                @if (config().maxLength) { / {{ config().maxLength }} }
+                chars
+            </span>
+            }
+        </div>
+        }
+
+        <!-- Error message via CommonErrorComponent (matches TextboxComponent pattern) -->
+        @if (errorConfig()) {
+        }
+        <common-error [config]="errorConfig()!"></common-error>
+
+        <!-- Hint text (only when no error) -->
+        @if (isHintText() && !isError()) {
+        <p class="editor-hint">{{ config().hintText }}</p>
+        }
+
+    </div>
+</form>

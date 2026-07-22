@@ -1,0 +1,333 @@
+@use "../../../../../assets/style/variables.scss" as *;
+
+$present: #2e7d32;
+$bg-alt: #f8f9fb;
+$border: #e5e7eb;
+$txt: #1f2937;
+$txt-m: #6b7280;
+$radius: $card-radius;
+
+@mixin glass-panel {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
+}
+
+/* ── Dashboard wrapper ── */
+.attendance-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 6px;
+}
+
+/* ═══════ KPI STRIP ═══════ */
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.kpi-card {
+  @include glass-panel;
+  border-radius: $radius;
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+  border: none;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .06);
+  }
+}
+
+.kpi-accent {
+  height: 4px;
+}
+
+.kpi-body {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kpi-number {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+.kpi-label {
+  font-size: 15px;
+  color: $txt-m;
+  font-weight: 600;
+}
+
+.kpi-pending {
+  .kpi-accent {
+    background: #9ca3af;
+  }
+
+  .kpi-number {
+    color: #9ca3af;
+  }
+}
+
+/* ═══════ MAIN GRID ═══════ */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  >div {
+    min-width: 0;
+  }
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* shared panel */
+.panel {
+  @include glass-panel;
+  border-radius: $radius;
+  padding: 20px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+
+  &.bb {
+    border-bottom: 1px solid $border;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+}
+
+.cal-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: $txt;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: $txt-m;
+  }
+
+  &.clickable-title {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.datepicker-input-hidden {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  position: absolute;
+}
+
+.chip-light {
+  font-size: 12px;
+  color: $txt-m;
+  background: $bg-alt;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-weight: 500;
+  border: 1px solid $border;
+}
+
+/* ═══════ CALENDAR ═══════ */
+.calendar-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  flex: 1;
+}
+
+.cal-head {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: $txt-m;
+  padding-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+.cal-cell {
+  height: 45px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $bg-alt;
+  transition: all .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+
+  &.empty {
+    background: transparent;
+  }
+
+  &.weekend {
+    background: #f3f4f6;
+
+    .cal-date {
+      color: #b0b0b0;
+    }
+  }
+
+  &.holiday-cell {
+    background: #f5f0ff;
+    border-color: #ede5ff;
+  }
+
+  &:not(.empty):hover {
+    transform: scale(1.05);
+    z-index: 10;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, .1);
+  }
+}
+
+.cal-date {
+  font-size: 13px;
+  font-weight: 500;
+  color: $txt;
+}
+
+.cal-status {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.85;
+  margin-bottom: 2px;
+}
+
+.cal-legend {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid $border;
+}
+
+.leg {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: $txt-m;
+  font-weight: 500;
+}
+
+.ldot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ═══════ RIGHT COLUMN ═══════ */
+.right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Breakdown ── */
+.breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bd-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bd-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bd-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: $txt;
+}
+
+.bd-val {
+  font-size: 13px;
+  color: $txt;
+
+  b {
+    font-weight: 600;
+    margin-right: 3px;
+  }
+}
+
+/* progress bar colors */
+.bar-present ::ng-deep .mdc-linear-progress__bar-inner {
+  border-color: $present !important;
+}
+
+.bar-pending ::ng-deep .mdc-linear-progress__bar-inner {
+  border-color: #9ca3af !important;
+}
+
+::ng-deep .mdc-linear-progress {
+  height: 6px !important;
+  border-radius: 3px;
+}
+
+::ng-deep .mdc-linear-progress__buffer-bar {
+  background-color: #f0f1f3 !important;
+}

@@ -1,0 +1,42 @@
+<svg width="120" height="120" viewBox="120 0 160 160" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Circle (keep strong & spacious) -->
+  <circle cx="200" cy="80" r="70"
+          stroke="#2F4858"
+          stroke-width="4"
+          fill="none"/>
+
+  <!-- ICON (scaled down for proper padding) -->
+  <g transform="translate(200,80) scale(0.88) translate(-200,-80)">
+
+    <!-- Sun Rays -->
+    <path d="M200 15L200 25M220 20L215 28M235 35L227 40M245 55L235 55M180 20L185 28M165 35L173 40M155 55L165 55"
+          stroke="#F99D1C"
+          stroke-width="2"
+          stroke-linecap="round"/>  
+
+    <!-- Sun -->
+    <circle cx="200" cy="55" r="22" fill="#F99D1C" />
+
+    <!-- Book -->
+    <path d="M200 85C160 85 130 65 130 65L145 95C145 95 170 110 200 110C230 110 255 95 255 95L270 65C270 65 240 85 200 85Z"
+          fill="#2D9F8E" />  
+
+    <path d="M200 95C170 95 145 80 145 80L155 105C155 105 175 115 200 115C225 115 245 105 245 105L255 80C255 80 230 95 200 95Z"
+          fill="#258476" /> 
+
+    <!-- Network -->
+    <circle cx="200" cy="115" r="5" fill="#2D9F8E" />
+
+    <path d="M185 130L195 120M215 130L205 120M200 140V120"
+          stroke="#2D9F8E"
+          stroke-width="3"
+          stroke-linecap="round"/>
+
+    <circle cx="185" cy="135" r="4" fill="#2D9F8E" />
+    <circle cx="215" cy="135" r="4" fill="#2D9F8E" />
+    <circle cx="200" cy="145" r="4" fill="#2D9F8E" />
+
+  </g>
+
+</svg>

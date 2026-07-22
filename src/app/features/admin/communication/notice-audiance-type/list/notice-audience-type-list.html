@@ -1,0 +1,7 @@
+<section class="configuration-screen-layout">
+    @if (noticeTypeGridConfig && permission().canList) {
+  <div class="configuration-grid-card">
+    <common-data-grid [config]="noticeTypeGridConfig"></common-data-grid>
+  </div>
+  }
+</section>

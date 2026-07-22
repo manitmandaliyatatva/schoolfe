@@ -1,0 +1,11 @@
+<section class="configuration-screen-layout">
+  @if (gridConfig && this.permission().canList) {
+    <div class="configuration-grid-card">
+      <common-data-grid [config]="gridConfig"></common-data-grid>
+    </div>
+  }
+</section>
+
+<ng-template #branchDetailTemplate let-data>
+  <app-common-detail-view [data]="data" [fields]="branchDetailFields"></app-common-detail-view>
+</ng-template>

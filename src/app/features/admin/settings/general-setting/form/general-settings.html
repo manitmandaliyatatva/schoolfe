@@ -1,0 +1,31 @@
+<section class="student-form-page configuration-screen-layout">
+
+    <div class="configuration-screen-content">
+        <form [formGroup]="formGroup" class="pt-2">
+            <mat-tab-group #tabGroup dynamicHeight mat-stretch-tabs="false" mat-align-tabs="start"
+                animationDuration="0ms" [disableRipple]="true">
+                @for (item of settingList(); track item.settingGroupId) {
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <span>
+                            {{item.groupName}}
+                        </span>
+                    </ng-template>
+                    <div class="p-3">
+                        <div class="form-card-section">
+                            @if (tabFormControls[item.groupCode]) {
+                            <common-dynamic-form [formControls]="tabFormControls[item.groupCode]"></common-dynamic-form>
+                            }
+                        </div>
+                    </div>
+                </mat-tab>
+                }
+            </mat-tab-group>
+
+            <div class="form-actions configuration-screen-actions d-flex justify-content-end gap-2 p-3">
+                <common-button [config]="cancelBtn()"></common-button>
+                <common-button [config]="saveBtn()"></common-button>
+            </div>
+        </form>
+    </div>
+</section>

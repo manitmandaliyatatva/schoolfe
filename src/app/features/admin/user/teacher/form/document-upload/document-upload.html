@@ -1,0 +1,8 @@
+<div class="p-3">
+  <ng-template #statusTemplate let-row="row">
+    <app-status-chip [config]="{ value: () => row.isActive && !row.isDeleted }" />
+  </ng-template>
+
+
+  <common-data-grid [config]="documentGridConfig"></common-data-grid>
+</div>

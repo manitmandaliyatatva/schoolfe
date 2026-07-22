@@ -1,0 +1,40 @@
+<div class="widget-config-container">
+  <p class="dialog-subtitle">
+    {{ WIDGET_CONFIG_CONST.DIALOG_SUBTITLE }}
+  </p>
+
+  <!-- Responsive 2-column Grid of Widget cards -->
+  <div class="widgets-grid">
+    @for (widget of widgets; track widget.key) {
+      <div 
+        class="widget-card" 
+        [class.active]="draftStates()[widget.key]"
+        (click)="toggleWidget(widget.key)"
+      >
+        <div class="card-left">
+          <!-- Icon Background Badge -->
+          <div class="widget-icon-badge">
+            <mat-icon>{{ widget.icon }}</mat-icon>
+          </div>
+          <!-- Label -->
+          <span class="widget-label">{{ widget.label }}</span>
+        </div>
+
+        <!-- Action Indicator (Green Add or Gray Checkmark) -->
+        <div class="card-right">
+          @if (draftStates()[widget.key]) {
+            <mat-icon class="status-icon active-check">check_circle</mat-icon>
+          } @else {
+            <mat-icon class="status-icon inactive-plus">add_circle</mat-icon>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Bottom Action Buttons -->
+  <div class="dialog-actions mt-4">
+    <common-button [config]="cancelBtn()"></common-button>
+    <common-button [config]="saveBtn()"></common-button>
+  </div>
+</div>

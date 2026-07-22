@@ -1,0 +1,130 @@
+.breadcrumb-nav {
+  display: inline-flex;
+  vertical-align: middle;
+  background-color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0; // slate-200
+  margin-bottom: 8px;
+}
+
+.breadcrumb-list {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 2px;
+}
+
+.breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-family: inherit;
+  color: #64748b; // slate-500
+  line-height: 1;
+
+  // Prevent default bullet marks completely
+  &::before, &::after {
+    display: none !important;
+  }
+}
+
+.breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+
+  &:hover {
+    color: #2aa39c; // primary teal brand color
+    background-color: #f1f8f7; // light primary tint
+    text-decoration: none;
+  }
+
+  &.home-link {
+    gap: 6px;
+  }
+}
+
+.home-icon {
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.breadcrumb-separator {
+  color: #94a3b8; // slate-400
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2px;
+
+  mat-icon {
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    line-height: 1 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.breadcrumb-active {
+  color: #2aa39c; // slate-800
+  background-color: #f1f8f7;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: default;
+  user-select: text;
+  display: inline-flex;
+  align-items: center;
+}
+
+.breadcrumb-non-clickable {
+  color: #64748b; // slate-500
+  font-weight: 500;
+  padding: 6px 10px;
+  cursor: default;
+  user-select: none;
+}
+
+// Smart Responsive Adjustment: Hide Home text on small mobile screens to prevent overflow
+@media (max-width: 576px) {
+  .home-text {
+    display: none;
+  }
+
+  .breadcrumb-link.home-link {
+    padding-right: 4px;
+  }
+
+  .breadcrumb-item {
+    font-size: 13px;
+  }
+
+  .breadcrumb-active,
+  .breadcrumb-non-clickable,
+  .breadcrumb-link {
+    padding: 3px 4px;
+  }
+}

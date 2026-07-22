@@ -1,0 +1,11 @@
+<section class="configuration-screen-layout">
+        @if (gridConfig && permission().canList) {
+    <div class="configuration-grid-card">
+        <common-data-grid [config]="gridConfig"></common-data-grid>
+    </div>
+    }
+</section>
+
+<ng-template #booleanStatus let-value="value">
+    <boolean-status [value]="value"></boolean-status>
+</ng-template>

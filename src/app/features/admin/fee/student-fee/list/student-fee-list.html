@@ -1,0 +1,20 @@
+<section class="configuration-screen-layout">
+        <app-fee-filter
+        [showClass]="true"
+        [showFeeType]="true"
+        [showStatus]="true"
+        [defaultStatus]="defaultFeeStatusId"
+        (search)="onSearch($event)"
+        (clear)="onClear($event)">
+    </app-fee-filter>
+
+    @if (gridConfig && permission().canList) {
+    <div class="configuration-grid-card">
+        <common-data-grid [config]="gridConfig"></common-data-grid>
+    </div>
+    }
+</section>
+
+<ng-template #statusTemplate let-row="row">
+    <app-fee-status-chip [statusId]="row.status" [statusName]="row.statusName"></app-fee-status-chip>
+</ng-template>

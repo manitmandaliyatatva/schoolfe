@@ -1,0 +1,129 @@
+<div class="view-dialog-container">
+
+  <div class="dialog-content">
+    @if (event()) {
+    <div class="event-details-grid">
+      <!-- Event Title Section -->
+      <div class="detail-section full-width mb-4 d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="event-title mb-1">{{ event()?.eventTitle }}</h1>
+          <div class="event-type-badge d-inline-block px-3 py-1 fw-semibold small"
+            [style.backgroundColor]="event()?.colorCode ? (event()!.colorCode! + '1A') : ''"
+            [style.color]="event()?.colorCode || ''"
+            [style.borderColor]="event()?.colorCode || ''"
+            [style.border]="event()?.colorCode ? '1px solid' : 'none'"
+            [class.bg-primary-light]="!event()?.colorCode"
+            [class.text-primary]="!event()?.colorCode">
+            {{ event()?.eventTypeName }}
+          </div>
+        </div>
+
+        <div class="duration-info text-end">
+          @if (event()?.isAllDay) {
+            <div class="status-pill bg-success-light text-success">
+              <mat-icon>check_circle</mat-icon>
+              All Day
+            </div>
+          } @else {
+            <div class="status-pill bg-info-light text-info">
+              <mat-icon>schedule</mat-icon>
+              {{ event()?.startDate | date:'shortTime' }} - {{ event()?.endDate | date:'shortTime' }}
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="row g-4 mb-3">
+        <!-- Date Cards -->
+        <div class="col-md-6">
+          <div class="info-card">
+            <div class="icon-wrapper bg-info-light text-info">
+              <mat-icon>calendar_today</mat-icon>
+            </div>
+            <div class="info-body">
+              <label class="detail-label">{{ SYSTEM_CONST.LABELS.COMMON.START_DATE }}</label>
+              <div class="value">{{ event()?.startDate | date:'fullDate' }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="info-card">
+            <div class="icon-wrapper bg-info-light text-info">
+              <mat-icon>event</mat-icon>
+            </div>
+            <div class="info-body">
+              <label class="detail-label">{{ SYSTEM_CONST.LABELS.COMMON.END_DATE }}</label>
+              <div class="value">{{ event()?.endDate | date:'fullDate' }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location & Group -->
+        @if (event()?.location) {
+        <div class="col-md-6">
+          <div class="info-card">
+            <div class="icon-wrapper bg-success-light text-success">
+              <mat-icon>location_on</mat-icon>
+            </div>
+            <div class="info-body">
+              <label class="detail-label">{{ CALENDAR_CONST.LOCATION }}</label>
+              <div class="value">{{ event()?.location }}</div>
+            </div>
+          </div>
+        </div>
+        }
+
+        @if (event()?.eventGroupName) {
+        <div class="col-md-6">
+          <div class="info-card">
+            <div class="icon-wrapper bg-purple-light text-purple">
+              <mat-icon>groups</mat-icon>
+            </div>
+            <div class="info-body">
+              <label class="detail-label">{{ CALENDAR_CONST.EVENT_GROUP }}</label>
+              <div class="value">{{ event()?.eventGroupName }}</div>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Description -->
+        @if (event()?.description) {
+        <div class="col-md-12">
+          <div class="info-card description-card">
+            <div class="icon-wrapper bg-primary-light text-primary">
+              <mat-icon>notes</mat-icon>
+            </div>
+            <div class="info-body">
+              <label class="detail-label">{{ CALENDAR_CONST.DESCRIPTION }}</label>
+              <div class="description-text">
+                {{ event()?.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Attachment -->
+        @if (event()?.eventFileName) {
+        <div class="col-md-12">
+          <div class="info-card d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-wrapper bg-warning-light text-warning">
+                <mat-icon>attach_file</mat-icon>
+              </div>
+              <div class="info-body">
+                <label class="detail-label mb-0">{{ CALENDAR_CONST.EVENT_FILE }}</label>
+                <div class="value fw-medium">{{ event()?.eventFileName }}</div>
+              </div>
+            </div>
+            <common-button [config]="attachmentBtnConfig()"></common-button>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+    }
+  </div>
+</div>

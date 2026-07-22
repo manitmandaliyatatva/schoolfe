@@ -1,0 +1,23 @@
+export const LOGIN_CONST = {
+  SCHOOL_MANAGEMENT_SYSTEM: 'School Management System',
+  LOGIN_TO_YOUR_ACCOUNT: 'Log in to your account',
+  FORGET_PASSWORD: 'Forget Password',
+  PASSWORD: 'Password',
+  LOG_IN: 'Log In Now',
+  EMAIL_ADDRESS: 'Email Address',
+  LOGOUT_CONFIRMATION: 'Are you sure you want to logout?',
+  LOGOUT: 'Logout',
+  CANCEL: 'Cancel',
+  BACK_TO_LOGIN: 'Back to Login',
+  FORGET_PASSWORD_INSTRUCTION: 'Enter your email to get password reset link',
+  SEND_RESET_LINK: 'Send Reset Link',
+  RESET_PASSWORD: 'Reset Password',
+  RESET_PASSWORD_INSTRUCTION: 'Enter your new password',
+  NEW_PASSWORD: 'New Password',
+  CONFIRM_PASSWORD: 'Confirm Password',
+  UPDATE_PASSWORD: 'Update Password',
+  CHANGE_PASSWORD: 'Change Password',
+  CURRENT_PASSWORD: 'Current Password',
+  SELECT_USER_TYPE: 'Select User Type',
+};
+export type Role = 'Admin' | 'Student' | 'Teacher' | 'Super Admin';

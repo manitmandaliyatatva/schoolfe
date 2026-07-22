@@ -1,0 +1,21 @@
+@if (config().label) {
+  <label class="form-field-label" [ngClass]="{ 'has-error': isError() }">
+    {{ config().label }}{{ isRequired() ? ' *' : '' }}
+  </label>
+}
+
+@if(config().fileType == 'image'){
+    <div class="common-photo-upload" [class.has-error]="isError()" [class.ng-invalid]="isError()">
+        <app-safe-image [config]="{ src: currentSrc(), alt: altText(), cssClass: 'common-photo-upload__preview' }">
+        </app-safe-image>
+        <label class="common-photo-upload__edit" [for]="inputId()" title="Upload photo">
+            <mat-icon>edit</mat-icon>
+        </label>
+        <input [id]="inputId()" type="file" hidden [accept]="allowedExtensions()"
+        (change)="onFileSelected($event)" />
+    </div>
+}@else {
+    <input [id]="inputId()" type="file" [accept]="allowedExtensions()"
+        (change)="onFileSelected($event)" />
+}
+<common-error [config]="errorConfig()"></common-error>

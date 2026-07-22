@@ -1,0 +1,62 @@
+<div class="notification-config-container">
+  <p class="dialog-subtitle">
+    {{ NOTIFICATION_CONFIG_CONST.SUBTITLE }}
+  </p>
+
+  @if (isLoading()) {
+    <div class="loading-overlay">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    <div class="accordion-scroll-container">
+      <mat-accordion class="config-accordion" [multi]="false">
+        @for (cat of categories(); track cat.category) {
+          <mat-expansion-panel [expanded]="false" class="category-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="category-title">
+                <mat-icon class="category-icon">notifications_paused</mat-icon>
+                {{ cat.category }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="category-events-list">
+              @for (event of cat.events; track event.notificationEventId) {
+                <div class="event-row">
+                  <div class="col event-col">
+                    <span class="event-name">{{ event.eventName }}</span>
+                  </div>
+                  <div class="event-channels-container">
+                    @for (channel of channels; track channel.key) {
+                      <div class="col toggle-col">
+                        <div class="channel-info-wrapper">
+                          <mat-icon class="channel-toggle-icon">{{ channel.icon }}</mat-icon>
+                          <span class="channel-label-text">{{ channel.label }}</span>
+                        </div>
+                        <mat-slide-toggle
+                          [checked]="event[channel.key]"
+                          (change)="toggleChannel(event, channel.key, $event.checked)"
+                          [aria-label]="event.eventName + ' ' + channel.label"
+                        >
+                      </mat-slide-toggle>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </mat-expansion-panel>
+        } @empty {
+          <div class="empty-state">
+            <mat-icon>notifications_off</mat-icon>
+            <p>{{ NOTIFICATION_CONFIG_CONST.NO_SETTINGS }}</p>
+          </div>
+        }
+      </mat-accordion>
+    </div>
+  }
+
+  <div class="dialog-actions">
+    <common-button [config]="cancelBtn()"></common-button>
+    <common-button [config]="saveBtn()"></common-button>
+  </div>
+</div>

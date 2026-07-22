@@ -1,0 +1,55 @@
+<section class="student-form-page configuration-screen-layout">
+
+  <div class="configuration-screen-content">
+    <mat-tab-group #tabGroup dynamicHeight mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms"
+      [disableRipple]="true">
+
+      <!-- Personal Information -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [class.tab-label-error]="tabErrors().basic">
+            {{SYSTEM_CONST().SECTIONS.PERSONAL}}
+          </span>
+        </ng-template>
+        <app-basic-information-form></app-basic-information-form>
+      </mat-tab>
+
+      <!-- Guardian Information -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [class.tab-label-error]="tabErrors().other">
+            {{SYSTEM_CONST().SECTIONS.GUARDIAN_INFO}}
+          </span>
+        </ng-template>
+        <app-guardian-details></app-guardian-details>
+      </mat-tab>
+
+      @if (isEditMode()) {
+      <!-- Other Details -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [class.tab-label-error]="tabErrors().documents">
+            {{SYSTEM_CONST().SECTIONS.OTHER}}
+          </span>
+        </ng-template>
+        <app-other-details></app-other-details>
+      </mat-tab>
+
+      <!-- Documents -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [class.tab-label-error]="tabErrors().documents">
+            {{SYSTEM_CONST().SECTIONS.DOCUMENTS}}
+          </span>
+        </ng-template>
+        <app-document-upload></app-document-upload>
+      </mat-tab>
+      }
+    </mat-tab-group>
+
+    <div class="form-actions configuration-screen-actions d-flex justify-content-end p-3">
+      <common-button [config]="cancelBtn()"></common-button>
+      <common-button [config]="saveBtn()"></common-button>
+    </div>
+  </div>
+</section>

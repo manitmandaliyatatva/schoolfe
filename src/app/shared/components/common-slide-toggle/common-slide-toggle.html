@@ -1,0 +1,10 @@
+<div class="common-slide-toggle">
+  <form [formGroup]="formGroup!">
+    <mat-slide-toggle [id]="inputId()" [formControlName]="config().formControlName"
+      [labelPosition]="config().labelPosition || 'after'" [disabled]="!!config().disabled"
+      [hideIcon]="!!config().hideIcon" [ngClass]="config().cssClass" (change)="onChange($event)">
+      {{ config().label }}
+    </mat-slide-toggle>
+    <common-error [config]="errorConfig()"></common-error>
+  </form>
+</div>

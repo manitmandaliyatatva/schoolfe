@@ -1,0 +1,16 @@
+<div class="configuration-screen-content">
+    <form [formGroup]="formGroup" (ngSubmit)="onSave()">
+        @if (isAlreadyPaid()) {
+            <div class="paid-alert">
+                <span class="material-icons">info</span>
+                <span>{{ FeeAdjustmentConst.FEE_ALREADY_PAID }}</span>
+            </div>
+        }
+        <common-dynamic-form [formControls]="formControls" [showCard]="false" />
+
+        <div class="form-actions configuration-screen-actions">
+            <common-button [config]="cancelBtn()" />
+            <common-button [config]="saveBtn()" />
+        </div>
+    </form>
+</div>

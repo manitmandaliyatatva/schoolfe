@@ -1,0 +1,46 @@
+<section class="teacher-form-page configuration-screen-layout">
+
+  <div class="configuration-screen-content">
+    <mat-tab-group #tabGroup dynamicHeight mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [class.tab-label-error]="tabErrors().personal">
+            {{SYSTEM_CONST().SECTIONS.PERSONAL}}
+          </span>
+        </ng-template>
+        <app-teacher-basic-info-form></app-teacher-basic-info-form>
+      </mat-tab>
+      @if (isEditMode()) {
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [class.tab-label-error]="tabErrors().other">
+            {{SYSTEM_CONST().SECTIONS.OTHER}}
+          </span>
+        </ng-template>
+        <app-teacher-other-details></app-teacher-other-details>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [class.tab-label-error]="tabErrors().qualifications">
+            {{SYSTEM_CONST().SECTIONS.QUALIFICATIONS}}
+          </span>
+        </ng-template>
+        <app-teacher-qualifications></app-teacher-qualifications>
+      </mat-tab>
+      <mat-tab [label]="">
+        <ng-template mat-tab-label>
+          <span [class.tab-label-error]="tabErrors().documents">
+            {{SYSTEM_CONST().SECTIONS.DOCUMENTS}}
+          </span>
+        </ng-template>
+        <app-teacher-document-upload></app-teacher-document-upload>
+      </mat-tab>
+      }
+    </mat-tab-group>
+
+    <div class="form-actions configuration-screen-actions d-flex justify-content-end p-3">
+      <common-button [config]="cancelBtn()"></common-button>
+      <common-button [config]="saveBtn()"></common-button>
+    </div>
+  </div>
+</section>

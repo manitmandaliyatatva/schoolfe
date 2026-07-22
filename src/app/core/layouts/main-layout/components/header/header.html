@@ -1,0 +1,59 @@
+<mat-toolbar class="top-bar">
+
+  <!-- Left: toggle icon + page title -->
+  <div class="left-side">
+    <button class="grid-btn" mat-icon-button (click)="toggle.emit()">
+      <mat-icon>{{ sidebarExpanded() ? 'menu' : 'arrow_forward' }}</mat-icon>
+    </button>
+    <span class="page-title">{{ pageTitle() }}</span>
+  </div>
+
+  <!-- Header Filters -->
+  <div class="header-filters-container">
+    <app-header-filters></app-header-filters>
+  </div>
+
+  <!-- Right: bell + user avatar -->
+  <div class="right-side">
+    <!-- Notification bell -->
+    <button class="icon-btn" mat-icon-button [matMenuTriggerFor]="notificationPanel.notificationMenu" #menuTrigger="matMenuTrigger" (menuOpened)="notificationPanel.onMenuOpened()">
+      <mat-icon [matBadge]="notificationService.unreadCount()" matBadgeColor="warn" matBadgeSize="small" [matBadgeHidden]="notificationService.unreadCount() === 0">
+        notifications
+      </mat-icon>
+    </button>
+    <app-notification-panel #notificationPanel (closePanel)="menuTrigger.closeMenu()"></app-notification-panel>
+
+    <!-- User avatar dropdown -->
+    <button class="avatar-btn" [matMenuTriggerFor]="accountMenu">
+      @if (authStore.profilePhoto()) {
+        <app-safe-image class="header-profile-avatar" [config]="{ src: authStore.profilePhoto()!, alt: SYSTEM_CONST.LABELS.DOCUMENTS.USER_PROFILE_PHOTO, userName: authStore.name() || '' }"></app-safe-image>
+      } @else {
+        <mat-icon>account_circle</mat-icon>
+      }
+    </button>
+  </div>
+
+</mat-toolbar>
+
+<!-- Account Menu -->
+<mat-menu #accountMenu="matMenu" class="account-menu">
+  @if (authStore.isStudent() || authStore.isTeacher()) {
+  <button mat-menu-item (click)="openMyProfile()">
+    <span>{{ HEADER_CONST.MY_PROFILE }}</span>
+  </button>
+  }
+  @if (hasDashboardPermission()) {
+  <button mat-menu-item (click)="openWidgetConfiguration()">
+    <span>{{ WIDGET_CONFIG_CONST.CONFIGURE_WIDGETS }}</span>
+  </button>
+  }
+  <button mat-menu-item (click)="openNotificationConfiguration()">
+    <span>{{ NOTIFICATION_CONFIG_CONST.PAGE_TITLE }}</span>
+  </button>
+  <button mat-menu-item (click)="openChangePassword()">
+    <span>{{ HEADER_CONST.CHANGE_PASSWORD }}</span>
+  </button>
+  <div class="menu-footer" (click)="$event.stopPropagation()">
+    <common-button [config]="logoutBtn()"></common-button>
+  </div>
+</mat-menu>

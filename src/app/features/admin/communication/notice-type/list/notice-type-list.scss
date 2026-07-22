@@ -1,0 +1,32 @@
+@use '../../../../../../assets/style/variables.scss';
+
+// ─── Inject icon via CSS content ────────────────────────
+.icon-true {
+    font-family: 'Material Icons';
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color, #25A194);
+
+    &::after {
+        content: 'check_box'; // 👈 icon name set from CSS
+    }
+}
+
+.icon-false {
+    font-family: 'Material Icons';
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #a80b0b;
+
+    &::after {
+        content: 'close'; // 👈 icon name set from CSS
+    }
+}

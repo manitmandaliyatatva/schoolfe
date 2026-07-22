@@ -1,0 +1,98 @@
+@if (hasPermission()) {
+@if (visibility()) {
+<div class="d-flex justify-content-end mb-3">
+  <common-button [config]="refreshButtonConfig()"></common-button>
+</div>
+<div class="row g-4 mb-4">
+  <!-- My Attendance Panel -->
+  @if (visibility().teacherAttendance) {
+  <div class="col-12 mb-4" [ngClass]="visibility().teacherStudentAttendance ? 'col-xl-6' : 'col-xl-12'">
+    <app-dashboard-section [config]="teacherAttendanceSectionConfig()">
+      <app-dashboard-donut-chart [config]="myAttendanceChart()">
+      </app-dashboard-donut-chart>
+    </app-dashboard-section>
+  </div>
+  }
+
+  <!-- Students Today Attendance Panel -->
+  @if (visibility().teacherStudentAttendance) {
+  <div class="col-12 mb-4" [ngClass]="visibility().teacherAttendance ? 'col-xl-6' : 'col-xl-12'">
+    <app-dashboard-section [config]="studentAttendanceSectionConfig()">
+      <div class="card-header-actions" header-actions [formGroup]="filterForm">
+        <app-common-dropdown [config]="classSectionDropdown()"></app-common-dropdown>
+      </div>
+      <app-dashboard-donut-chart [config]="studentAttendanceChart()">
+      </app-dashboard-donut-chart>
+    </app-dashboard-section>
+  </div>
+  }
+</div>
+
+<div class="row g-4 mb-4">
+  <!-- 1. Today's Timetable -->
+  @if (visibility().teacherTimetable) {
+  <div class="col-xl-4 col-lg-6 col-md-6 mb-4 flex-grow-1">
+    <app-dashboard-section [config]="timetableSectionConfig()">
+      <div class="dashboard-list-container">
+        @for (item of todayTimetable(); track item.title) {
+        <app-dashboard-list-item [config]="item"></app-dashboard-list-item>
+        }
+      </div>
+    </app-dashboard-section>
+  </div>
+  }
+
+  <!-- 2. Upcoming Events -->
+  @if (visibility().teacherEvents && eventsConfig()) {
+  <div class="col-xl-4 col-lg-6 col-md-6 mb-4 flex-grow-1">
+    <app-dashboard-events [config]="eventsConfig()"></app-dashboard-events>
+  </div>
+  }
+
+  <!-- 3. Recent Notices -->
+  @if (visibility().teacherNotices && noticesConfig()) {
+  <div class="col-xl-4 col-lg-6 col-md-6 mb-4 flex-grow-1">
+    <app-dashboard-notices [config]="noticesConfig()"></app-dashboard-notices>
+  </div>
+  }
+
+  <!-- 4. Today's Birthdays -->
+  @if (visibility().teacherBirthdays && birthdaysConfig()) {
+  <div class="col-xl-4 col-lg-6 col-md-6 mb-4 flex-grow-1">
+    <app-dashboard-birthdays [config]="birthdaysConfig()"></app-dashboard-birthdays>
+  </div>
+  }
+
+  <!-- 5. Upcoming Holidays -->
+  @if (visibility().teacherHoliday && holidaysConfig()) {
+  <div class="col-xl-4 col-lg-6 col-md-6 mb-4 flex-grow-1">
+    <app-dashboard-holidays [config]="holidaysConfig()"></app-dashboard-holidays>
+  </div>
+  }
+</div>
+
+<div class="row g-4 mb-4">
+  <!-- Upcoming Exams -->
+  @if (visibility().teacherExams) {
+  <div class="col-xl-6 col-12 mb-4 flex-grow-1">
+    <app-dashboard-section [config]="examsSectionConfig()">
+      <app-dashboard-table [config]="examConfig" [data]="examStore.list()">
+      </app-dashboard-table>
+    </app-dashboard-section>
+  </div>
+  }
+
+  <!-- Recent Homeworks -->
+  @if (visibility().teacherHomeworks) {
+  <div class="col-xl-6 col-12 mb-4 flex-grow-1">
+    <app-dashboard-section [config]="homeworksSectionConfig()">
+      <app-dashboard-table [config]="homeworkConfig" [data]="homeworkStore.list()">
+      </app-dashboard-table>
+    </app-dashboard-section>
+  </div>
+  }
+</div>
+}
+} @else {
+  <app-dashboard-empty-state [message]="'You dont have any permission'" [icon]="'lock'"></app-dashboard-empty-state>
+}

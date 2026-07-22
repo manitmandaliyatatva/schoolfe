@@ -1,0 +1,57 @@
+.star-btn:focus-visible {
+    outline: 2px solid #3C3489;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.star-btn:disabled {
+    pointer-events: none;
+}
+
+.star-rating-wrapper {
+    display: grid;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-field-label {
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.star-rating {
+    display: inline-flex;
+    align-items: center;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+
+    &:disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+
+    &:focus-visible {
+        outline: 2px solid #3c3489;
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+}
+
+.star-label {
+    font-weight: 500;
+    color: currentColor;
+}
+
+.has-error {
+    color: #e73b3b;
+}

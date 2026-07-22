@@ -1,0 +1,7 @@
+<div class="boolean-status-wrap" [class.true]="value()" [class.false]="!value()" [matTooltip]="value() ? trueTooltip() : falseTooltip()">
+  @if (value()) {
+    <mat-icon class="status-icon true-icon">{{ trueIcon() }}</mat-icon>
+  } @else {
+    <mat-icon class="status-icon false-icon">{{ falseIcon() }}</mat-icon>
+  }
+</div>

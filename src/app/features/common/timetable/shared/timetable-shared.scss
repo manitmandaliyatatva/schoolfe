@@ -1,0 +1,114 @@
+.configuration-screen-header {
+  margin-bottom: 10px;
+}
+
+.timetable-grid-card {
+
+  .break-row-banner {
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 18px;
+    margin-left: 18px;
+    border-radius: 5px;
+    .break-content {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .break-title {
+        font-weight: 700;
+        color: #4f46e5;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .break-time {
+        color: #6366f1;
+        font-weight: 500;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.timetable-grid-card ::ng-deep .common-data-grid-search-wrap {
+  display: none;
+}
+
+.timetable-grid-card ::ng-deep .common-data-grid-wrap,
+.timetable-grid-card ::ng-deep .common-data-grid-table-wrap {
+  overflow-x: auto;
+  overflow-y: visible;
+  height: auto;
+  max-height: none;
+}
+
+.timetable-grid-card ::ng-deep .common-data-grid-wrap {
+  overflow: visible;
+}
+
+.timetable-grid-card ::ng-deep .common-data-grid-table {
+  width: 100% !important;
+
+  // target by column class Angular Material auto-generates
+  .mat-column-timeFrame {
+    width: 100px !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
+  }
+
+  td.mat-mdc-cell {
+    border-bottom: 1px solid var(--grid-divider-color);
+    color: var(--grid-body-text);
+    font-size: 13px;
+    height: auto !important;
+    padding: 0 14px;
+    white-space: nowrap;
+  }
+}
+
+.timetable-grid-card ::ng-deep .common-data-grid-table th.mat-mdc-header-cell {
+  min-width: 100px;
+  background: #fff;
+  font-size: 20px;
+  font-weight: 600;
+
+  .mat-sort-header-container {
+    justify-content: center;
+  }
+}
+
+.timetable-grid-card ::ng-deep .common-data-grid-table td.mat-mdc-cell {
+  min-width: 170px;
+  vertical-align: top;
+  padding: 0px 3px !important;
+  width: 170px;
+  max-width: 170px;
+
+  &.no-data-cell {
+    min-width: auto !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 16px !important;
+  }
+
+  &.full-width-cell {
+    min-width: auto !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+}
+
+::ng-deep .time-slot-label {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  white-space: pre-line;
+  font-weight: 600;
+}

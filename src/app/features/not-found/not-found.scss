@@ -1,0 +1,150 @@
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes blink {
+  0%, 100%    { opacity: 1; }
+  48%, 52%    { opacity: 0; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.not-found-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+// ── Big 404 number ──────────────────────────────────────
+.four-oh-four {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: float 4s ease-in-out infinite;
+}
+
+.digit {
+  font-size: 120px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -4px;
+  color: var(--color-text-primary);   // use your theme token or replace with color
+
+  &.zero {
+    position: relative;
+  }
+}
+
+// ── Face inside the "0" ─────────────────────────────────
+.eyes {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 18px;
+}
+
+.pupil {
+  width: 10px;
+  height: 10px;
+  background: var(--color-text-primary);
+  border-radius: 50%;
+  animation: blink 3.5s ease-in-out infinite;
+
+  &:last-child {
+    animation-delay: 0.18s;
+  }
+}
+
+.mouth {
+  position: absolute;
+  bottom: 22%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 11px;
+  border-bottom: 3px solid var(--color-text-primary);
+  border-radius: 0 0 22px 22px;
+}
+
+// ── Message ─────────────────────────────────────────────
+.message {
+  text-align: center;
+  margin-top: 32px;
+  animation: fadeUp 0.6s ease 0.15s both;
+
+  h2 {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: 320px;
+  }
+}
+
+// ── Buttons ─────────────────────────────────────────────
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp 0.6s ease 0.3s both;
+}
+
+.btn-primary {
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-text-primary);
+  color: var(--color-background-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.btn-ghost {
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: 1.5px solid var(--color-border-primary);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: border-color 0.15s;
+
+  &:hover {
+    border-color: var(--color-text-secondary);
+  }
+}
+
+// ── Error tag ────────────────────────────────────────────
+.tag {
+  margin-top: 20px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--color-text-tertiary);
+  animation: fadeUp 0.6s ease 0.45s both;
+}

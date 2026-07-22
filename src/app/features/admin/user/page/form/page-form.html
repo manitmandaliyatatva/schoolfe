@@ -1,0 +1,27 @@
+<section class="student-form-page configuration-screen-layout">
+  <div class="configuration-screen-content">
+      <mat-tab-group [selectedIndex]="selectedIndex()" (selectedIndexChange)="selectedIndex.set($event)" dynamicHeight mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" [disableRipple]="true">
+        
+        <!-- Page Tab -->
+        <mat-tab [disabled]="isEditMode() && selectedIndex() !== 0">
+          <ng-template mat-tab-label>
+            <span>Page</span>
+          </ng-template>
+          @if (!isEditMode() || selectedIndex() === 0) {
+            <app-page-tab-form [isAction]="false"></app-page-tab-form>
+          }
+        </mat-tab>
+
+        <!-- Action Tab -->
+        <mat-tab [disabled]="isEditMode() && selectedIndex() !== 1">
+          <ng-template mat-tab-label>
+            <span>Action</span>
+          </ng-template>
+          @if (!isEditMode() || selectedIndex() === 1) {
+            <app-page-tab-form [isAction]="true"></app-page-tab-form>
+          }
+        </mat-tab>
+
+      </mat-tab-group>
+  </div>
+</section>

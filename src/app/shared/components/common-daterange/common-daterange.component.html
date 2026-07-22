@@ -1,0 +1,140 @@
+<ng-container *ngIf="formGroup && config().startFormControlName && config().endFormControlName; else fallbackInput">
+  <label *ngIf="!config().isFloatLabel" class="form-field-label" [ngClass]="{ 'has-error': isError }">
+    {{ config().label }}{{ isRequired() ? ' *' : '' }}
+  </label>
+
+  <mat-form-field
+    class="w-100 custom-form-field" [class.has-error]="isError"
+    [appearance]="config().appearance || 'outline'"
+    [floatLabel]="config().isFloatLabel ? 'always' : 'auto'"
+    [id]="config().id || ''"
+    subscriptSizing="dynamic"
+  >
+    <mat-label *ngIf="config().label && config().isFloatLabel">
+      {{ config().label }}
+    </mat-label>
+
+    <mat-date-range-input [rangePicker]="picker" [dateFilter]="dateFilter" [min]="minDate" [max]="maxDate">
+      <input
+        matStartDate
+        [formControlName]="config().startFormControlName"
+        [placeholder]="config().startPlaceholder || 'From'"
+        [min]="minDate"
+        [max]="maxDate"
+        (dateChange)="onDateRangeChange()"
+        (focus)="onFocus(picker)"
+        (keydown.tab)="onTab(picker)"
+      />
+      <input
+        matEndDate
+        [formControlName]="config().endFormControlName"
+        [placeholder]="config().endPlaceholder || 'To'"
+        [min]="minDate"
+        [max]="maxDate"
+        (dateChange)="onDateRangeChange()"
+        (focus)="onFocus(picker)"
+        (keydown.tab)="onTab(picker)"
+      />
+    </mat-date-range-input>
+
+    <mat-hint *ngIf="config().hint">
+      {{ config().hint }}
+    </mat-hint>
+
+    <mat-datepicker-toggle matSuffix [for]="picker">
+      <mat-icon matDatepickerToggleIcon>
+        {{ toggleIcon }}
+      </mat-icon>
+    </mat-datepicker-toggle>
+
+    <button
+      matSuffix
+      mat-icon-button
+      *ngIf="(startControl?.value || endControl?.value) && !startControl?.disabled && !endControl?.disabled"
+      (click)="clearValue()"
+      type="button"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+  <common-error [config]="errorConfig()"></common-error>
+<!-- Will implement later on common helper error service 
+    <mat-error *ngIf="startControl?.errors && config().customValidationMessage">
+      {{ config().customValidationMessage?.('error', 'start') || '' }}
+    </mat-error>
+
+    <mat-error *ngIf="endControl?.errors && config().customValidationMessage">
+      {{ config().customValidationMessage?.('error', 'end') || '' }}
+    </mat-error>
+
+    <mat-error *ngIf="startControl?.errors?.['required'] && !config().customValidationMessage">
+      Start date is required.
+    </mat-error>
+
+    <mat-error *ngIf="endControl?.errors?.['required'] && !config().customValidationMessage">
+      End date is required.
+    </mat-error>
+
+    <mat-error *ngIf="startControl?.errors?.['matStartDateInvalid'] && !config().customValidationMessage">
+      Invalid start date.
+    </mat-error>
+
+    <mat-error *ngIf="endControl?.errors?.['matEndDateInvalid'] && !config().customValidationMessage">
+      Invalid end date.
+    </mat-error> -->
+
+</ng-container>
+
+<ng-template #fallbackInput>
+  <label *ngIf="!config().isFloatLabel" class="form-field-label">
+    {{ config().label }}{{ isRequired() ? ' *' : '' }}
+  </label>
+
+  <mat-form-field
+    class="w-100 custom-form-field"
+    class="w-100 custom-form-field"
+    [appearance]="config().appearance || 'outline'"
+    [floatLabel]="config().isFloatLabel ? 'always' : 'auto'"
+    [id]="config().id || ''"
+    subscriptSizing="dynamic"
+  >
+    <mat-label *ngIf="config().label && config().isFloatLabel">
+      {{ config().label }}
+    </mat-label>
+
+    <mat-date-range-input [rangePicker]="pickerFallback" [dateFilter]="dateFilter" [min]="minDate" [max]="maxDate">
+      <input
+        matStartDate
+        [placeholder]="config().startPlaceholder || 'From'"
+        [min]="minDate"
+        [max]="maxDate"
+        (focus)="onFocus(pickerFallback)"
+        (keydown.tab)="onTab(pickerFallback)"
+      />
+      <input
+        matEndDate
+        [placeholder]="config().endPlaceholder || 'To'"
+        [min]="minDate"
+        [max]="maxDate"
+        (focus)="onFocus(pickerFallback)"
+        (keydown.tab)="onTab(pickerFallback)"
+      />
+    </mat-date-range-input>
+
+    <mat-hint *ngIf="config().hint">
+      {{ config().hint }}
+    </mat-hint>
+
+    <mat-datepicker-toggle matSuffix [for]="pickerFallback">
+      <mat-icon matDatepickerToggleIcon>
+        {{ toggleIcon }}
+      </mat-icon>
+    </mat-datepicker-toggle>
+
+    <mat-date-range-picker #pickerFallback></mat-date-range-picker>
+
+  </mat-form-field>
+
+</ng-template>

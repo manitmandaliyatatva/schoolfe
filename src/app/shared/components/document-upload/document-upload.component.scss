@@ -1,0 +1,143 @@
+:host {
+  display: block;
+}
+
+.document-upload {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+
+
+  // Label styles are handled by .form-field-label in global/dynamic-form styles
+
+  // ---- Upload Button ----
+  &__btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100% !important;
+    max-width: 100%;
+    height: 44px !important;
+    margin-bottom: 0;
+    border-radius: 6px !important;
+    background-color: #ffffff !important;
+    border: 1px solid #009688 !important;
+    color: #009688 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    cursor: pointer;
+    box-sizing: border-box !important;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: #eef8f7 !important;
+      border-color: #00796b !important;
+    }
+
+    &.disabled {
+      background-color: #f5f5f5 !important;
+      border-color: #bdbdbd !important;
+      color: #9e9e9e !important;
+      cursor: not-allowed !important;
+      opacity: 0.7;
+    }
+  }
+
+  &__btn-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &__btn-text {
+    line-height: 1;
+  }
+
+  // ---- File Chips Container ----
+  &__chips {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  // ---- Individual File Chip ----
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px 5px 16px;
+    border: 1.5px solid #009688;
+    border-radius: 24px;
+    background: rgba(0, 150, 136, 0.08);
+    max-width: 100%;
+    width: fit-content;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(0, 150, 136, 0.14);
+    }
+  }
+
+  &__chip-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #2d3748;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 60px); // Give space for action buttons
+  }
+
+  // ---- Chip Action Buttons (View / Delete) ----
+  &__chip-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    padding: 2px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &--view {
+      color: #009688;
+
+      &:hover {
+        background: rgba(0, 150, 136, 0.15);
+      }
+    }
+
+    &--delete {
+      color: #d32f2f;
+
+      &:hover {
+        background: rgba(211, 47, 47, 0.12);
+      }
+    }
+
+    &:disabled {
+      color: #bdbdbd !important;
+      cursor: not-allowed !important;
+      background: transparent !important;
+    }
+  }
+}
+
+.document-upload--small {
+  .document-upload__btn {
+    width: fit-content !important;
+    padding: 0 16px !important;
+    height: 38px !important;
+  }
+}

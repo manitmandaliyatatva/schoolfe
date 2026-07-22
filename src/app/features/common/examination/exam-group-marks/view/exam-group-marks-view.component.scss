@@ -1,0 +1,388 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+.breadcrumb-back-btn {
+  position: absolute;
+  top: -47px;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-back-btn {
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+.marks-filter-card {
+  display: flex;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  padding: 20px 24px;
+}
+
+.exam-group-meta-container {
+  display: flex;
+  align-items: center;
+  gap: 24px 40px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  min-width: 140px;
+  padding-right: 40px;
+  position: relative;
+
+  // Faint vertical divider centered vertically on the right
+  &::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 32px; // Centered divider, smaller than the item height
+    background-color: #e2e8f0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+    &::before {
+      display: none;
+    }
+  }
+
+  .meta-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    &.exam-icon {
+      background-color: #f3f0ff; // Soft purple background matching image
+      color: #4f46e5;
+    }
+
+    &.date-icon {
+      background-color: #e0f2fe; // Soft blue background matching image
+      color: #3b82f6;
+    }
+  }
+
+  .meta-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .meta-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .meta-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b; // Sleek dark slate color
+    position: relative;
+    padding-bottom: 6px;
+    display: inline-block;
+
+    // Short horizontal colored underline matching image
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 20px;
+      height: 3px;
+      border-radius: 1.5px;
+    }
+
+    &.dates-highlight {
+      color: #1e293b;
+      font-weight: 700;
+    }
+  }
+
+  &.exam-item .meta-value::after {
+    background-color: #4f46e5;
+  }
+
+  &.date-item .meta-value::after {
+    background-color: #3b82f6;
+  }
+}
+
+.section-dropdown-container {
+  min-width: 250px;
+  max-width: 320px;
+  width: 100%;
+}
+
+// ─── Published Badge ─────────────────────────────────────────────────
+.published-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px 6px 8px;
+  background: #ecfdf5; // soft emerald green background matching image
+  border: 1px solid #a7f3d0; // soft emerald green border matching image
+  border-radius: 999px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+
+  &__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: #15803d; // Solid check circle background matching image
+    color: #ffffff;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    mat-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+      font-weight: bold;
+    }
+  }
+
+  &__text {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: #15803d; // Matching text color
+  }
+}
+
+// ─── Result Chip ────────────────────────────────────────────────────
+.result-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 64px;
+
+  &.pass {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+
+  &.fail {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+
+  &.absent {
+    background-color: #f1f5f9;
+    color: #475569;
+    cursor: pointer;
+  }
+}
+
+// ─── Marks Display Cell ──────────────────────────────────────────────
+.marks-display-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.obtained-marks-text {
+  font-weight: 700;
+  color: #0f172a;
+
+  &.fail-text {
+    color: #ef4444;
+  }
+}
+
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: 6px;
+
+  &.fail-grade {
+    background: #fee2e2;
+    color: #ef4444;
+  }
+}
+
+.no-marks {
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.summary-display-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.summary-marks-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+
+  .summary-label {
+    color: #64748b;
+  }
+
+  .summary-val {
+    color: #0f172a;
+    font-weight: 700;
+
+    &.fail-text {
+      color: #ef4444;
+    }
+  }
+}
+
+.summary-percentage-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+// ─── Loading / Empty States ──────────────────────────────────────────
+.loading-container,
+.no-records-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-top: 20px;
+  color: #64748b;
+
+  p {
+    margin: 12px 0 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.no-records-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #94a3b8;
+}
+
+// ─── Grid Scroll & Sticky Header ────────────────────────────────────
+:host ::ng-deep {
+  .common-data-grid-table-wrap {
+    max-height: calc(100vh - 280px) !important;
+    overflow-y: auto;
+  }
+
+  .common-data-grid-table {
+    th.mat-mdc-header-cell {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--grid-header-bg);
+      box-shadow: 0 1px 0 var(--grid-divider-color);
+      border-bottom: none;
+    }
+  }
+
+  .rich-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.4;
+    text-align: center;
+    padding: 6px 0;
+
+    .rich-header__subject {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .rich-header__date {
+      font-size: 11px;
+      font-weight: 500;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    .rich-header__info {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+  }
+}
+
+::ng-deep .mat-mdc-tooltip .mdc-tooltip__surface {
+  white-space: pre-line !important;
+  text-align: center;
+}

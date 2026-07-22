@@ -1,0 +1,10 @@
+<div class="page-container">
+  @if(permission().canList){
+  <common-data-grid [config]="gridConfig"></common-data-grid>
+  }
+</div>
+
+<ng-template #metaDescription let-row>
+  <div class="quote-text" [innerHTML]="row.metaDescription">
+  </div>
+</ng-template>

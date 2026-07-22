@@ -1,0 +1,289 @@
+.view-detail-container {
+  min-width: 600px;
+  padding: 16px 20px;
+  background: #f8fafc;
+  border-radius: 0 0 24px 24px;
+  box-sizing: border-box;
+
+  @media (max-width: 650px) {
+    min-width: 100%;
+    width: 100%;
+    padding: 12px 14px;
+  }
+}
+
+/* ── Hero Accent Header ── */
+.exam-detail-hero {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-left: 5px solid #3b82f6;
+  border-radius: 14px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.05);
+
+  .hero-icon-wrapper {
+    background: #ffffff;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.1);
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .hero-subtitle {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #2563eb;
+      letter-spacing: 0.6px;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.2px;
+    }
+  }
+}
+
+/* ── Grid Cards Layout ── */
+.exam-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.detail-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+
+  &.full-width {
+    grid-column: 1 / span 2;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.03);
+    border-color: #cbd5e1;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 6px;
+
+    .header-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #64748b;
+    }
+
+    h4 {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #475569;
+    }
+  }
+
+  .card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    &.column-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+  }
+}
+
+/* Specific layout for schedule card body to prevent timing range wrap */
+.schedule-card .card-body {
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+}
+
+/* ── Detail Field Styling ── */
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .item-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .item-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.3;
+    word-break: break-word;
+
+    &.highlight-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+
+      &.passing {
+        color: #475569;
+      }
+    }
+  }
+}
+
+/* ── Progress Bar ── */
+.marks-progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px dashed #e2e8f0;
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+  }
+
+  .progress-bar-bg {
+    height: 5px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+    border-radius: 4px;
+    transition: width 0.5s ease-out;
+  }
+}
+
+/* ── System Status Row ── */
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+
+  .status-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+
+    .badge-icon {
+      font-size: 13px;
+      width: 13px;
+      height: 13px;
+    }
+
+    &.published {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+
+    &.unpublished {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+
+    &.active {
+      background: #f0fdf4;
+      color: #16a34a;
+      border: 1px solid #bbf7d0;
+    }
+
+    &.inactive {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+  }
+}
+
+/* Adjust dialog internal spacing and hide scrollbar */
+::ng-deep .mat-mdc-dialog-content {
+  padding: 0 !important;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── Mobile Responsive Overrides ── */
+@media (max-width: 600px) {
+  .exam-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .detail-card.full-width {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-card .card-body {
+    grid-template-columns: 1fr;
+  }
+  .schedule-card .card-body {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,136 @@
+<form [formGroup]="form">
+  @for (section of sectionViewControls(); track $index) {
+  @if (!isHiddenSection(section.originalSection)) {
+  <section class="dynamic-form-section" [class.no-card]="!showCard">
+    <h3 class="section-title" *ngIf="formControls.formSection[$index].title as sectionTitle">{{ sectionTitle }}</h3>
+
+    <div class="row gx-4 align-items-stretch">
+      <ng-container [ngTemplateOutlet]="controlSection"
+        [ngTemplateOutletContext]="{ controls: section.inputControls }"></ng-container>
+
+      <ng-container *ngIf="section.actionControls.length! > 0">
+        <div class="col-sm-auto d-flex gap-2 buttons-block btn-grps-p-24 align-items-start" #actionButtonBlock>
+          <ng-container [ngTemplateOutlet]="controlSection"
+            [ngTemplateOutletContext]="{ controls: section.actionControls }"></ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+  }
+  }
+</form>
+
+<ng-template #controlSection let-controls="controls">
+  @for (control of controls; track $index) {
+  <div [ngStyle]="{ display: isHiddenField(control) ? 'none' : '' }" [class.d-none]="isHiddenField(control)"
+    [ngClass]="(control.class ? control.class : 'col-12') + (control.type === 'slidetoggle' && !isHiddenField(control) ? ' slidetoggle-col' : '')">
+    <ng-container *ngIf="control">
+      @switch (control.type) {
+      @case ('text') {
+      <div class="text-field-outer">
+        <common-textbox [config]="convertInput(control)"></common-textbox>
+      </div>
+      }
+      @case ('number') {
+      <div class="text-field-outer">
+        <common-textbox [config]="convertInput(control)"></common-textbox>
+      </div>
+      }
+      @case ('email') {
+      <div class="text-field-outer">
+        <common-textbox [config]="convertInput(control)"></common-textbox>
+      </div>
+      }
+      @case ('password') {
+      <div class="text-field-outer">
+        <common-textbox [config]="convertInput(control)"></common-textbox>
+      </div>
+      }
+      @case ('contactNumber') {
+      <div class="text-field-outer">
+        <common-textbox [config]="convertInput(control)"></common-textbox>
+      </div>
+      }
+      @case ('dropdown') {
+      <div class="text-field-outer custom-form-control">
+        <app-common-dropdown [config]="convertDropdown(control)"></app-common-dropdown>
+      </div>
+      }
+      @case ('datepicker') {
+      <div class="text-field-outer">
+        <app-common-datepicker [config]="convertDatePicker(control)"></app-common-datepicker>
+      </div>
+      }
+      @case ('daterangepicker') {
+      <div class="text-field-outer">
+        <app-common-daterange [config]="convertDateRangePicker(control)"></app-common-daterange>
+      </div>
+      }
+      @case ('timepicker') {
+      <div class="text-field-outer">
+        <app-common-timepicker [config]="convertTimepicker(control)"></app-common-timepicker>
+      </div>
+      }
+      @case ('radiobutton') {
+      <div class="text-field-outer">
+        <common-radio-button class="radio-main-label" [config]="convertRadioButton(control)"></common-radio-button>
+      </div>
+      }
+      @case ('textarea') {
+      <div class="text-field-outer">
+        <common-textbox [config]="convertInput(control)"></common-textbox>
+      </div>
+      }
+      @case ('checkbox') {
+      <div class="text-field-outer">
+        <common-checkbox [config]="convertCheckbox(control)"></common-checkbox>
+      </div>
+      }
+      @case ('starrating') {
+      <div class="text-field-outer">
+        <app-star-rating [config]="convertRating(control)"></app-star-rating>
+      </div>
+      }
+      @case ('texteditor') {
+      <div class="text-field-outer">
+        <app-text-editor [config]="convertTextEditor(control)"></app-text-editor>
+      </div>
+      }
+      <!-- @case ('single-checkbox') {
+          <div class="text-field-outer">
+              <tpa-checkbox [config]="convertSingleCheckbox(control)"></tpa-checkbox>
+          </div>
+          } -->
+      @case ('slidetoggle') {
+      <div class="text-field-outer switch-wrap">
+        <common-slide-toggle [config]="convertSlideToggle(control)"></common-slide-toggle>
+      </div>
+      }
+      <!-- @case ('htmlEditor') {
+          <div class="text-field-outer">
+              <tpa-html-editor [config]="convertHtmlEditor(control)"></tpa-html-editor>
+          </div>
+          } -->
+      @case ('imageupload') {
+      <div class="text-field-outer">
+        <app-photo-upload [config]="convertImageUpload(control)"></app-photo-upload>
+      </div>
+      }
+      @case ('documentupload') {
+      <div class="text-field-outer">
+        <app-document-upload [config]="convertDocumentUpload(control)"></app-document-upload>
+      </div>
+      }
+      @case ('colorpicker') {
+      <div class="text-field-outer">
+        <app-colorpicker [config]="convertColorPicker(control)"></app-colorpicker>
+      </div>
+      }
+      @default {
+      <p>Issue with control type</p>
+      }
+      }
+    </ng-container>
+  </div>
+  }
+</ng-template>

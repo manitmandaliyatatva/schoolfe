@@ -1,0 +1,174 @@
+<div class="page-header">
+  <div class="container text-center">
+    <h1>Register As Teacher</h1>
+    <p>Join the {{settingService.schoolName()}} teaching community. Fill the information required below.</p>
+  </div>
+</div>
+
+<section class="section registration-section">
+  <div class="container">
+    <div class="form-card">
+      <form class="teacher-registration-form">
+        
+        <!-- 1. Personal Information -->
+        <fieldset>
+          <legend>1. Personal Information</legend>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="candidateName">Name of the Candidate *</label>
+              <input type="text" id="candidateName" class="form-control" placeholder="Applicant Name" required maxlength="250">
+            </div>
+            <div class="form-group">
+              <label for="fatherName">Father's Name</label>
+              <input type="text" id="fatherName" class="form-control" placeholder="Father Name" maxlength="100">
+            </div>
+            <div class="form-group">
+              <label for="motherName">Mother's Name</label>
+              <input type="text" id="motherName" class="form-control" placeholder="Mother Name" maxlength="100">
+            </div>
+            <div class="form-group">
+              <label for="dob">Date of Birth *</label>
+              <input type="date" id="dob" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="gender">Gender *</label>
+              <select id="gender" class="form-control" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" class="form-control">
+                <option value="">Select Category</option>
+                <option value="general">General</option>
+                <option value="sc">SC</option>
+                <option value="st">ST</option>
+                <option value="obc">OBC</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="aadhaar">Aadhaar Number</label>
+              <input type="text" id="aadhaar" class="form-control" placeholder="12-digit Aadhaar" maxlength="50">
+            </div>
+            <div class="form-group">
+              <label for="employed">Are you employed?</label>
+              <select id="employed" class="form-control">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+            <div class="form-group full-width">
+              <label for="photo">Applicant Photo</label>
+              <input type="file" id="photo" class="form-control" accept="image/*">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 2. Contact & Address Details -->
+        <fieldset>
+          <legend>2. Contact & Address Details</legend>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" class="form-control" placeholder="email@example.com" required maxlength="150">
+            </div>
+            <div class="form-group">
+              <label for="phone">Contact Number *</label>
+              <input type="tel" id="phone" class="form-control" placeholder="Mobile Number" required maxlength="20">
+            </div>
+            <div class="form-group full-width">
+              <label for="address">Full Address</label>
+              <input type="text" id="address" class="form-control" placeholder="Street Address, Area" maxlength="500">
+            </div>
+            <div class="form-group">
+              <label for="country">Country</label>
+              <select id="country" class="form-control">
+                <option value="india">India</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="state">State</label>
+              <input type="text" id="state" class="form-control" placeholder="State/Province" maxlength="500">
+            </div>
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" id="city" class="form-control" placeholder="City" maxlength="500">
+            </div>
+            <div class="form-group">
+              <label for="pincode">Pin Code</label>
+              <input type="text" id="pincode" class="form-control" placeholder="Postal Code" maxlength="10">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 3. Educational Qualifications -->
+        <fieldset>
+          <legend>3. Educational Qualifications</legend>
+          <div class="table-responsive">
+            <table class="education-table">
+              <thead>
+                <tr>
+                  <th>Level</th>
+                  <th>Year Of Passing</th>
+                  <th>Board/University</th>
+                  <th>Percentage/CGPA</th>
+                  <th>Subjects</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Secondary</td>
+                  <td><input type="text" class="form-control form-control-sm" placeholder="YYYY"></td>
+                  <td><input type="text" class="form-control form-control-sm"></td>
+                  <td><input type="text" class="form-control form-control-sm"></td>
+                  <td><input type="text" class="form-control form-control-sm"></td>
+                </tr>
+                <tr>
+                  <td>Graduation</td>
+                  <td><input type="text" class="form-control form-control-sm" placeholder="YYYY"></td>
+                  <td><input type="text" class="form-control form-control-sm"></td>
+                  <td><input type="text" class="form-control form-control-sm"></td>
+                  <td><input type="text" class="form-control form-control-sm"></td>
+                </tr>
+                <tr>
+                  <td>Post Graduation</td>
+                  <td><input type="text" class="form-control form-control-sm" placeholder="YYYY"></td>
+                  <td><input type="text" class="form-control form-control-sm"></td>
+                  <td><input type="text" class="form-control form-control-sm"></td>
+                  <td><input type="text" class="form-control form-control-sm"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </fieldset>
+
+        <!-- 4. Document Uploads -->
+        <fieldset>
+          <legend>4. Document Uploads</legend>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Identification Proof (Aadhar/PAN)</label>
+              <input type="file" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Highest Degree Certificate</label>
+              <input type="file" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Resume / CV</label>
+              <input type="file" class="form-control">
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-actions text-center">
+          <button type="button" class="btn btn-primary btn-lg submit-btn">Apply Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

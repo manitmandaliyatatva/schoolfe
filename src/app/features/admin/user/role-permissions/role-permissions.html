@@ -1,0 +1,188 @@
+<section class="role-permissions-page">
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <form [formGroup]="formGroup" class="filter-form">
+      <!-- User Type -->
+      <div class="filter-field">
+        <app-common-dropdown [config]="userTypeDropdown()"></app-common-dropdown>
+      </div>
+
+      <!-- Role -->
+      <div class="filter-field">
+        <app-common-dropdown [config]="roleDropdown()"></app-common-dropdown>
+        <span *ngIf="selectedUserTypeId() && (!rolesStore.data() || rolesStore.data().length === 0)"
+          class="filter-hint warning">
+          <mat-icon class="hint-icon">info</mat-icon> No roles found for this user type.
+        </span>
+      </div>
+
+      <!-- Divider -->
+      <div class="filter-divider"></div>
+
+      <!-- Search — only show when tree has data -->
+      <div class="filter-field search-field"
+        *ngIf="!isAnyLoading() && permissionTreeStore.data() && permissionTreeStore.data().length > 0">
+        <label class="filter-label">Search</label>
+        <common-textbox [config]="searchConfig()"></common-textbox>
+      </div>
+    </form>
+  </div>
+
+  <!-- Permissions Card -->
+  <div class="permissions-card">
+
+
+    <!-- Empty — no selection -->
+    <div *ngIf="!isAnyLoading() && (!permissionTreeStore.data() || permissionTreeStore.data().length === 0)"
+      class="state-container">
+      <div class="empty-icon-wrap">
+        <mat-icon>lock_open</mat-icon>
+      </div>
+      <p class="state-title">No Permissions Loaded</p>
+      <p class="state-desc">Select a <strong>User Type</strong> to view the default permissions, then select a
+        <strong>Role</strong> to configure specific access.
+      </p>
+    </div>
+
+    <!-- Empty — no search results -->
+    <div
+      *ngIf="!isAnyLoading() && permissionTreeStore.data() && permissionTreeStore.data().length > 0 && permissionTree().length === 0"
+      class="state-container">
+      <div class="empty-icon-wrap">
+        <mat-icon>search_off</mat-icon>
+      </div>
+      <p class="state-title">No Results Found</p>
+      <p class="state-desc">No modules or pages matched "<strong>{{ searchTerm() }}</strong>".</p>
+    </div>
+
+    <!-- Permissions Tree -->
+    <div *ngIf="!isAnyLoading() && permissionTree().length > 0" class="tree-section">
+
+      <!-- Column Headers + Top Save -->
+      <div class="tree-col-header">
+        <div class="col-module">Module / Page</div>
+        <div class="col-actions">Permissions</div>
+        <div class="col-meta">
+          <common-button [config]="saveBtn()"></common-button>
+        </div>
+      </div>
+
+      <!-- Tree -->
+      <div class="tree-body">
+        @for (module of permissionTree(); track module.pageId) {
+        <div class="tree-module">
+
+          <!-- ══ CASE 1: Flat module — direct actions, no sub-pages ══ -->
+          @if (!module.permissions?.length || module.permissions[0].isAction) {
+          <div class="module-row flat-module">
+            <div class="row-left">
+              <div class="expand-spacer"></div>
+              <div class="module-icon">
+                <mat-icon>{{ ICON_MAPPING[module.pageCode] || 'folder_open' }}</mat-icon>
+              </div>
+              <span class="module-name">{{ module.pageName }}</span>
+            </div>
+
+            <div class="row-actions">
+              @if (module.permissions && module.permissions.length > 0) {
+              <div class="action-chips">
+                @for (action of module.permissions; track action.pageId) {
+                <button type="button" class="chip" [class.active]="getNodeStatus(action) === 'Allowed'"
+                  (click)="onPermissionToggle(action, getNodeStatus(action) !== 'Allowed')">
+                  <mat-icon class="chip-icon" *ngIf="getNodeStatus(action) === 'Allowed'">check</mat-icon>
+                  <span>{{ action.pageName }}</span>
+                </button>
+                }
+              </div>
+              }
+            </div>
+
+            <div class="row-meta">
+              <span class="meta-badge" [class.partial]="getNodeStatus(module) === 'Partial'"
+                [class.allowed]="getNodeStatus(module) === 'Allowed'">
+                {{ getModuleStats(module) }}
+              </span>
+              <mat-checkbox *ngIf="hasActions(module)" [checked]="getNodeStatus(module) === 'Allowed'"
+                [indeterminate]="getNodeStatus(module) === 'Partial'"
+                (change)="onPermissionToggle(module, $event.checked)" color="primary"
+                (click)="$event.stopPropagation()">
+              </mat-checkbox>
+            </div>
+          </div>
+          }
+
+          <!-- ══ CASE 2: Expandable module — has sub-pages ══ -->
+          @if (module.permissions?.length && !module.permissions[0].isAction) {
+          <div class="module-row" [class.expanded]="isNodeExpanded(module.pageId)"
+            (click)="toggleNodeExpand(module.pageId)">
+            <div class="row-left">
+              <button type="button" class="expand-btn"
+                (click)="$event.stopPropagation(); toggleNodeExpand(module.pageId)">
+                <mat-icon class="expand-icon">{{ isNodeExpanded(module.pageId) ? 'expand_more' : 'chevron_right'
+                  }}</mat-icon>
+              </button>
+              <div class="module-icon">
+                <mat-icon>{{ ICON_MAPPING[module.pageCode] || 'folder_open' }}</mat-icon>
+              </div>
+              <span class="module-name">{{ module.pageName }}</span>
+            </div>
+
+            <div class="row-actions"></div>
+
+            <div class="row-meta">
+              <span class="meta-badge" [class.partial]="getNodeStatus(module) === 'Partial'"
+                [class.allowed]="getNodeStatus(module) === 'Allowed'">
+                {{ getModuleStats(module) }}
+              </span>
+              <mat-checkbox *ngIf="hasActions(module)" [checked]="getNodeStatus(module) === 'Allowed'"
+                [indeterminate]="getNodeStatus(module) === 'Partial'"
+                (change)="onPermissionToggle(module, $event.checked)" color="primary"
+                (click)="$event.stopPropagation()">
+              </mat-checkbox>
+            </div>
+          </div>
+
+          <!-- Sub-pages (shown when expanded) -->
+          @if (isNodeExpanded(module.pageId)) {
+          <div class="pages-body">
+            @for (page of module.permissions; track page.pageId) {
+            <div class="page-row">
+              <div class="row-left">
+                <div class="expand-spacer"></div>
+                <div class="page-dot"></div>
+                <span class="page-name">{{ page.pageName }}</span>
+              </div>
+
+              <div class="row-actions">
+                <div class="action-chips">
+                  @for (action of page.permissions; track action.pageId) {
+                  <button type="button" class="chip" [class.active]="getNodeStatus(action) === 'Allowed'"
+                    (click)="onPermissionToggle(action, getNodeStatus(action) !== 'Allowed')">
+                    <mat-icon class="chip-icon" *ngIf="getNodeStatus(action) === 'Allowed'">check</mat-icon>
+                    <span>{{ action.pageName }}</span>
+                  </button>
+                  }
+                </div>
+              </div>
+
+              <div class="row-meta">
+                <span class="meta-count">{{ getPageStatsNumber(page) }}</span>
+              </div>
+            </div>
+            }
+          </div>
+          }
+          }
+
+        </div>
+        }
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="tree-footer">
+        <common-button [config]="saveBtn()"></common-button>
+      </div>
+
+    </div>
+  </div>
+</section>

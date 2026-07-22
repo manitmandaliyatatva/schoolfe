@@ -1,0 +1,362 @@
+:host {
+  @media (max-width: 600px) {
+    width: 100%;
+    display: block;
+  }
+}
+
+.header-select-form {
+  display: flex;
+  align-items: center;
+  
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+}
+
+.header-select-wrapper {
+  margin-right: 8px;
+  width: 160px;
+
+  @media (max-width: 768px) {
+    width: 120px;
+    margin-right: 4px;
+  }
+
+  @media (max-width: 600px) {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    margin-right: 8px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  app-common-dropdown {
+    width: 100%;
+    display: block;
+    min-width: 0;
+  }
+}
+
+:host ::ng-deep {
+  mat-form-field.custom-form-field .mdc-text-field--outlined{
+    height: 30px !important;
+    min-height: 30px !important;
+  }
+  mat-form-field.custom-form-field .mdc-text-field__input, mat-form-field.custom-form-field .mat-mdc-select-value-text{
+    font-weight: 400 !important;
+  }
+}
+
+.branch-role-wrapper {
+  width: 160px;
+  
+  @media (max-width: 768px) {
+    width: 120px;
+  }
+}
+
+.branch-role-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  user-select: none;
+  height: 30px;
+  box-sizing: border-box;
+
+  &:hover {
+    background-color: #edf4ff;
+    border-color: #93c5fd;
+    box-shadow: 0 2px 6px rgba(147, 197, 253, 0.2);
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .selector-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    flex-grow: 1;
+    min-width: 0;
+
+    .branch-name {
+      font-size: 11px;
+      font-weight: 500;
+      color: #1e293b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .role-name {
+      font-size: 9px;
+      color: #64748b;
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .chevron-icon {
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    color: #64748b;
+    flex-shrink: 0;
+    line-height: 16px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// Styling for the branch & role dropdown menu
+::ng-deep .branch-role-dropdown-menu {
+  min-width: 340px !important;
+  max-width: 360px !important;
+  border-radius: 12px !important;
+  margin-top: 10px !important;
+  padding: 0 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e2e8f0 !important;
+  background-color: #ffffff !important;
+  overflow: hidden !important;
+
+  .mat-mdc-menu-content {
+    padding: 0 !important;
+  }
+
+  .menu-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .menu-header {
+    padding: 16px;
+    background-color: #ffffff;
+
+    .menu-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1e293b;
+      letter-spacing: -0.01em;
+    }
+
+    .menu-subtitle {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 3px;
+      font-weight: 400;
+    }
+  }
+
+  .menu-divider {
+    height: 1px;
+    background-color: #f1f5f9;
+    width: 100%;
+  }
+
+  .menu-section-title {
+    padding: 14px 16px 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+    user-select: none;
+  }
+
+  .branches-list {
+    max-height: 280px;
+    overflow-y: auto;
+  }
+
+  .branch-item-container {
+    border-bottom: 1px solid #f8fafc;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .branch-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+
+    &:hover {
+      background-color: #f8fafc;
+    }
+
+    &.expanded {
+      background-color: #fafafa;
+    }
+
+    .branch-color-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .branch-info {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      min-width: 0;
+      line-height: 1.25;
+
+      .branch-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1e293b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .branch-roles-count {
+        font-size: 11px;
+        color: #64748b;
+        margin-top: 2px;
+        font-weight: 400;
+      }
+    }
+
+    .branch-status-arrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+
+      .active-badge {
+        font-size: 10px;
+        font-weight: 500;
+        background-color: #eff6ff;
+        color: #2563eb;
+        padding: 2px 8px;
+        border-radius: 9999px;
+        line-height: 1;
+      }
+
+      .arrow-icon {
+        font-size: 18px !important;
+        width: 18px !important;
+        height: 18px !important;
+        color: #94a3b8;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .branch-roles-list {
+    padding: 4px 16px 8px 36px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-top: 1px dashed #f1f5f9;
+  }
+
+  .role-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+    color: #475569;
+    user-select: none;
+
+    .role-icon {
+      font-size: 18px !important;
+      width: 18px !important;
+      height: 18px !important;
+      color: #64748b;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .role-name {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    &:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+
+      .role-icon {
+        color: #334155;
+      }
+    }
+
+    &.active-role {
+      background-color: #f0fdf4;
+      color: #166534;
+      font-weight: 600;
+
+      .role-icon {
+        color: #166534 !important;
+      }
+
+      .role-name {
+        color: #166534;
+      }
+    }
+  }
+
+  .menu-footer-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 12px 16px;
+    background-color: #f8fafc;
+    border-top: 1px solid #f1f5f9;
+
+    .footer-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 400;
+
+      .info-icon {
+        font-size: 16px !important;
+        width: 16px !important;
+        height: 16px !important;
+        color: #94a3b8;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}

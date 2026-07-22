@@ -1,0 +1,24 @@
+@if (dialogRef) {
+  <form [formGroup]="formGroup" (ngSubmit)="onSave()">
+    <common-dynamic-form [formControls]="formControls" [showCard]="false"></common-dynamic-form>
+
+    <div class="form-actions configuration-screen-actions d-flex justify-content-end gap-2 pt-3 border-top">
+      <common-button [config]="cancelBtn()"></common-button>
+      <common-button [config]="saveBtn()"></common-button>
+    </div>
+  </form>
+} @else {
+  <section class="configuration-screen-layout">
+
+    <div class="configuration-screen-content">
+      <form [formGroup]="formGroup" (ngSubmit)="onSave()">
+        <common-dynamic-form [formControls]="formControls"></common-dynamic-form>
+
+        <div class="form-actions configuration-screen-actions d-flex justify-content-end p-3 gap-2">
+          <common-button [config]="cancelBtn()"></common-button>
+          <common-button [config]="saveBtn()"></common-button>
+        </div>
+      </form>
+    </div>
+  </section>
+}

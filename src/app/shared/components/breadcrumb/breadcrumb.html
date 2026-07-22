@@ -1,0 +1,26 @@
+@if (breadcrumbs().length > 0) {
+<nav class="breadcrumb-nav" aria-label="breadcrumb">
+  <ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+      <a [routerLink]="homeUrl()" class="breadcrumb-link home-link" title="Go to Dashboard">
+        <mat-icon class="home-icon">home</mat-icon>
+        <span class="home-text">Home</span>
+      </a>
+    </li>
+    @for (crumb of breadcrumbs(); track crumb.url; let last = $last) {
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-separator">
+          <mat-icon>chevron_right</mat-icon>
+        </span>
+        @if (last) {
+          <span class="breadcrumb-active" aria-current="page">{{ crumb.label }}</span>
+        } @else if (!crumb.clickable) {
+          <span class="breadcrumb-non-clickable">{{ crumb.label }}</span>
+        } @else {
+          <a [routerLink]="crumb.url" class="breadcrumb-link">{{ crumb.label }}</a>
+        }
+      </li>
+    }
+  </ol>
+</nav>
+}

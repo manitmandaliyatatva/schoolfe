@@ -1,0 +1,155 @@
+<section class="configuration-screen-layout">
+  @if (!isEditMode()) {
+  <div class="d-flex justify-content-end align-items-center mb-2">
+    <common-button [config]="backBtnConfig()"></common-button>
+  </div>
+  }
+
+  <div class="review-info-card">
+    <div class="review-info-item">
+      <span class="review-info-label">{{ homeworkConst.TITLE }}</span>
+      <span class="review-info-value">{{ homeworkDetail()?.title }}</span>
+    </div>
+    <div class="review-info-item">
+      <span class="review-info-label">{{ reviewConst.CLASS_SECTION }}</span>
+      <span class="review-info-value">{{ homeworkDetail()?.className }} - {{ homeworkDetail()?.sectionName }}</span>
+    </div>
+    <div class="review-info-item">
+      <span class="review-info-label">{{ systemConst.LABELS.ACADEMIC.SUBJECT }}</span>
+      <span class="review-info-value subject-value">{{ homeworkDetail()?.subjectName }}</span>
+    </div>
+    <div class="review-info-item">
+      <span class="review-info-label">{{ systemConst.LABELS.COMMON.DUE_DATE }}</span>
+      <span class="review-info-value">{{ formattedDueDate() }}</span>
+    </div>
+    <div class="review-info-item">
+      <span class="review-info-label">{{ homeworkConst.ASSIGNED_BY }}</span>
+      <span class="review-info-value">{{ homeworkDetail()?.assignedByUserName || '-' }}</span>
+    </div>
+
+    <div class="review-info-item full-width">
+      <span class="review-info-label">{{ homeworkConst.DESCRIPTION }}</span>
+      <span class="review-info-value description-value">{{ homeworkDetail()?.description || '-' }}</span>
+    </div>
+
+    <div class="review-info-item full-width">
+      <span class="review-info-label">{{ homeworkConst.ATTACHMENT }}</span>
+      @if (hasHomeworkAttachment()) {
+      <div class="homework-attachment-row">
+        <div class="homework-attachment-name-wrap">
+          <mat-icon>description</mat-icon>
+          <span>{{ attachmentFileName() || homeworkDetail()?.attachmentFileName || '-' }}</span>
+        </div>
+        <div class="homework-attachment-actions">
+          <common-button [config]="viewBtnConfig()"></common-button>
+          <common-button [config]="downloadBtnConfig()"></common-button>
+        </div>
+      </div>
+      } @else {
+      <span class="review-info-value">-</span>
+      }
+    </div>
+  </div>
+
+  @if (gridConfig) {
+  <div class="configuration-grid-card" [class.view-mode-grid]="!isEditMode()">
+    <common-data-grid [config]="gridConfig"></common-data-grid>
+  </div>
+  }
+
+  @if (isEditMode()) {
+  <div class="review-action-footer">
+    <common-button [config]="cancelBtnConfig()"></common-button>
+    <common-button [config]="saveAllBtnConfig()"></common-button>
+  </div>
+  }
+</section>
+
+<ng-template #studentNameCell let-row="row">
+  <div class="user-profile-cell">
+    <app-safe-image class="user-profile-cell__avatar" [config]="{ src: row.photo, alt: row.fullName + ' photo' }">
+    </app-safe-image>
+    <div class="user-profile-cell__details">
+      <div class="user-profile-cell__name">{{ row.fullName || '-' }}</div>
+      <div class="user-profile-cell__info">{{ systemConst.LABELS.ACADEMIC.ROLL_NUMBER }}: {{ row.rollNumber ?? '-' }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #statusCell let-row="row">
+  <app-homework-status-chip [status]="row.status"></app-homework-status-chip>
+</ng-template>
+
+<ng-template #submissionCell let-row="row">
+  @if (isSubmissionAvailable(row)) {
+  <button
+    class="submission-view-btn"
+    mat-icon-button
+    [matTooltip]="systemConst.ACTION_BUTTONS.VIEW"
+    (click)="openSubmissionView(row)"
+  >
+    <mat-icon>visibility</mat-icon>
+  </button>
+  } @else {
+  <span>-</span>
+  }
+</ng-template>
+
+<ng-template #remarksCell let-row="row">
+  @if (isEditMode()) {
+  <input
+    class="remarks-input"
+    type="text"
+    [value]="row.remark || ''"
+    [placeholder]="reviewConst.REMARKS_PLACEHOLDER"
+    [disabled]="!isRowValid(row) || store.isSubmitting() || row.status == HomeWorkStatus.reviewed"
+    (input)="onRemarksChange(row, $any($event.target).value)"
+    maxlength="500"
+  />
+  } @else {
+  {{ row.remark || '-' }}
+  }
+</ng-template>
+
+<ng-template #reviewedByCell let-row="row">
+  @if (row.reviewedByUserName || row.reviewedDate) {
+  <div class="reviewed-by-cell">
+    <div class="reviewed-by-cell__name">{{ row.reviewedByUserName || '-' }}</div>
+    <div class="reviewed-by-cell__date">{{ getFormattedDate(row.reviewedDate) }}</div>
+  </div>
+  } @else {
+  <span>-</span>
+  }
+</ng-template>
+
+<ng-template #actionsCell let-row="row">
+  <div class="d-flex justify-content-start align-items-center gap-2">
+    <button
+      class="accept-row-btn action-row-btn"
+      mat-icon-button
+      [matTooltip]="systemConst.ACTION_BUTTONS.ACCEPT"
+      [disabled]="!isRowValid(row) || store.isSubmitting() || row.status == HomeWorkStatus.reviewed"
+      (click)="onAcceptRow(row)"
+    >
+      <mat-icon class="action-icon">check_circle</mat-icon>
+    </button>
+    <button
+      class="reject-row-btn action-row-btn"
+      mat-icon-button
+      [matTooltip]="systemConst.ACTION_BUTTONS.REJECT"
+      [disabled]="!isRowValid(row) || store.isSubmitting() || row.status == HomeWorkStatus.reviewed || row.status == HomeWorkStatus.rejected"
+      (click)="onChangeStatus(row, HomeWorkStatus.rejected)"
+    >
+      <mat-icon class="action-icon">cancel</mat-icon>
+    </button>
+    <button
+      class="needs-correction-row-btn action-row-btn"
+      mat-icon-button
+      [matTooltip]="systemConst.ACTION_BUTTONS.NEEDS_CORRECTION"
+      [disabled]="!isRowValid(row) || store.isSubmitting() || row.status == HomeWorkStatus.reviewed || row.status == HomeWorkStatus.needsCorrection"
+      (click)="onChangeStatus(row, HomeWorkStatus.needsCorrection)"
+    >
+      <mat-icon class="action-icon">change_circle</mat-icon>
+    </button>
+  </div>
+</ng-template>

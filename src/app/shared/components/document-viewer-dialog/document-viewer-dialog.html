@@ -1,0 +1,33 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2>{{ data.fileName || documentConst().VIEW_IMAGE }}</h2>
+    <common-button [config]="closeIconBtn()"></common-button>
+  </div>
+  
+  <div class="dialog-content">
+    @if (isImage()) {
+      <div class="image-container">
+        <app-safe-image [config]="safeImageConfig()"></app-safe-image>
+      </div>
+    } @else {
+      @if (docUrl()) {
+        <ngx-doc-viewer 
+          [url]="docUrl()" 
+          [viewer]="viewerType()"
+          class="custom-doc-viewer">
+        </ngx-doc-viewer>
+      } @else {
+        <div class="no-doc">
+          {{ noDocumentsMsg() }}
+        </div>
+      }
+    }
+  </div>
+  
+  <div class="dialog-footer">
+    @if (isImage()) {
+      <common-button [config]="downloadBtn()"></common-button>
+    }
+    <common-button [config]="closeBtn()"></common-button>
+  </div>
+</div>

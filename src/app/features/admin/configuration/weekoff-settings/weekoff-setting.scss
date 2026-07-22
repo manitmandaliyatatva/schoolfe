@@ -1,0 +1,142 @@
+// ── Variables (matching common-data-grid) ─────────────────────────
+:host {
+  --grid-border-color: #d8dee5;
+  --grid-divider-color: #e6ebf0;
+  --grid-header-bg: #f7f9fc;
+  --grid-header-text: #1f2d3a;
+  --grid-body-text: #27313d;
+  --grid-focus-color: #22a39a;
+}
+
+// ── Grid wrapper ──────────────────────────────────────────────────
+.weekdays-grid-wrap {
+  width: 100%;
+  border-radius: 10px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+// ── Toolbar (matches common-data-grid-search-wrap) ────────────────
+.weekdays-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--grid-divider-color);
+}
+
+// ── Table container ───────────────────────────────────────────────
+.weekdays-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+// ── Table ─────────────────────────────────────────────────────────
+.weekdays-table {
+  width: 100%;
+  min-width: 100%;
+  background: #ffffff;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  thead tr {
+    height: 40px;
+    border-bottom: none;
+  }
+
+  thead th {
+    border-bottom: 1px solid var(--grid-divider-color);
+    background: var(--grid-header-bg);
+    color: var(--grid-header-text);
+    font-size: 13px;
+    font-weight: 600;
+    height: 38px;
+    padding: 0 14px;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  tbody tr {
+    height: 38px;
+    border-bottom: none;
+
+    &:hover td {
+      background: #f1f2f4;
+      transition: background-color 0.3s ease;
+    }
+  }
+
+  tbody td {
+    border-bottom: 1px solid var(--grid-divider-color);
+    color: var(--grid-body-text);
+    font-size: 13px;
+    height: 38px;
+    padding: 0 14px;
+    white-space: nowrap;
+  }
+
+  // Day name column
+  .day-name-cell {
+    font-weight: 600;
+    color: var(--grid-header-text);
+  }
+
+  // Weekend rows muted day name
+  tr.weekend-row .day-name-cell {
+    color: #8fa0af;
+  }
+}
+
+// ── Toolbar button sizing ─────────────────────────────────────────
+:host ::ng-deep {
+  .weekdays-toolbar {
+    .mat-mdc-button,
+    .mat-mdc-unelevated-button,
+    .mat-mdc-raised-button,
+    .mat-mdc-outlined-button {
+      height: 32px !important;
+      border-radius: 6px !important;
+      font-size: 13px !important;
+      padding: 0 12px !important;
+
+      .mat-icon {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 18px !important;
+      }
+    }
+  }
+
+  // Weekday rows — teal checkbox accent
+  .weekdays-table tr:not(.weekend-row) {
+    .mat-mdc-checkbox.mat-primary {
+      --mdc-checkbox-selected-icon-color: #22a39a;
+      --mdc-checkbox-selected-focus-icon-color: #22a39a;
+      --mdc-checkbox-selected-hover-icon-color: #22a39a;
+      --mdc-checkbox-selected-pressed-icon-color: #22a39a;
+      --mat-mdc-checkbox-checked-ripple-color: rgba(34, 163, 154, 0.12);
+    }
+  }
+
+  // Weekend rows — warm red checkbox accent
+  .weekdays-table tr.weekend-row {
+    .mat-mdc-checkbox.mat-primary {
+      --mdc-checkbox-selected-icon-color: #c04b4b;
+      --mdc-checkbox-selected-focus-icon-color: #c04b4b;
+      --mdc-checkbox-selected-hover-icon-color: #c04b4b;
+      --mdc-checkbox-selected-pressed-icon-color: #c04b4b;
+      --mat-mdc-checkbox-checked-ripple-color: rgba(192, 75, 75, 0.12);
+    }
+  }
+
+  // Boolean status icon sizing
+  .weekdays-table boolean-status mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}

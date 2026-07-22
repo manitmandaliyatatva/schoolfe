@@ -1,0 +1,62 @@
+<section class="configuration-screen-layout submission-view-dialog">
+
+  @if (detail()) {
+  <div
+    class="submission-view-dialog__notice"
+    [class.submission-view-dialog__notice--late]="detail()?.isLateSubmission"
+    [class.submission-view-dialog__notice--ontime]="!detail()?.isLateSubmission"
+  >
+    <mat-icon>{{ detail()?.isLateSubmission ? 'warning' : 'task_alt' }}</mat-icon>
+    <span>{{ detail()?.isLateSubmission ? submissionViewConst.LATE_SUBMISSION : submissionViewConst.SUBMITTED_ON_TIME }}</span>
+  </div>
+
+  <div class="submission-view-dialog__meta">
+    <div class="submission-view-dialog__field">
+      <span>{{ submissionViewConst.STUDENT }}</span>
+      <strong>{{ detail()?.studentName || '-' }}</strong>
+    </div>
+    <div class="submission-view-dialog__field">
+      <span>{{ systemConst.LABELS.COMMON.STATUS }}</span>
+      <strong>{{ getStatusText(detail()?.status) }}</strong>
+    </div>
+    <div class="submission-view-dialog__field">
+      <span>{{ submissionViewConst.SUBMISSION_DATE }}</span>
+      <strong>{{ formattedSubmissionDate() }}</strong>
+    </div>
+    <div class="submission-view-dialog__field">
+      <span>{{ submissionViewConst.REMARK }}</span>
+      <strong>{{ detail()?.remark || '-' }}</strong>
+    </div>
+    <div class="submission-view-dialog__field">
+      <span>{{ submissionViewConst.REVIEWED_BY }}</span>
+      <strong>{{ detail()?.reviewedByUserName || '-' }}</strong>
+    </div>
+    <div class="submission-view-dialog__field">
+      <span>{{ submissionViewConst.REVIEWED_DATE }}</span>
+      <strong>{{ formattedReviewedDate() }}</strong>
+    </div>
+  </div>
+
+  <div class="submission-view-dialog__content">
+    <label>{{ homeworkConst.DESCRIPTION }}</label>
+    <p>{{ detail()?.submissionDescription || '-' }}</p>
+  </div>
+
+  <div class="submission-view-dialog__content">
+    <label>{{ homeworkConst.ATTACHMENT_NAME }}</label>
+    @if (detail()?.submissionAttachmentFileName && attachmentBase64()) {
+    <div class="submission-view-dialog__attachment-row">
+      <span>{{ detail()?.submissionAttachmentFileName }}</span>
+      <div class="submission-view-dialog__attachment-actions">
+        <common-button [config]="viewBtnConfig()"></common-button>
+        <common-button [config]="downloadBtnConfig()"></common-button>
+      </div>
+    </div>
+    } @else {
+    <p>-</p>
+    }
+  </div>
+  } @else {
+  <p>{{ submissionViewConst.NO_SUBMISSION }}</p>
+  }
+</section>

@@ -1,0 +1,97 @@
+.registration-section {
+  background-color: transparent;
+  padding: 3rem 0;
+}
+
+.form-card {
+  background-color: transparent;
+  padding: 3rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--border-color);
+}
+
+fieldset {
+  border: none;
+  border-top: 2px solid var(--border-color);
+  margin-bottom: 3rem;
+  padding-top: 2rem;
+  position: relative;
+}
+
+legend {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  padding: 0 1rem;
+  margin-left: -1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color var(--transition-speed) ease;
+  background-color: transparent;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 161, 148, 0.1);
+}
+
+.form-control-sm {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Table styles */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.education-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.education-table th, 
+.education-table td {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.education-table th {
+  background-color: transparent;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.submit-btn {
+  padding: 1rem 4rem;
+  font-size: 1.25rem;
+  margin-top: 2rem;
+}

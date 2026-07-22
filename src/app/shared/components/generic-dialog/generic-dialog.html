@@ -1,0 +1,31 @@
+@if (options.showHeader) {
+<div class="dialog-header" [ngClass]="options.headerClass">
+  <h2 class="dialog-title">{{ options.title ?? '' }}</h2>
+  <div class="header-actions">
+    @for (action of headerActions(); track action.buttonText + '-' + $index) {
+      <common-button [config]="getActionButtonConfig(action)"></common-button>
+    }
+    @if (options.showCloseButton) {
+      <common-button [config]="closeButtonConfig"></common-button>
+    }
+  </div>
+</div>
+}
+
+<mat-dialog-content [ngClass]="options.contentClass">
+  @if (options.component) {
+  <ng-container *ngComponentOutlet="options.component; injector: componentInjector">
+  </ng-container>
+  } @else if (options.template) {
+  <ng-container *ngTemplateOutlet="options.template; context: { $implicit: options.data, data: options.data }">
+  </ng-container>
+  }
+</mat-dialog-content>
+
+@if (options.actions?.length) {
+<mat-dialog-actions align="end" [ngClass]="options.footerClass">
+  @for (action of options.actions; track action.buttonText + '-' + $index) {
+  <common-button [config]="getActionButtonConfig(action)"></common-button>
+  }
+</mat-dialog-actions>
+}

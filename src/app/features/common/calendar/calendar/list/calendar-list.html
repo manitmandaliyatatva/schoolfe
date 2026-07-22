@@ -1,0 +1,166 @@
+<section class="configuration-screen-layout">
+  @if (permission().canList) {
+    <div class="calendar-wrapper shadow-sm rounded-4 bg-white overflow-hidden mt-2">
+      <div class="calendar-header">
+        <div class="calendar-header-left">
+          <div class="navigation-buttons" aria-label="Calendar navigation">
+            <button
+              mat-stroked-button
+              mwlCalendarPreviousView
+              [view]="view"
+              [(viewDate)]="viewDate"
+              [disabled]="isPrevDisabled"
+              (viewDateChange)="closeOpenMonthViewDay(); loadEvents()"
+              class="calendar-nav-button calendar-icon-button"
+              [matTooltip]="SYSTEM_CONST.TOOLTIPS.PREVIOUS"
+            >
+              <mat-icon>chevron_left</mat-icon>
+            </button>
+            @if (authStore.iscurrentacademicyear() !== false) {
+              <button
+                mat-stroked-button
+                mwlCalendarToday
+                [(viewDate)]="viewDate"
+                (viewDateChange)="loadEvents()"
+                class="calendar-nav-button today-button"
+              >
+                {{SYSTEM_CONST.ACTION_BUTTONS.TODAY}}
+              </button>
+            }
+            <button
+              mat-stroked-button
+              mwlCalendarNextView
+              [view]="view"
+              [(viewDate)]="viewDate"
+              [disabled]="isNextDisabled"
+              (viewDateChange)="closeOpenMonthViewDay(); loadEvents()"
+              class="calendar-nav-button calendar-icon-button"
+              [matTooltip]="SYSTEM_CONST.TOOLTIPS.NEXT"
+            >
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+          </div>
+
+          <div class="calendar-date-block">
+            <button mat-icon-button (click)="picker.open()" class="calendar-picker-button" [matTooltip]="SYSTEM_CONST.TOOLTIPS.SELECT_DATE">
+              <mat-icon>calendar_month</mat-icon>
+            </button>
+            <div>
+              <h3 class="calendar-title">
+                {{ viewDate | date:'MMMM yyyy' }}
+              </h3>
+              <span class="calendar-subtitle">{{ viewDate | date:'EEEE, MMM d' }}</span>
+            </div>
+            <input
+              [matDatepicker]="picker"
+              [value]="viewDate"
+              [min]="calendarMinDate()"
+              [max]="calendarMaxDate()"
+              class="datepicker-trigger"
+            />
+            <mat-datepicker #picker startView="year" (monthSelected)="setMonthAndYear($event, picker)"></mat-datepicker>
+          </div>
+        </div>
+
+        <div class="calendar-header-right">
+          <common-button [config]="refreshBtnConfig()"></common-button>
+          <common-button [config]="addBtnConfig()"></common-button>
+          <mat-button-toggle-group [value]="view" (change)="setView($event.value)" appearance="standard" class="pill-toggle-group" aria-label="Calendar view">
+            <mat-button-toggle [value]="AngularCalendarView.Month">{{SYSTEM_CONST.ACTION_BUTTONS.MONTH}}</mat-button-toggle>
+            <mat-button-toggle [value]="AngularCalendarView.Week">{{SYSTEM_CONST.ACTION_BUTTONS.WEEK}}</mat-button-toggle>
+            <mat-button-toggle [value]="AngularCalendarView.Day">{{SYSTEM_CONST.ACTION_BUTTONS.DAY}}</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+
+      <div class="calendar-body">
+        @switch (view) {
+          @case (AngularCalendarView.Month) {
+            <mwl-calendar-month-view
+              [viewDate]="viewDate"
+              [events]="events()"
+              [refresh]="refresh"
+              [activeDayIsOpen]="activeDayIsOpen"
+              (dayClicked)="dayClicked($event.day)"
+              (eventClicked)="eventClicked($event)"
+              [cellTemplate]="monthCellTemplate"
+            >
+            </mwl-calendar-month-view>
+          }
+          @case (AngularCalendarView.Week) {
+            <mwl-calendar-week-view
+              [viewDate]="viewDate"
+              [events]="events()"
+              [refresh]="refresh"
+              (eventClicked)="eventClicked($event)"
+              [eventTemplate]="weekDayEventTemplate"
+            >
+            </mwl-calendar-week-view>
+          }
+          @case (AngularCalendarView.Day) {
+            <mwl-calendar-day-view
+              [viewDate]="viewDate"
+              [events]="events()"
+              [refresh]="refresh"
+              (eventClicked)="eventClicked($event)"
+              [eventTemplate]="weekDayEventTemplate"
+            >
+            </mwl-calendar-day-view>
+          }
+        }
+      </div>
+    </div>
+  }
+</section>
+
+<!-- Custom Template for Month View Individual Day -->
+<ng-template #monthCellTemplate let-day="day" let-openDay="openDay" let-eventClicked="eventClicked">
+  <div class="cal-cell-top">
+    <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+    <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+  </div>
+  <div class="cal-events" *ngIf="day.events.length > 0">
+    <div
+      class="cal-event-label"
+      *ngFor="let event of day.events"
+      [style.backgroundColor]="event.color?.secondary"
+      [style.color]="event.color?.primary"
+      [style.borderColor]="event.color?.primary"
+      [matTooltip]="getTooltip(event)"
+      matTooltipPosition="left"
+      matTooltipClass="tooltip-pre-wrap"
+      (click)="$event.stopPropagation(); eventClicked.emit({ event: event })"
+    >
+      <span class="event-title-text">{{ event.title }}</span>
+      <mat-icon
+        class="inactive-warn"
+        *ngIf="!event.meta?.event?.isActive"
+        [matTooltip]="CALENDAR_CONST.INACTIVE_EVENT_TOOLTIP"
+        >warning</mat-icon
+      >
+    </div>
+  </div>
+</ng-template>
+
+<!-- Custom Template for Week and Day View Events -->
+<ng-template #weekDayEventTemplate let-weekEvent="weekEvent" let-eventClicked="eventClicked">
+  <div
+    class="cal-event h-100 w-100 p-0 overflow-hidden pointer"
+    [style.backgroundColor]="weekEvent.event.color?.secondary"
+    [style.borderColor]="weekEvent.event.color?.primary"
+    [style.color]="weekEvent.event.color?.primary"
+    [matTooltip]="getTooltip(weekEvent.event)"
+    matTooltipClass="tooltip-pre-wrap"
+    (click)="eventClicked.emit({ event: weekEvent.event })"
+  >
+    <div class="cal-event-title-container d-flex align-items-center justify-content-center">
+      <span class="cal-event-title px-1 text-center">{{ weekEvent.event.title }}</span>
+      <mat-icon
+        class="inactive-warn-icon"
+        *ngIf="!weekEvent.event.meta?.event?.isActive"
+        [matTooltip]="CALENDAR_CONST.INACTIVE_EVENT_TOOLTIP"
+        >warning</mat-icon
+      >
+    </div>
+  </div>
+</ng-template>

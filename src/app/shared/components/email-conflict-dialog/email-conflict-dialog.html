@@ -1,0 +1,7 @@
+<p>{{ EMAIL_VALIDATION_CONST.DIALOG_MESSAGE_PREFIX }}</p>
+<ul class="email-conflict-list">
+  <li *ngFor="let conflict of data.conflicts">
+    <strong>{{ conflict.email }}</strong> <i>({{ conflict.existedUserTypes.join(', ') }})</i>
+  </li>
+</ul>
+<p>{{ EMAIL_VALIDATION_CONST.DIALOG_MESSAGE_SUFFIX }}</p>

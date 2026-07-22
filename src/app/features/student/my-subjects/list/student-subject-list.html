@@ -1,0 +1,38 @@
+<section class="configuration-screen-layout">
+  @if (permission().canList) {
+    <div class="action-header">
+      <div class="action-header-left">
+        <common-search-input [control]="searchControl"></common-search-input>
+      </div>
+      <div class="action-header-right">
+        <common-button [config]="refreshButtonConfig()"></common-button>
+      </div>
+    </div>
+
+    <div class="subjects-cards-container">
+      @for (row of store.list(); track row.subjectId) {
+        <div class="subject-card">
+          <div class="subject-card-icon-box">
+            <div class="inner-icon">
+              {{ row.subjectName ? row.subjectName.charAt(0).toUpperCase() : 'S' }}
+            </div>
+          </div>
+          <div class="subject-card-details">
+            <h3 class="subject-card-name">{{ row.subjectName }}</h3>
+            <div class="subject-card-code">
+              <mat-icon>tag</mat-icon>
+              <span>{{ row.subjectCode }}</span>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (store.list().length === 0 && !store.isLoading()) {
+        <div class="empty-state">
+          <mat-icon>inbox</mat-icon>
+          <p>No subjects found</p>
+        </div>
+      }
+    </div>
+  }
+</section>

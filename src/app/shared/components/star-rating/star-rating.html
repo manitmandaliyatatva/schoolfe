@@ -1,0 +1,34 @@
+<form [formGroup]="formGroup()!">
+    <div class="star-rating-wrapper">
+        <label class="form-field-label" [ngClass]="{'has-error': isError()}">{{ config().label }}{{ isRequired() ? ' *'
+            : ''
+            }}</label>
+
+        <div class="star-rating" role="group" [attr.aria-label]="'Rating: ' + rating() + ' out of ' + cfg().total"
+            [style.gap.px]="cfg().gap">
+            <button *ngFor="let star of stars(); let i = index" class="star-btn" type="button"
+                [attr.aria-label]="'Rate ' + (i + 1) + ' star' + (i > 0 ? 's' : '')" [disabled]="cfg().readonly"
+                (mouseenter)="!cfg().readonly && onHover(i)" (mouseleave)="!cfg().readonly && onLeave()"
+                (click)="!cfg().readonly && onSelect(i, $event)">
+                <svg [attr.width]="cfg().size" [attr.height]="cfg().size" viewBox="0 0 24 24" aria-hidden="true">
+                    <defs>
+                        <linearGradient [id]="'half-' + instanceId + '-' + i" x1="0" y1="0" x2="1" y2="0">
+                            <stop [attr.offset]="getFillPercent(i) + '%'" [attr.stop-color]="cfg().filledColor" />
+                            <stop [attr.offset]="getFillPercent(i) + '%'" stop-color="none" />
+                        </linearGradient>
+                    </defs>
+                    <path
+                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                        [attr.fill]="getStarFill(i)" [attr.stroke]="getStarStroke(i)" stroke-width="1.5"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <span *ngIf="cfg().showLabel" class="star-label" [style.font-size.px]="cfg().size * 0.55"
+                aria-live="polite">
+                {{ displayRating() }}
+            </span>
+        </div>
+    </div>
+    <common-error [config]="errorConfig()"></common-error>
+</form>

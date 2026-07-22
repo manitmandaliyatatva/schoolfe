@@ -1,0 +1,7 @@
+@if (showInitials()) {
+    <div class="initials-circle" [class]="config().cssClass || ''">
+        {{ initials() }}
+    </div>
+} @else {
+    <img [src]="safeSrc()" [alt]="config().alt || ''" [class]="config().cssClass || ''" (error)="onError()" />
+}

@@ -1,0 +1,22 @@
+<div class="common-radio-button">
+  @if (config().label) {
+  <label class="form-field-label" [ngClass]="{ 'has-error': isError }">
+    {{ config().label }}{{ isRequired ? ' *' : '' }}
+  </label>
+  }
+
+  <form [formGroup]="formGroup">
+    <mat-radio-group [id]="inputId()" [name]="config().name || config().formControlName || ''"
+      [formControlName]="config().formControlName" 
+      [ngClass]="isVerticalOrientation ? 'vertical' : 'horizontal'"
+      [class.has-error]="isError"
+      (change)="onChange($event)">
+      @for (option of config().options; track option.value) {
+      <mat-radio-button [value]="option.value" [disabled]="isDisabled(option.value)" [class]="getRadioClass(option)">
+        {{ option.text }}
+      </mat-radio-button>
+      }
+    </mat-radio-group>
+    <common-error [config]="errorConfig()"></common-error>
+  </form>
+</div>

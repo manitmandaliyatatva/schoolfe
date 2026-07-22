@@ -1,0 +1,38 @@
+<form [formGroup]="formGroup">
+
+    <div class="top-bar">
+        <div class="text-field-outer custom-form-control">
+            <app-common-dropdown [config]="classSectionDropdown()"></app-common-dropdown>
+        </div>
+        <div class="text-field-outer custom-form-control">
+            <app-common-dropdown [config]="monthDropdown()"></app-common-dropdown>
+        </div>
+        <div class="text-field-outer custom-form-control">
+            <app-common-dropdown [config]="yearDropdown()"></app-common-dropdown>
+        </div>
+        
+    </div>
+</form>
+@if(listStore.isSuccess()){
+<common-data-grid [config]="studentListGrid"></common-data-grid>
+
+}
+<ng-template #nameTemplate let-row="row">
+    <div class="student-cell">
+
+        <div class="name">
+            {{row.fullName}} <span class="year">(2002)</span>
+        </div>
+
+        <div class="badges">
+            <span class="badge red">A:{{row.absentCount || 0}}</span>
+            <span class="badge orange">HD:{{row.halfDayCount || 0}}</span>
+            <span class="badge blue">L:{{row.leaveCount || 0}}</span>
+            <span class="badge green">P:{{row.presentCount || 0}}</span>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #attendanceCellTemplate let-value="value">
+    {{ value?.status || '' }}
+</ng-template>

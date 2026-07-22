@@ -1,0 +1,259 @@
+:host ::ng-deep {
+  thead {
+    display: none;
+  }
+
+  .mat-column-__actions {
+    display: none !important;
+  }
+
+  .common-data-grid-wrap {
+    background: transparent !important;
+  }
+
+  .common-data-grid-search-wrap {
+    border-bottom: none !important;
+  }
+
+  .common-data-grid-table {
+    background-color: transparent !important;
+  }
+
+  .common-data-grid-pagination {
+    background-color: transparent !important;
+    border: none !important;
+  }
+
+  .configuration-grid-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  td.mat-mdc-cell {
+    border: none !important;
+    padding: 0 6px 0 6px !important;
+  }
+
+  .common-data-grid-table-wrap {
+    max-height: 490px !important;
+  }
+
+  .mat-mdc-row:hover .mat-mdc-cell {
+    background: transparent !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+.notice-card {
+  margin-top: 5px !important;
+  border-radius: 14px !important;
+  border: 1.5px solid #eef0f6 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  background: #fff !important;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  position: relative;
+  overflow: hidden;
+
+  // left accent bar
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #e2e8f0;
+    border-radius: 4px 0 0 4px;
+    transition: background 0.18s ease;
+  }
+
+  &:hover {
+    border-color: #c7d2fe !important;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.1) !important;
+    transform: translateY(-1px);
+
+    &::before {
+      background: #6366f1;
+    }
+  }
+
+  &.emergency-card {
+    &::before {
+      background: #fca5a5;
+    }
+
+    &:hover {
+      border-color: #fecaca !important;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.1) !important;
+
+      &::before {
+        background: #ef4444;
+      }
+    }
+  }
+
+  // ── Inner layout ──────────────────────────────────────────
+  .card-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 7px 14px 4px 17px;
+  }
+
+  // ── Date Square Box ───────────────────────────────────────
+  .date-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    border-radius: 10px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    flex-shrink: 0;
+    transition: border-color 0.18s, background 0.18s;
+
+    .date-day {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1;
+    }
+
+    .date-month {
+      font-size: 8.5px;
+      font-weight: 500;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+  }
+
+  &:hover .date-box {
+    border-color: #c7d2fe;
+    background: #eef2ff;
+
+    .date-day {
+      color: #4f46e5;
+    }
+
+    .date-month {
+      color: #6366f1;
+    }
+  }
+
+  &.emergency-card:hover .date-box {
+    border-color: #fecaca;
+    background: #fef2f2;
+
+    .date-day {
+      color: #dc2626;
+    }
+
+    .date-month {
+      color: #ef4444;
+    }
+  }
+
+  // ── Content block ─────────────────────────────────────────
+  .notice-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  // ── Row 1: Title ──────────────────────────────────────────
+  .notice-row-top {
+    display: flex;
+    align-items: center;
+
+    .notice-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #0f172a;
+      letter-spacing: -0.1px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  // ── Row 2: Description ────────────────────────────────────
+  .notice-row-bottom {
+    display: flex;
+    align-items: center;
+
+    .notice-desc {
+      font-size: 14px;
+      margin-top: 1px;
+      color: #94a3b8;
+      font-weight: 400;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+  }
+
+  // ── Chevron ───────────────────────────────────────────────
+  .chevron-icon {
+    color: #cbd5e1;
+    font-size: 20px;
+    flex-shrink: 0;
+    transition: color 0.15s, transform 0.15s;
+  }
+
+  &:hover .chevron-icon {
+    color: #6366f1;
+    transform: translateX(2px);
+  }
+
+  &.emergency-card:hover .chevron-icon {
+    color: #ef4444;
+  }
+}
+
+// ── Custom Thin Scrollbar ─────────────────────────────────
+
+// Firefox
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #696969 transparent;
+}
+
+// Chrome / Edge / Safari
+::-webkit-scrollbar {
+  width: 1px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color, #25A194) !important;
+  border-radius: 99px;
+
+  &:hover {
+    background: var(--primary-dark, #2D7264) !important;
+  }
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+:host.dashboard-mode ::ng-deep {
+  .common-data-grid-search-wrap {
+    display: none !important;
+  }
+
+  .common-data-grid-pagination {
+    display: none !important;
+  }
+}

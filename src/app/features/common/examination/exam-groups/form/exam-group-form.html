@@ -1,0 +1,85 @@
+<section class="configuration-screen-layout">
+  <div class="configuration-grid-card p-4">
+    <form [formGroup]="formGroup" (ngSubmit)="onSave()">
+
+      <!-- Master Form Section (Dynamic) -->
+      <common-dynamic-form [formControls]="formControls"></common-dynamic-form>
+      <!-- Holiday Dates Datepicker rendered directly so config reference changes propagate -->
+      <div class="row mb-3">
+        <div class="col-12">
+          <app-common-datepicker [config]="holidayDatesConfig"></app-common-datepicker>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        @if (!isEditMode() || isDataLoaded()) {
+        <common-data-grid [config]="gridConfig()"></common-data-grid>
+        }
+        @if (isSaveClicked() && rowIndices.length === 0) {
+        <div class="validation-error-msg">
+          {{ EXAM_GROUP_CONST.AT_LEAST_ONE_SUBJECT }}
+        </div>
+        }
+      </div>
+
+      <!-- Custom Templates for Grid Columns -->
+      <ng-template #subjectTemplate let-row="row">
+        <div class="grid-field-wrapper subject-field-wrapper">
+          <app-common-dropdown [config]="subjectDropdownConfigs[getExamRowIndex(row.rowId)]"></app-common-dropdown>
+        </div>
+      </ng-template>
+
+      <ng-template #dateTemplate let-row="row">
+        <div class="grid-field-wrapper date-field-wrapper">
+          <app-common-datepicker [config]="examDateConfigs[getExamRowIndex(row.rowId)]"></app-common-datepicker>
+        </div>
+      </ng-template>
+
+      <ng-template #startTimeTemplate let-row="row">
+        <div class="grid-field-wrapper time-field-wrapper">
+          <app-common-timepicker [config]="startTimeConfigs[getExamRowIndex(row.rowId)]"></app-common-timepicker>
+        </div>
+      </ng-template>
+
+      <ng-template #endTimeTemplate let-row="row">
+        <div class="grid-field-wrapper time-field-wrapper">
+          <app-common-timepicker [config]="endTimeConfigs[getExamRowIndex(row.rowId)]"></app-common-timepicker>
+        </div>
+      </ng-template>
+
+      <ng-template #maxMarksTemplate let-row="row">
+        <div class="grid-field-wrapper marks-field-wrapper">
+          <common-textbox [config]="maxMarksConfigs[getExamRowIndex(row.rowId)]" [rowId]="row.rowId"></common-textbox>
+        </div>
+      </ng-template>
+
+      <ng-template #passingMarksTemplate let-row="row">
+        <div class="grid-field-wrapper marks-field-wrapper">
+          <common-textbox [config]="passingMarksConfigs[getExamRowIndex(row.rowId)]"
+            [rowId]="row.rowId"></common-textbox>
+        </div>
+      </ng-template>
+
+      <ng-template #actionTemplate let-row="row">
+        <button type="button" class="btn btn-link text-danger p-0" (click)="deleteRow(getExamRowIndex(row.rowId), true)"
+          [title]="systemConst.ACTION_BUTTONS.DELETE" [disabled]="isRowDisabled(getExamRowIndex(row.rowId))">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </ng-template>
+
+      <ng-template #fullWidthRowTemplate let-row>
+        <div class="holiday-full-row">
+          <mat-icon class="holiday-icon">auto_stories</mat-icon>
+          <span class="holiday-label">HOLIDAY — {{ formatHolidayDate(row.dateStr) }}</span>
+        </div>
+      </ng-template>
+
+      <!-- Action Buttons -->
+      <div class="form-actions configuration-screen-actions mt-5">
+        <common-button [config]="cancelBtn()"></common-button>
+        <common-button [config]="saveBtn()"></common-button>
+      </div>
+
+    </form>
+  </div>
+</section>

@@ -1,0 +1,8 @@
+<form [formGroup]="formGroup" class="pt-2">
+  <common-dynamic-form [formControls]="formControls" [showCard]="true"></common-dynamic-form>
+</form>
+
+<div class="form-actions configuration-screen-actions dialog-actions">
+  <common-button [config]="cancelBtn()"></common-button>
+  <common-button [config]="saveBtn()"></common-button>
+</div>

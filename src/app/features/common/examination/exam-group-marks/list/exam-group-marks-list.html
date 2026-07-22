@@ -1,0 +1,59 @@
+<section class="configuration-screen-layout">
+  @if (gridConfig && permission().canList) {
+    <div class="configuration-grid-card">
+      <common-data-grid [config]="gridConfig"></common-data-grid>
+    </div>
+  }
+</section>
+
+<!-- Custom Cell Template for Status column -->
+<ng-template #statusCell let-row="row">
+  <div class="exam-status-cell">
+    @if (row.isExamPublished) {
+      <div class="published-badge">
+        <span class="published-badge__check">✓</span>
+        <span class="published-badge__text">{{ marksConst.PUBLISHED }}</span>
+      </div>
+    } @else if (row.isMarksCompleted) {
+      <app-status-chip [config]="{ value: getIsCompletedCallback(row), activeText: SYSTEM_CONST.STATUS.PROGRESS.COMPLETED, inactiveText: SYSTEM_CONST.STATUS.PROGRESS.IN_PROGRESS }"></app-status-chip>
+    } @else {
+      <div class="status-badge-container">
+        <div class="status-badge-flex">
+          <app-status-chip [config]="{ value: getIsCompletedCallback(row), activeText: SYSTEM_CONST.STATUS.PROGRESS.COMPLETED, inactiveText: SYSTEM_CONST.STATUS.PROGRESS.IN_PROGRESS }"></app-status-chip>
+          @if (row.marksProgress && row.marksProgress.length > 0) {
+            <span class="status-info-icon-wrap" [matMenuTriggerFor]="progressMenu" (click)="$event.stopPropagation()">
+              <mat-icon class="status-info-icon">info</mat-icon>
+            </span>
+            <mat-menu #progressMenu="matMenu" class="marks-progress-menu-panel">
+              <div class="marks-progress-tooltip-menu" (click)="$event.stopPropagation()">
+                <div class="tooltip-header">Marks Entry Progress</div>
+                <table class="progress-table">
+                  <thead>
+                    <tr>
+                      <th>Subject</th>
+                      <th class="text-center">Entered</th>
+                      <th class="text-center">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (prog of row.marksProgress; track prog.subjectName) {
+                      <tr>
+                        <td class="sub-name">{{ prog.subjectName }}</td>
+                        <td class="text-center highlight-entered">{{ prog.marksEntered }}</td>
+                        <td class="text-center">{{ prog.totalStudents }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </mat-menu>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</ng-template>
+
+<ng-template #classSectionCell let-row="row">
+  {{ getClassroomDisplay(row.classSectionNames) }}
+</ng-template>

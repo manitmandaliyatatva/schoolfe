@@ -1,0 +1,16 @@
+<section class="configuration-screen-layout">
+    @if (gridConfig && permission().canList) {
+  <div class="configuration-grid-card">
+    <common-data-grid [config]="gridConfig"></common-data-grid>
+  </div>
+  }
+</section>
+
+<ng-template #teacherNameCell let-row="row">
+  <div class="teacher-name-cell">
+    <app-safe-image class="teacher-name-cell__avatar" [config]="{ src: row.photo, alt: (row.fullName) + ' photo', userName: row.fullName }">
+    </app-safe-image>
+    <div class="teacher-name-cell__name">{{ row.fullName || '-' }}</div>
+  </div>
+</ng-template>
+

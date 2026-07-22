@@ -1,0 +1,15 @@
+<div class="sidebar-container" [class.collapsed]="collapsed()">
+  <div class="logo-section">
+    <div class="logo-wrap">
+      <img [src]="settingStore.logo()" alt="App Logo" />
+      <p *ngIf="!collapsed()">{{settingStore.schoolName()}}</p>
+    </div>
+  </div>
+
+  <ul class="menu">
+    @for (item of menuItems(); track item.key) {
+    <app-navbar-content [item]="item" [collapsed]="collapsed()" [expandedKey]="expandedMenuKey()"
+      (toggleRequested)="expandedMenuKey.set($event)"></app-navbar-content>
+    }
+  </ul>
+</div>

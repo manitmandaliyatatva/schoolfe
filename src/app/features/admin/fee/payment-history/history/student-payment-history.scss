@@ -1,0 +1,53 @@
+@use "../../../../../../assets/style/variables.scss" as *;
+
+.student-payment-history-screen {
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .student-info-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    background: #ffffff;
+    border-radius: 12px;
+    border-left: 4px solid #25a194;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+
+    .student-details {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .student-info-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: #5d6773;
+    }
+
+    .student-info-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0b1f3a;
+    }
+  }
+
+  .configuration-grid-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+    margin-top: 16px;
+
+    ::ng-deep .mat-mdc-table {
+      background: transparent !important;
+    }
+  }
+}

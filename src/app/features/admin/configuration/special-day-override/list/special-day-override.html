@@ -1,0 +1,12 @@
+<section class="configuration-screen-layout">
+  @if (gridConfig && this.permission().canList) {
+    <div class="configuration-grid-card">
+      <common-data-grid [config]="gridConfig"></common-data-grid>
+    </div>
+  }
+</section>
+
+<!-- Detailed popup display template -->
+<ng-template #overrideDetailTemplate let-data>
+  <app-common-detail-view [data]="data" [fields]="overrideDetailFields"></app-common-detail-view>
+</ng-template>

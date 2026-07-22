@@ -1,0 +1,12 @@
+// Ensure grid columns are equal on small screens
+.row.g-2 > .col {
+  flex: 1 1 0px;
+  min-width: 0;
+}
+
+// Adjust column spacing for widgets to be flexible in Teacher Dashboard
+@media (min-width: 1200px) {
+  .col-xl {
+    flex: 1 0 0%;
+  }
+}

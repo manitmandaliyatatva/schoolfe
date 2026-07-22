@@ -1,0 +1,63 @@
+<section class="configuration-screen-layout">
+  @if (permission().canList) {
+    <div class="classmates-container">
+      <div class="action-header">
+        <div class="action-header-left">
+          <common-search-input [control]="searchControl"></common-search-input>
+        </div>
+        <div class="action-header-right">
+          <common-button [config]="refreshButtonConfig()"></common-button>
+        </div>
+      </div>
+
+      <div class="classmate-cards-container">
+        @for (row of classmates(); track row.studentId) {
+          <div class="classmate-card-wrapper">
+            <div class="classmate-card">
+              <div class="gender-tab" [class.male]="row.gender === 1" [class.female]="row.gender === 2" [class.other]="row.gender === 3">
+                {{ row.genderName || '-' }}
+              </div>
+
+              <div class="classmate-card__top">
+                <div class="classmate-avatar-wrapper">
+                  <app-safe-image class="classmate-avatar" [config]="{ src: row.photo, alt: (row.fullName) + ' photo', userName: row.fullName }">
+                  </app-safe-image>
+                </div>
+                <div class="classmate-info">
+                  <h3 class="classmate-name">{{ row.fullName || '-' }}</h3>
+                  <div class="classmate-roll-no">Roll No: {{ row.rollNumber ?? '-' }}</div>
+                </div>
+              </div>
+
+            <div class="classmate-card__bottom">
+              <div class="detail-row">
+                <span class="detail-item">
+                  <mat-icon>calendar_today</mat-icon>
+                  DOB: {{ row.dob ? (row.dob | date: commonDateFormat.DDMMYYYY_WithSlash) : '-' }}
+                </span>
+                <span class="detail-item">
+                  <mat-icon>phone</mat-icon>
+                  Phone: {{ row.phoneNumber || '-' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+        @if (classmates().length === 0 && !isLoading()) {
+          <div class="empty-state">
+            <mat-icon>inbox</mat-icon>
+            <p>No classmates found</p>
+          </div>
+        }
+        <div appInfiniteScroll
+             [hasMore]="hasMore"
+             [isFetching]="isFetching"
+             (scrollEnd)="loadMore()"
+             class="scroll-sentinel">
+        </div>
+      </div>
+    </div>
+  }
+</section>

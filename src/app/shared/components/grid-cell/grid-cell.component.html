@@ -1,0 +1,64 @@
+@switch (type()) {
+  @case (ListDisplayType.Date) {
+    {{ value() | date: config()?.format ?? "dd/MM/yyyy" }}
+  }
+
+  @case (ListDisplayType.Currency) {
+    {{ value() | currencyFormat }}
+  }
+
+  @case (ListDisplayType.Percentage) {
+    {{ value() | percentageFormat }}
+  }
+  @case (ListDisplayType.Number) {
+    {{ value() | number: "1.0-2" }}
+  }
+
+  @case (ListDisplayType.Checkbox) {
+    <mat-checkbox [checked]="value()" disabled></mat-checkbox>
+  }
+
+  @case (ListDisplayType.Badge) {
+    @let badge = getBadge();
+
+    <mat-chip
+      selected
+      [style.background]="badge?.color"
+      [style.color]="getTextColor(badge?.color ?? '')"
+    >
+      {{ badge?.label }}
+    </mat-chip>
+  }
+
+  @case (ListDisplayType.Email) {
+    <a [href]="'mailto:' + value()">
+      {{ value() }}
+    </a>
+  }
+
+  @case (ListDisplayType.Link) {
+    <a [href]="value()" target="_blank">
+      {{ value() }}
+    </a>
+  }
+
+  @case (ListDisplayType.Phone) {
+    <a [href]="'tel:' + value()">
+      {{ value() }}
+    </a>
+  }
+
+  @case (ListDisplayType.Truncate) {
+    <span matTooltip="{{ value() }}">
+      {{ value()?.length > 30 ? (value() | slice: 0 : 30) + "..." : value() }}
+    </span>
+  }
+
+  @case (ListDisplayType.Progress) {
+    <mat-progress-bar mode="determinate" [value]="value()"> </mat-progress-bar>
+  }
+
+  @default {
+    {{ value() }}
+  }
+}

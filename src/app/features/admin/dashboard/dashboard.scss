@@ -1,0 +1,6 @@
+// Adjust column spacing for stats to be flexible in Admin Dashboard
+@media (min-width: 1200px) {
+  .col-xl {
+    flex: 1 0 0%;
+  }
+}

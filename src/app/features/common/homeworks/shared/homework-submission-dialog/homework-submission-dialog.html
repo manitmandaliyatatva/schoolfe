@@ -1,0 +1,19 @@
+<section class="configuration-screen-layout">
+  <div class="configuration-screen-content">
+    @if (store.data()?.remark) {
+      <div class="teacher-remark-alert">
+        <mat-icon>info</mat-icon>
+        <span><span class="fw-bold">{{ homeworkConst.SUBMISSION.TEACHER_REMARK }}</span>{{ store.data()?.remark }}</span>
+      </div>
+    }
+
+    <form [formGroup]="formGroup" (ngSubmit)="onSave()">
+      <common-dynamic-form [formControls]="formControls" [showCard]="false"></common-dynamic-form>
+
+      <div class="form-actions configuration-screen-actions">
+        <common-button [config]="cancelBtn()"></common-button>
+        <common-button [config]="saveBtn()"></common-button>
+      </div>
+    </form>
+  </div>
+</section>

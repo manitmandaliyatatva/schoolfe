@@ -1,0 +1,23 @@
+<section class="configuration-screen-layout">
+  @if (gridConfig() && permission().canList) {
+    <div class="configuration-grid-card">
+      <common-data-grid [config]="gridConfig()!"></common-data-grid>
+    </div>
+  }
+</section>
+
+<ng-template #checkboxCellTemplate let-rowIndex="rowIndex" let-column="column">
+  <div [formGroup]="settingsForm" class="d-flex justify-content-center w-100">
+    <ng-container [formArrayName]="PAGE_CONST().FORM_CONTROLS.WEEKDAYS_OFF_ARRAY">
+      <ng-container [formGroupName]="rowIndex">
+        @if (isEditMode()) {
+          <mat-checkbox [formControlName]="column.field" color="primary"></mat-checkbox>
+        } @else {
+          <boolean-status [value]="weekdaysOffArray.at(rowIndex).get(column.field)?.value"></boolean-status>
+        }
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+

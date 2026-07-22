@@ -1,0 +1,46 @@
+@use "../../../../../../assets/style/variables.scss";
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 80px;
+
+    &.paid {
+      background: linear-gradient(135deg, #11998e, #38ef7d); /* Emerald to Light Green */
+      color: #ffffff;
+    }
+
+    &.partial {
+      background: linear-gradient(135deg, #f2994a, #f2c94c); /* Orange to Yellow */
+      color: #ffffff;
+    }
+
+    &.pending {
+      background: linear-gradient(135deg, #FF8008, #FFC837); /* Vivid Orange to Yellow */
+      color: #ffffff;
+    }
+
+    &.overdue {
+      background: linear-gradient(135deg, #cb2d3e, #ef473a); /* Dark Red to Brighter Red */
+      color: #ffffff;
+    }
+
+    &.unpaid {
+      background: linear-gradient(135deg, #606c88, #3f4c6b); /* Steel Gray Gradient */
+      color: #ffffff;
+    }
+    
+    &.late-paid {
+      background: linear-gradient(135deg, #8e44ad, #c39bd3); /* Deep Purple to Lavender */
+      color: #ffffff;
+    }
+    
+    &.default {
+      background: linear-gradient(135deg, #bdc3c7, #95a5a6); /* Soft Gray Gradient */
+      color: #ffffff;
+    }
+}

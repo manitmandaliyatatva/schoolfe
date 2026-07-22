@@ -1,0 +1,212 @@
+<section class="configuration-screen-layout">
+  @if (permission().canList) {
+    <div class="kpi-container">
+      <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-exams-taken">
+          <mat-icon>edit_document</mat-icon>
+        </div>
+        <div class="kpi-details">
+          <span class="kpi-title">EXAMS TAKEN</span>
+          <span class="kpi-value">{{ kpiData()?.totalExams ?? 0 }}</span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-{{ getScoreColorClass(kpiData()?.averageScore) || 'orange' }}">
+          <mat-icon>{{ getScoreIcon(kpiData()?.averageScore) }}</mat-icon>
+        </div>
+        <div class="kpi-details">
+          <span class="kpi-title">AVERAGE SCORE</span>
+          <span class="kpi-value value-{{ getScoreColorClass(kpiData()?.averageScore) || 'orange' }}">{{ kpiData()?.averageScore ?? 0 }}%</span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-{{ getGradeColorClass(kpiData()?.maxGrade) || 'green' }}">
+          <mat-icon>{{ getGradeIcon(kpiData()?.maxGrade) }}</mat-icon>
+        </div>
+        <div class="kpi-details">
+          <span class="kpi-title">BEST GRADE</span>
+          <span class="kpi-value value-{{ getGradeColorClass(kpiData()?.maxGrade) || 'green' }}">{{ kpiData()?.maxGrade || '-' }}</span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-passed">
+          <mat-icon>check_box</mat-icon>
+        </div>
+        <div class="kpi-details">
+          <span class="kpi-title">PASSED</span>
+          <span class="kpi-value value-purple">{{ kpiData()?.passedExams ?? 0 }}/{{ kpiData()?.totalExams ?? 0 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-header">
+      <div class="action-header-left">
+        <common-search-input [control]="searchControl"></common-search-input>
+      </div>
+      <div class="action-header-right">
+        <common-button [config]="refreshButtonConfig()"></common-button>
+        <common-button [config]="filterSidebar.toggleButtonConfig()"></common-button>
+      </div>
+    </div>
+
+  <div class="exam-groups-container">
+    @for (group of groupedResults(); track group.examGroupId) {
+    <div class="exam-group-card" [class.is-expanded]="group.isExpanded">
+      <!-- Group Header -->
+      <div class="group-header" (click)="toggleGroup(group.examGroupId)">
+        <div class="group-header-info">
+          <div class="group-title-row">
+            <h3 class="group-title">{{ group.examGroupName }}</h3>
+            <span class="exam-count-badge">{{ group.results.length }} {{ group.results.length === 1 ? 'Subject' : 'Subjects' }}</span>
+          </div>
+          <div class="group-meta-row">
+            <span class="group-meta-item">
+              <mat-icon class="meta-icon">calendar_today</mat-icon>
+              <span>{{ group.startDate }} - {{ group.endDate }}</span>
+            </span>
+          </div>
+        </div>
+        
+        <!-- Group Level KPIs on Header -->
+        <div class="group-header-right">
+          <div class="group-header-kpis">
+            <span class="header-kpi-chip passed" title="Passed Exams">
+              <mat-icon class="kpi-chip-icon">check_circle</mat-icon>
+              <span>Passed: {{ group.passedExams }}/{{ group.totalExams }}</span>
+            </span>
+            <span class="header-kpi-chip average" title="Average Score">
+              <mat-icon class="kpi-chip-icon">analytics</mat-icon>
+              <span>Avg: {{ group.averageScore }}%</span>
+            </span>
+            <span class="header-kpi-chip grade value-{{ getGradeColorClass(group.maxGrade) }}" title="Best Grade">
+              <mat-icon class="kpi-chip-icon">workspace_premium</mat-icon>
+              <span>Best: {{ group.maxGrade }}</span>
+            </span>
+          </div>
+          @if (group.isDownloadCertificate && permission().canDownload) {
+          <div class="group-download-btn" (click)="$event.stopPropagation()">
+            <common-button [config]="getDownloadCertificateButtonConfig(group)"></common-button>
+          </div>
+          }
+          <button mat-icon-button class="expand-btn">
+            <mat-icon>{{ group.isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Group Content (Accordion Body) -->
+      @if (group.isExpanded) {
+      <div class="group-content-wrapper">
+        <div class="results-table-list">
+          <!-- Table Header -->
+          <div class="results-table-header">
+            <div class="header-cell subject-col">Subject</div>
+            <div class="header-cell date-col">Date & Time</div>
+            <div class="header-cell marks-col">Obtained Marks</div>
+            <div class="header-cell pct-col">Percentage</div>
+            <div class="header-cell grade-col">Grade</div>
+            <div class="header-cell status-col">Status</div>
+            <div class="header-cell evaluator-col">Evaluated By</div>
+            <div class="header-cell remarks-col">Remarks</div>
+          </div>
+
+          <!-- Table Rows -->
+          @for (res of group.results; track res.examStudentId) {
+          <div class="results-table-row" [class.fail-row]="isFailedResult(res)" [class.absent-row]="res.isAbsent">
+            <div class="row-cell subject-col">
+              <span class="subject-badge">
+                <mat-icon>menu_book</mat-icon>
+                <span class="subject-name">{{ res.subjectName }}</span>
+              </span>
+              <span class="type-tag">{{ res.examName }}</span>
+            </div>
+            
+            <div class="row-cell date-col">
+              <div class="date-text">{{ res.examDate | date: CommonDateFormat.DDMMYYYY_WithSlash }}</div>
+              <div class="time-text">{{ formatTimeRange(res.startTime, res.endTime) }}</div>
+            </div>
+
+            <div class="row-cell marks-col">
+              @if (res.isAbsent) {
+                <span class="absent-label">{{ MY_RESULT_CONST.ABSENT }}</span>
+              } @else {
+                <span class="obtained-marks">{{ res.obtainedMarks }}</span>
+                <span class="max-marks">/{{ res.maxMarks }}</span>
+              }
+            </div>
+
+            <div class="row-cell pct-col">
+              @if (res.isAbsent) {
+                <span class="absent-label">-</span>
+              } @else {
+                <span class="percentage-val" [class.fail-text]="isFailedResult(res)">{{ res.percentage }}%</span>
+              }
+            </div>
+
+            <div class="row-cell grade-col">
+              @if (res.isAbsent) {
+                <span class="absent-label">-</span>
+              } @else {
+                <span class="grade-badge value-{{ getGradeColorClass(res.grade) }}">{{ res.grade }}</span>
+              }
+            </div>
+
+            <div class="row-cell status-col">
+              @if (res.isAbsent) {
+                <span class="status-chip absent">{{ MY_RESULT_CONST.ABSENT }}</span>
+              } @else if (isFailedResult(res)) {
+                <span class="status-chip fail">{{ MY_RESULT_CONST.FAIL }}</span>
+              } @else {
+                <span class="status-chip pass">{{ MY_RESULT_CONST.PASS }}</span>
+              }
+            </div>
+
+            <div class="row-cell evaluator-col">
+              @if (res.evaluatedByName) {
+                <span class="evaluator-name" [matTooltip]="(res.evaluatedDate | date: CommonDateFormat.DDMMMYYYY_WithSpace) || ''">
+                  {{ res.evaluatedByName }}
+                </span>
+              } @else {
+                <span>-</span>
+              }
+            </div>
+
+            <div class="row-cell remarks-col">
+              <span class="remarks-text" [matTooltip]="res.remarks || ''" [matTooltipDisabled]="!res.remarks">
+                {{ res.remarks || '-' }}
+              </span>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      }
+    </div>
+    }
+
+    @if (groupedResults().length === 0 && !isLoading()) {
+    <div class="empty-state">
+      <mat-icon>inbox</mat-icon>
+      <p>No results found</p>
+    </div>
+    }
+
+      <div appInfiniteScroll
+           [hasMore]="hasMore"
+           [isFetching]="isFetching"
+           (scrollEnd)="loadMore()"
+           class="scroll-sentinel">
+      </div>
+    </div>
+  }
+</section>
+
+<!-- ── Filter Sidebar Drawer ── -->
+<app-filter-drawer
+  [isOpen]="filterSidebar.isOpen()"
+  [form]="filterForm"
+  [config]="filterConfig"
+  [resetBtnConfig]="filterSidebar.resetButtonConfig()"
+  [applyBtnConfig]="filterSidebar.applyButtonConfig()"
+  (close)="filterSidebar.close()">
+</app-filter-drawer>

@@ -1,0 +1,44 @@
+<div class="document-upload" [class.has-error]="isError()" [class.ng-invalid]="isError()"
+  [ngClass]="config().customClass || ''">
+  @if (config().label) {
+  <label class="form-field-label" [ngClass]="{ 'has-error': isError() }">{{ config().label }}{{ isRequiredComputed() ? '
+    *' : '' }}</label>
+  }
+
+  <!-- Upload Button -->
+  <label class="btn configuration-form-cancel-btn document-upload__btn" [for]="isDisabled() ? null : inputId()"
+    [class.disabled]="isDisabled()">
+    <mat-icon class="document-upload__btn-icon">upload_file</mat-icon>
+    <span class="document-upload__btn-text">{{ buttonText() }}</span>
+  </label>
+
+  <input [id]="inputId()" type="file" hidden [accept]="allowedExtensions()" [disabled]="isDisabled()"
+    (change)="onFileSelected($event)" />
+
+  <!-- File Chips -->
+  @if (documents().length > 0) {
+  <div class="document-upload__chips">
+    @for (doc of documents(); track $index) {
+    <div class="document-upload__chip">
+      <span class="document-upload__chip-name" [title]="doc.fileName">
+        {{ doc.fileName }}
+      </span>
+
+      <!-- View Button -->
+      <button type="button" class="document-upload__chip-action document-upload__chip-action--view"
+        (click)="onView(doc)">
+        <mat-icon>visibility</mat-icon>
+      </button>
+
+      <!-- Delete Button -->
+      <button type="button" class="document-upload__chip-action document-upload__chip-action--delete"
+        [disabled]="isDisabled()" (click)="onRemove(doc, $index)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    }
+  </div>
+  }
+</div>
+
+<common-error [config]="errorConfig()"></common-error>

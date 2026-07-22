@@ -1,0 +1,143 @@
+// ─── Design Tokens ──────────────────────────────────────────────────────────
+$primary: var(--primary-color, #25a194);
+$primary-bg: #e9f7f6;
+$border: #e4e8ef;
+$surface: #ffffff;
+$text-primary: #1e293b;
+$text-secondary: #64748b;
+$text-muted: #94a3b8;
+$radius-md: 10px;
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+
+.dashboard-permission-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 0 2rem;
+
+  .filter-bar {
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    box-shadow: $shadow-sm;
+
+    .filter-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .filter-field {
+      flex: 1;
+      min-width: 250px;
+      max-width: 350px;
+    }
+  }
+
+  .permissions-card {
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    box-shadow: $shadow-md;
+    overflow: hidden;
+
+    .card-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid $border;
+      background: #f8fafc;
+      
+      .card-title {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: $text-primary;
+      }
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+  }
+
+  .widget-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .widget-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border: 1px solid $border;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: $primary;
+      box-shadow: 0 2px 8px rgba(37, 161, 148, 0.1);
+    }
+
+    .widget-icon {
+      color: $primary;
+      font-size: 24px;
+      margin-right: 1rem;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .widget-info {
+      flex: 1;
+      
+      .widget-name {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: $text-primary;
+      }
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: $text-muted;
+      margin-bottom: 1rem;
+    }
+
+    .empty-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $text-primary;
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-desc {
+      color: $text-secondary;
+      margin: 0;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+
+  .footer-actions {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid $border;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

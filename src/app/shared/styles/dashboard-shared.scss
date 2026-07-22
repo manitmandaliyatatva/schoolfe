@@ -1,0 +1,114 @@
+// Shared Dashboard Styles
+
+:host {
+  display: block;
+  padding: 16px;
+
+  @media (min-width: 992px) {
+    padding: 24px;
+  }
+}
+
+.row {
+  margin-left: -12px;
+  margin-right: -12px;
+
+  > [class*='col-'] {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  &.g-2 {
+    margin-left: -4px;
+    margin-right: -4px;
+    
+    > [class*='col-'] {
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+  }
+
+  &.g-3 {
+    margin-left: -8px;
+    margin-right: -8px;
+    
+    > [class*='col-'] {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
+}
+
+// Ensure grid columns are equal on small screens for some layouts
+.row.g-2 > .col {
+  flex: 1 1 0px;
+  min-width: 0;
+}
+
+// Shared List Container
+.dashboard-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+// Attendance specific styles that might be used across
+.attendance-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin: 0 0 12px 0;
+}
+
+.attendance-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.attendance-divider {
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+  margin: 0;
+  opacity: 1;
+}
+
+.attendance-group {
+  margin-bottom: 8px;
+}
+
+// Deep styles for shared components
+::ng-deep {
+  app-dashboard-card,
+  app-dashboard-events,
+  app-dashboard-notices,
+  app-dashboard-birthdays,
+  app-dashboard-holidays {
+    display: block;
+    height: 100%;
+  }
+  
+  app-dashboard-section {
+    height: 100%;
+    display: block;
+  }
+
+  // Header actions for dropdowns in sections
+  .header-actions {
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+    .mat-mdc-text-field-wrapper {
+      background-color: #f8fafc !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      height: 40px !important;
+      align-items: center;
+      border-radius: 8px !important;
+    }
+    .mat-mdc-form-field-infix {
+      padding-top: 8px !important;
+      padding-bottom: 8px !important;
+      min-height: auto !important;
+    }
+  }
+}

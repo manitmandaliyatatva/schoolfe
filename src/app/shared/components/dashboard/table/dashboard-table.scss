@@ -1,0 +1,113 @@
+.custom-dashboard-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin-bottom: 0;
+  table-layout: auto !important;
+
+  thead th {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.05em !important;
+    padding: 12px 15px !important;
+    border: none !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    white-space: nowrap;
+    text-align: left !important;
+  }
+
+  tbody td {
+    padding: 14px 15px !important;
+    vertical-align: middle !important;
+    color: #475569 !important;
+    border: none !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    font-size: 13px;
+    text-align: left !important;
+  }
+
+  tr:last-child td {
+    border-bottom: none !important;
+  }
+
+  .progress {
+    background-color: #ccfbf1 !important;
+    border-radius: 10px;
+    height: 6px !important;
+    margin-top: 4px;
+    overflow: hidden;
+
+    .progress-bar {
+      background-color: #1a9e8d !important;
+      height: 100% !important;
+      display: block;
+      transition: width 0.3s ease-in-out;
+      border-radius: 10px;
+    }
+  }
+
+  .text-center {
+    text-align: center !important;
+  }
+  
+  .badge {
+    padding: 6px 12px !important;
+    font-weight: 500 !important;
+    font-size: 11px !important;
+    border-radius: 20px !important;
+    letter-spacing: 0.3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    
+    &.bg-success {
+      background-color: #ecfdf5 !important;
+      color: #059669 !important;
+    }
+    
+    &.bg-danger {
+      background-color: #fef2f2 !important;
+      color: #dc2626 !important;
+    }
+    
+    &.bg-info {
+      background-color: #f0f9ff !important;
+      color: #0284c7 !important;
+    }
+    
+    &.bg-warning {
+      background-color: #fffbeb !important;
+      color: #d97706 !important;
+    }
+
+    &.bg-primary {
+      background-color: #eff6ff !important;
+      color: #2563eb !important;
+    }
+  }
+}
+
+.dashboard-table-container {
+  overflow-x: auto;
+  margin: -15px !important; // Counteract parent padding exactly
+  margin-top: 0 !important;
+}
+
+.info-icon {
+  font-size: 14px !important;
+  width: 14px !important;
+  height: 14px !important;
+  cursor: help !important;
+  margin-top: -1px;
+}
+
+// Ensure multi-line tooltips work
+::ng-deep .mat-mdc-tooltip {
+  white-space: pre-line !important;
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+  padding: 8px 12px !important;
+}

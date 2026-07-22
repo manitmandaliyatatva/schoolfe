@@ -1,0 +1,268 @@
+// ─── Filters Card ───────────────────────────────────────────────────
+.marks-filter-card {
+  display: flex;
+  padding: 20px 24px;
+  margin: 0 0 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.025);
+}
+
+// ─── Marks Info Card ────────────────────────────────────────────────
+.marks-info-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px 32px;
+  padding: 20px 24px;
+  margin: 0 0 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.marks-info-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  min-width: 140px;
+  padding-right: 32px;
+  border-right: 1px solid #e2e8f0;
+
+  &:last-child,
+  &.ms-md-auto {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .meta-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    &.exam-icon {
+      background-color: rgba(79, 70, 229, 0.08);
+      color: #4f46e5;
+    }
+
+    &.date-icon {
+      background-color: rgba(59, 130, 246, 0.08);
+      color: #3b82f6;
+    }
+
+    &.pass-icon {
+      background-color: rgba(245, 158, 11, 0.08);
+      color: #f59e0b;
+    }
+
+    &.max-icon {
+      background-color: rgba(236, 72, 153, 0.08);
+      color: #ec4899;
+    }
+  }
+
+  .meta-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .meta-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+    padding-bottom: 8px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 20px;
+      height: 3px;
+      border-radius: 1.5px;
+    }
+  }
+
+  &.exam-item .meta-content::after {
+    background-color: #4f46e5;
+  }
+
+  &.date-item .meta-content::after {
+    background-color: #3b82f6;
+  }
+
+  &.pass-item .meta-content::after {
+    background-color: #f59e0b;
+  }
+
+  &.max-item .meta-content::after {
+    background-color: #ec4899;
+  }
+}
+
+.marks-info-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.marks-info-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+
+  &.subject-value {
+    color: #0f172a;
+  }
+
+  &.max-marks-highlight {
+    color: #0f172a;
+  }
+}
+
+// ─── Edit Mode Inputs ───────────────────────────────────────────────
+:host ::ng-deep {
+  .custom-form-field {
+    width: 100%;
+
+    &.marks-input-field {
+      max-width: 100px;
+    }
+
+    &.remarks-input-field {
+      max-width: 200px;
+    }
+  }
+}
+
+// ─── Published Badge ─────────────────────────────────────────────────
+.published-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px 6px 8px;
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  border-radius: 999px;
+  color: #166534;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+  &__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: #15803d;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  &__text {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: #166534;
+  }
+}
+
+// ─── Result Chip ────────────────────────────────────────────────────
+.result-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  min-width: 64px;
+
+  &.pass {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+
+  &.fail {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+
+  &.absent {
+    background-color: #f1f5f9;
+    color: #475569;
+  }
+}
+
+// ─── Save Row Button ────────────────────────────────────────────────
+.save-row-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: #e8f4f0;
+  color: #2d8a6e;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #d1ede4;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .save-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// ─── Action Footer ──────────────────────────────────────────────────
+.marks-action-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0;
+  margin-top: 8px;
+}
+
+// ─── Grid Scroll & Sticky Header ────────────────────────────────────
+:host ::ng-deep {
+  .common-data-grid-table-wrap {
+    max-height: calc(100vh - 350px) !important;
+    overflow-y: auto;
+  }
+
+  .common-data-grid-table {
+    th.mat-mdc-header-cell {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--grid-header-bg);
+      box-shadow: 0 1px 0 var(--grid-divider-color);
+      border-bottom: none;
+    }
+  }
+}

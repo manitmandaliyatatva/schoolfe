@@ -1,0 +1,43 @@
+<div class="profile-page">
+  <div class="page-title-block">
+    <h2>My Profile</h2>
+  </div>
+  <!-- Profile Image -->
+  <div class="avatar-wrapper">
+    <img [src]="imagePreview" class="avatar" />
+
+    @if(isEditMode) {
+    <label class="upload-btn">
+      Change Photo
+      <input type="file" hidden accept="image/*" (change)="onImageChange($event)" />
+    </label>
+    }
+  </div>
+
+  <!-- Profile Form -->
+  <form [formGroup]="profileForm">
+    <mat-form-field class="custom-form-field" appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field class="custom-form-field" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+    </mat-form-field>
+  </form>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    @if(!isEditMode) {
+    <button class="btn primary-btn" mat-flat-button color="primary" (click)="enableEdit()">Edit Profile</button>
+    } @if (isEditMode) {
+    <ng-container>
+      <button class="btn secondary-btn" mat-button color="primary" (click)="cancelEdit()">Cancel</button>
+      <button class="btn primary-btn" mat-flat-button color="primary" (click)="save()">Save</button>
+    </ng-container>
+    }
+  </div>
+  <!-- <mat-card class="profile-card">
+  </mat-card> -->
+</div>
