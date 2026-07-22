@@ -1,55 +1,65 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy Node.js app to Azure Web App - schoolfe
+name: Build and deploy Angular App to Azure Web App - schoolfe
 
 on:
   push:
     branches:
       - main
+
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read #This is required for actions/checkout
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Source
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: 22
 
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+      - name: Install Packages
+        run: npm install
 
-      - name: Upload artifact for deployment job
+      - name: Build Angular
+        run: npm run build
+
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          path: .
+          name: angular-app
+          path: |
+            dist
+            server.js
+            package.json
+            package-lock.json
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    
+
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
-      - name: Download artifact from build job
+      - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: node-app
-      
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
+          name: angular-app
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8DBBD26E7B9C45C09E86E91F57109EC7 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F062DB808BA94A779608A538E270A92C }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A0E1B2F6E91041158A6B793F53E5334B }}
+
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'schoolfe'
-          slot-name: 'Production'
+          app-name: schoolfe
+          slot-name: Production
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B61D2A13E830485AA384CD16DDEAEC54 }}
