@@ -62,4 +62,5 @@ jobs:
         with:
           app-name: schoolfe
           slot-name: Production
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: .
